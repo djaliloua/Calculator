@@ -7,6 +7,62 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.InputBindings>
+        <!--Result command binding-->
+        <KeyBinding Gesture="Alt+Return"
+                    Command="{Binding ResultCommand}" />
+        <!--Numeric pad bindings-->
+        <KeyBinding CommandParameter="0"
+                    Key="NumPad0"
+                    Command="{Binding AddInputCommand}" />
+        <KeyBinding CommandParameter="1"
+                    Key="NumPad1"
+                    Command="{Binding AddInputCommand}" />
+        <KeyBinding CommandParameter="2"
+                    Key="NumPad2"
+                    Command="{Binding AddInputCommand}" />
+        <KeyBinding CommandParameter="3"
+                    Key="NumPad3"
+                    Command="{Binding AddInputCommand}" />
+        <KeyBinding CommandParameter="4"
+                    Key="NumPad4"
+                    Command="{Binding AddInputCommand}" />
+        <KeyBinding CommandParameter="5"
+                    Key="NumPad5"
+                    Command="{Binding AddInputCommand}" />
+        <KeyBinding CommandParameter="6"
+                    Key="NumPad6"
+                    Command="{Binding AddInputCommand}" />
+        <KeyBinding CommandParameter="7"
+                    Key="NumPad7"
+                    Command="{Binding AddInputCommand}" />
+        <KeyBinding CommandParameter="8"
+                    Key="NumPad8"
+                    Command="{Binding AddInputCommand}" />
+        <KeyBinding CommandParameter="9"
+                    Key="NumPad9"
+                    Command="{Binding AddInputCommand}" />
+        <!--Special characters bindings-->
+        <KeyBinding CommandParameter="+"
+                    Key="Add"
+                    Command="{Binding AddInputCommand}" />
+        <KeyBinding CommandParameter="-"
+                    Key="Subtract"
+                    Command="{Binding AddInputCommand}" />
+        <KeyBinding CommandParameter="*"
+                    Key="Multiply"
+                    Command="{Binding AddInputCommand}" />
+        <KeyBinding CommandParameter="/"
+                    Key="Divide"
+                    Command="{Binding AddInputCommand}" />
+        <KeyBinding CommandParameter="."
+                    Key="Decimal"
+                    Command="{Binding AddInputCommand}" />
+        <KeyBinding 
+                    Key="Delete"
+                    Command="{Binding DeleteCommand}" />
+        
+    </UserControl.InputBindings>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
@@ -221,6 +277,7 @@
         <Button  Grid.Row="4"
                  Grid.Column="23"
                  Content="="
+                 ToolTip="Alt+Enter"
                  Command="{Binding ResultCommand}"
                  IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                  Style="{StaticResource MaterialDesignFloatingActionButton}"

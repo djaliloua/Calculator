@@ -49,6 +49,12 @@ namespace Calculator.MVVM.ViewModels
             {
                 Console.WriteLine(ex.Message);
             }
+            //
+            if (input.OutputText.Contains(","))
+            {
+                input.OutputText = input.OutputText.Replace(",", ".");
+            }
+
         }
         private void addinput(object parameter)
         {
