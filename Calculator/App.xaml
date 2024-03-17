@@ -7,19 +7,15 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <!-- This is the current way to set up your app's initial theme -->
                 <materialDesign:BundledTheme BaseTheme="Inherit"
                                              ColorAdjustment="{materialDesign:ColorAdjustment}"
                                              PrimaryColor="DeepPurple"
                                              SecondaryColor="Lime" />
-
-                <!-- NB: If you're migrating and not wanting to update your brushes, you will want this resource dictionary for the old brush names: -->
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ObsoleteBrushes.xaml" />
-
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign2.Defaults.xaml" />
-
-                <!--<ResourceDictionary Source="pack://application:,,,/ShowMeTheXAML.AvalonEdit;component/Themes/xamldisplayer.xaml" />-->
+                <ResourceDictionary Source="ResourceDictionary/Colors.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
+       
     </Application.Resources>
 </Application>
