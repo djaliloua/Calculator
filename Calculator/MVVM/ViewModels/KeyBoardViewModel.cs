@@ -1,4 +1,5 @@
-﻿using MVVM;
+﻿using HelperClass;
+using MVVM;
 using System.Data;
 using System.Windows.Input;
 
@@ -71,7 +72,8 @@ namespace Calculator.MVVM.ViewModels
                 {
                     if(p == "%" && input.InputText != "0")
                     {
-                        input.InputText += "00";
+                        if(Percentage.IsValideExpression(input.InputText))
+                            input.InputText = Percentage.MakePercentage(input.InputText);
                     }
                     else if(input.InputText != "0")
                     {
