@@ -63,7 +63,7 @@
                     Command="{Binding DeleteCommand}" />
         
     </UserControl.InputBindings>
-    <Grid>
+    <Grid FocusManager.FocusedElement="{Binding ElementName=ac}">
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition />
@@ -80,6 +80,7 @@
         </Grid.ColumnDefinitions>
         <Button  Grid.Row="0"
                  Grid.Column="0"
+                 x:Name="ac"
                  Content="AC"
                  Command="{Binding DeleteAllCommand}"
                  IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"

@@ -1,6 +1,4 @@
-﻿using Calculator.MVVM.ViewModels;
-using Microsoft.Extensions.DependencyInjection;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 namespace Calculator.MVVM.Views
 {
     /// <summary>
