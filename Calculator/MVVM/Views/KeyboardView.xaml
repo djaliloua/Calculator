@@ -274,7 +274,7 @@
         <Button  Grid.Row="4"
                  Grid.Column="23"
                  Content="="
-                 ToolTip="Alt+Enter"
+                 ToolTip="Enter"
                  IsDefault="True"
                  Command="{Binding ResultCommand}"
                  IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
