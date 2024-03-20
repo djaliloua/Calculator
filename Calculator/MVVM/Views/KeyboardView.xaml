@@ -8,10 +8,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.InputBindings>
-        <!--Result command binding-->
-        <KeyBinding Gesture="Alt+Return"
-                    Command="{Binding ResultCommand}" />
-        <!--Numeric pad bindings-->
         <KeyBinding CommandParameter="0"
                     Key="NumPad0"
                     Command="{Binding AddInputCommand}" />
@@ -63,7 +59,7 @@
                     Command="{Binding DeleteCommand}" />
         
     </UserControl.InputBindings>
-    <Grid FocusManager.FocusedElement="{Binding ElementName=ac}">
+    <Grid >
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition />
@@ -279,11 +275,10 @@
                  Grid.Column="23"
                  Content="="
                  ToolTip="Alt+Enter"
+                 IsDefault="True"
                  Command="{Binding ResultCommand}"
                  IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                 Style="{StaticResource MaterialDesignFloatingActionButton}"
-                 >
-
+                 Style="{StaticResource MaterialDesignFloatingActionButton}">
         </Button>
 
     </Grid>
