@@ -36,7 +36,7 @@ namespace Calculator.MVVM.ViewModels
             input.OutputText = "0";
         }
         private void on_result(object parameter)
-        {         
+        {
             InputResultViewModel input = ServiceHelper.GetInputResultVM();
             try
             {
@@ -50,10 +50,9 @@ namespace Calculator.MVVM.ViewModels
             {
                 Console.WriteLine(ex.Message);
             }
-            if (input.OutputText.Contains(","))
-            {
-                input.OutputText = input.OutputText.Replace(",", ".");
-            }
+            input.OutputText = Utility.RemoveComma(input.OutputText);
+            input.OutputText = Utility.RoundOutput(input.OutputText);
+            input.OutputText = Utility.RemoveComma(input.OutputText);
 
         }
         private void addinput(object parameter)
@@ -68,7 +67,6 @@ namespace Calculator.MVVM.ViewModels
                     if(p == "00")
                         input.InputText = "0";
                 }
-                
                 else
                 {
                     if(p == "%" && input.InputText != "0")
