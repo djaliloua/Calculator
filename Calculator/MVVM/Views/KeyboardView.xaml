@@ -1,18 +1,27 @@
 ﻿<UserControl x:Class="Calculator.MVVM.Views.KeyboardView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Calculator.MVVM.Views"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             mc:Ignorable="d"
+             d:DesignHeight="450"
+             d:DesignWidth="800">
     <UserControl.InputBindings>
+        <KeyBinding CommandParameter="0"
+                    Key="{x:Static Key.D0}"
+                    Command="{Binding AddInputCommand}" />
         <KeyBinding CommandParameter="0"
                     Key="NumPad0"
                     Command="{Binding AddInputCommand}" />
         <KeyBinding CommandParameter="1"
                     Key="NumPad1"
+                    Command="{Binding AddInputCommand}" />
+        <KeyBinding CommandParameter="1"
+                    Key="D1"
+                    Command="{Binding AddInputCommand}" />
+        <KeyBinding CommandParameter="2"
+                    Key="D2"
                     Command="{Binding AddInputCommand}" />
         <KeyBinding CommandParameter="2"
                     Key="NumPad2"
@@ -20,23 +29,44 @@
         <KeyBinding CommandParameter="3"
                     Key="NumPad3"
                     Command="{Binding AddInputCommand}" />
+        <KeyBinding CommandParameter="3"
+                    Key="D3"
+                    Command="{Binding AddInputCommand}" />
         <KeyBinding CommandParameter="4"
                     Key="NumPad4"
+                    Command="{Binding AddInputCommand}" />
+        <KeyBinding CommandParameter="4"
+                    Key="D4"
                     Command="{Binding AddInputCommand}" />
         <KeyBinding CommandParameter="5"
                     Key="NumPad5"
                     Command="{Binding AddInputCommand}" />
+        <KeyBinding CommandParameter="5"
+                    Key="D5"
+                    Command="{Binding AddInputCommand}" />
         <KeyBinding CommandParameter="6"
                     Key="NumPad6"
+                    Command="{Binding AddInputCommand}" />
+        <KeyBinding CommandParameter="6"
+                    Key="D6"
                     Command="{Binding AddInputCommand}" />
         <KeyBinding CommandParameter="7"
                     Key="NumPad7"
                     Command="{Binding AddInputCommand}" />
+        <KeyBinding CommandParameter="7"
+                    Key="D7"
+                    Command="{Binding AddInputCommand}" />
         <KeyBinding CommandParameter="8"
                     Key="NumPad8"
                     Command="{Binding AddInputCommand}" />
+        <KeyBinding CommandParameter="8"
+                    Key="D8"
+                    Command="{Binding AddInputCommand}" />
         <KeyBinding CommandParameter="9"
                     Key="NumPad9"
+                    Command="{Binding AddInputCommand}" />
+        <KeyBinding CommandParameter="9"
+                    Key="D9"
                     Command="{Binding AddInputCommand}" />
         <!--Special characters bindings-->
         <KeyBinding CommandParameter="+"
@@ -55,11 +85,13 @@
                     Key="Decimal"
                     Command="{Binding AddInputCommand}" />
         <KeyBinding 
-                    Key="Delete"
+                    Key="{x:Static Key.Back}"
                     Command="{Binding DeleteCommand}" />
-        
+        <KeyBinding Key="{x:Static Key.Delete}"
+                    Command="{Binding DeleteAllCommand}" />
+
     </UserControl.InputBindings>
-    <Grid >
+    <Grid FocusManager.FocusedElement="{Binding ElementName=enter}">
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition />
@@ -275,6 +307,7 @@
                  Grid.Column="23"
                  Content="="
                  ToolTip="Enter"
+                 x:Name="enter"
                  IsDefault="True"
                  Command="{Binding ResultCommand}"
                  IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"

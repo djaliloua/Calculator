@@ -3,6 +3,23 @@ using System.Globalization;
 
 namespace HelperClass
 {
+    public static class Utility
+    {
+        public static string RoundOutput(string output)
+        {
+            if (!int.TryParse(output, out int resInt))
+            {
+                output = decimal.Round(decimal.Parse(output, CultureInfo.InvariantCulture), 5).ToString();
+            }
+            return output;
+        }
+        public static string RemoveComma(string text)
+        {
+            if (text.Contains(","))
+                return text.Replace(",", ".");
+            return text;
+        }
+    }
     public static class Percentage
     {
         private static char[] operators = { '+','/', '-', '*'};
@@ -35,8 +52,15 @@ namespace HelperClass
         }
         public static bool IsValideExpression(string text)
         {
-            object value = new DataTable().Compute(text, null);
-            return (value != null);
+            try
+            {
+                object value = new DataTable().Compute(text, null);
+                return (value != null);
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

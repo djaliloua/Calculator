@@ -29,7 +29,7 @@ namespace Calculator
 
         public void Application_Startup(object sender, StartupEventArgs e)
         {
-            var window = ServiceProvider.GetRequiredService<MainWindow>();
+            var window = ServiceHelper.GetViewModel<MainWindow>();
             window.Show();
         }
     }
