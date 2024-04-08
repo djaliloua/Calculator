@@ -9,7 +9,6 @@ namespace Calculator.MVVM.Views
         public InputResultView()
         {
             InitializeComponent();
-            DataContext = ServiceHelper.GetInputResultVM();
         }
     }
 }

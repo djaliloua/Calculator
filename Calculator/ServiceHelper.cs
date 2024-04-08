@@ -5,8 +5,8 @@ namespace Calculator
 {
     public static class ServiceHelper
     {
-        public static InputResultViewModel GetInputResultVM() => GetViewModel<InputResultViewModel>();
-        public static KeyBoardViewModel GetKeyboardVM() => GetViewModel<KeyBoardViewModel>();
+        public static InputResultViewModel InputResultViewModel => GetViewModel<InputResultViewModel>();
+        public static KeyBoardViewModel KeyBoardViewModel => GetViewModel<KeyBoardViewModel>();
         public static T GetViewModel<T>() => App.ServiceProvider.GetRequiredService<T>();
 
     }

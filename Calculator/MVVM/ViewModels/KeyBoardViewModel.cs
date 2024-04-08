@@ -21,7 +21,7 @@ namespace Calculator.MVVM.ViewModels
         }
         private void on_delete(object parameter)
         {
-            InputResultViewModel input = ServiceHelper.GetInputResultVM();
+            InputResultViewModel input = ServiceHelper.InputResultViewModel;
             if (input.InputText.Length > 1)
             {
                 input.InputText = input.InputText[..(input.InputText.Length - 1)];
@@ -31,13 +31,13 @@ namespace Calculator.MVVM.ViewModels
         }
         private void on_delete_all(object parameter)
         {
-            InputResultViewModel input = ServiceHelper.GetInputResultVM();
+            InputResultViewModel input = ServiceHelper.InputResultViewModel;
             input.InputText = "0";
             input.OutputText = "0";
         }
         private void on_result(object parameter)
         {
-            InputResultViewModel input = ServiceHelper.GetInputResultVM();
+            InputResultViewModel input = ServiceHelper.InputResultViewModel;
             try
             {
                 object value = new DataTable().Compute(input.InputText, null);
@@ -60,7 +60,7 @@ namespace Calculator.MVVM.ViewModels
             string p = parameter as string;
             if (!string.IsNullOrEmpty(p))
             {
-                InputResultViewModel input = ServiceHelper.GetInputResultVM();
+                InputResultViewModel input = ServiceHelper.InputResultViewModel;
                 if (input.InputText == "0" && !specialCharackers.Contains(p))
                 {
                     input.InputText = p;
