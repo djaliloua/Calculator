@@ -10,7 +10,6 @@ namespace Calculator.MVVM.Views
         public KeyboardView()
         {
             InitializeComponent();
-            DataContext = ServiceHelper.GetKeyboardVM();
         }
 
         
