@@ -1,5 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows7.0</TargetFramework>
@@ -8,24 +7,20 @@
     <UseWPF>true</UseWPF>
     <ApplicationIcon>calculator.ico</ApplicationIcon>
   </PropertyGroup>
-
   <ItemGroup>
     <Content Include="calculator.ico" />
   </ItemGroup>
-
   <ItemGroup>
     <Folder Include="MVVM\Models\" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="MaterialDesignThemes" Version="5.0.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.4" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0-preview.3.24172.9" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.0-preview.3.24172.9" />
   </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\HelperClass\HelperClass.csproj" />
     <ProjectReference Include="..\MVVM\MVVM.csproj" />
   </ItemGroup>
-
 </Project>

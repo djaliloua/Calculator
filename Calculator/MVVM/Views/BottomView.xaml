@@ -1,0 +1,42 @@
+﻿<UserControl x:Class="Calculator.MVVM.Views.BottomView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:Calculator.MVVM.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d"
+             Height="450"
+             d:DesignHeight="450"
+             d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <ListView ItemsSource="{Binding Operations}"
+                  SelectedItem="{Binding SelectedOperation}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Grid.Column="1"
+                                HorizontalAlignment="Right">
+                        <TextBlock Text="{Binding OpValue}"
+                                   Grid.Column="1"
+                                   HorizontalAlignment="Right" />
+                        <TextBlock Text="{Binding OpResult}"
+                                   Grid.Column="1"
+                                   Grid.Row="1" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Button 
+                Style="{StaticResource MaterialDesignIconButton}"
+                HorizontalAlignment="Left"
+                Command="{Binding DeleteAllCommand}"
+                Grid.Row="1"
+                ToolTip="delete All">
+            <materialDesign:PackIcon Kind="TrashCan" />
+        </Button>
+    </Grid>
+</UserControl>

@@ -132,25 +132,18 @@
                  x:Name="ac"
                  Content="AC"
                  Command="{Binding DeleteAllCommand}"
-                 IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                 Style="{StaticResource MaterialDesignFloatingActionButton}"
-                 >
-
+                 Style="{StaticResource MaterialDesignFloatingActionButton}">
         </Button>
         <Button  Grid.Row="0"
                  Grid.Column="1"
                  Command="{Binding AddInputCommand}"
                  CommandParameter="%"
-                 IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                 Style="{StaticResource MaterialDesignFloatingActionButton}"
-                >
+                 Style="{StaticResource MaterialDesignFloatingActionButton}">
             <materialDesign:PackIcon Kind="Percent" />
         </Button>
-
         <Button  Grid.Row="0"
                  Grid.Column="2"
                  Command="{Binding DeleteCommand}"
-                 IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                  Style="{StaticResource MaterialDesignFloatingActionButton}">
             <materialDesign:PackIcon Kind="BackspaceOutline" />
         </Button>
@@ -159,48 +152,35 @@
                  Grid.Column="3"
                  Command="{Binding AddInputCommand}"
                  CommandParameter="/"
-                 IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                  Style="{StaticResource MaterialDesignFloatingActionButton}">
             <materialDesign:PackIcon Kind="Division" />
         </Button>
-
         <!--Second row-->
-
         <Button  Grid.Row="1"
                  Grid.Column="0"
                  Content="7"
                  Command="{Binding AddInputCommand}"
                  CommandParameter="7"
-                 IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                 Style="{StaticResource MaterialDesignFloatingActionButton}"
-                 >
-
+                 Style="{StaticResource MaterialDesignFloatingActionButton}">
         </Button>
         <Button  Grid.Row="1"
                  Grid.Column="1"
                  Content="8"
                  Command="{Binding AddInputCommand}"
                  CommandParameter="8"
-                 IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                 Style="{StaticResource MaterialDesignFloatingActionButton}"
-                 >
-
+                 Style="{StaticResource MaterialDesignFloatingActionButton}">
         </Button>
         <Button  Grid.Row="1"
                  Grid.Column="2"
                  Content="9"
                  Command="{Binding AddInputCommand}"
                  CommandParameter="9"
-                 IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                 Style="{StaticResource MaterialDesignFloatingActionButton}"
-                 >
-
+                 Style="{StaticResource MaterialDesignFloatingActionButton}">
         </Button>
         <Button  Grid.Row="1"
                  Grid.Column="3"
                  Command="{Binding AddInputCommand}"
                  CommandParameter="*"
-                 IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                  Style="{StaticResource MaterialDesignFloatingActionButton}"
                  >
             <materialDesign:PackIcon Kind="Multiplication" />
@@ -213,116 +193,79 @@
                  Content="4"
                  Command="{Binding AddInputCommand}"
                  CommandParameter="4"
-                 IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                 Style="{StaticResource MaterialDesignFloatingActionButton}"
-                 >
-
+                 Style="{StaticResource MaterialDesignFloatingActionButton}">
         </Button>
-
         <Button  Grid.Row="2"
                  Grid.Column="1"
                  Content="5"
                  Command="{Binding AddInputCommand}"
                  CommandParameter="5"
-                 IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                 Style="{StaticResource MaterialDesignFloatingActionButton}"
-                 >
-
+                 Style="{StaticResource MaterialDesignFloatingActionButton}">
         </Button>
         <Button  Grid.Row="2"
                  Grid.Column="2"
                  Content="6"
                  Command="{Binding AddInputCommand}"
                  CommandParameter="6"
-                 IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                 Style="{StaticResource MaterialDesignFloatingActionButton}"
-                 >
-
+                 Style="{StaticResource MaterialDesignFloatingActionButton}">
         </Button>
         <Button  Grid.Row="2"
                  Grid.Column="3"
                  Content="-"
                  Command="{Binding AddInputCommand}"
                  CommandParameter="-"
-                 IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                 Style="{StaticResource MaterialDesignFloatingActionButton}"
-                 >
-
+                 Style="{StaticResource MaterialDesignFloatingActionButton}">
         </Button>
-
         <!--fourth row-->
         <Button  Grid.Row="3"
                  Grid.Column="0"
                  Content="1"
                  Command="{Binding AddInputCommand}"
                  CommandParameter="1"
-                 IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                 Style="{StaticResource MaterialDesignFloatingActionButton}"
-                 >
-
+                 Style="{StaticResource MaterialDesignFloatingActionButton}">
         </Button>
-
         <Button  Grid.Row="3"
                  Grid.Column="1"
                  Content="2"
                  Command="{Binding AddInputCommand}"
                  CommandParameter="2"
-                 IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                 Style="{StaticResource MaterialDesignFloatingActionButton}"
-                 >
-
+                 Style="{StaticResource MaterialDesignFloatingActionButton}">
         </Button>
         <Button  Grid.Row="3"
                  Grid.Column="2"
                  Content="3"
                  Command="{Binding AddInputCommand}"
                  CommandParameter="3"
-                 IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                 Style="{StaticResource MaterialDesignFloatingActionButton}"
-                 >
-
+                 Style="{StaticResource MaterialDesignFloatingActionButton}">
         </Button>
         <Button  Grid.Row="3"
                  Grid.Column="23"
                  Content="+"
                  Command="{Binding AddInputCommand}"
                  CommandParameter="+"
-                 IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                 Style="{StaticResource MaterialDesignFloatingActionButton}"
-                 >
-
+                 Style="{StaticResource MaterialDesignFloatingActionButton}">
         </Button>
-
         <!--fith row-->
         <Button  Grid.Row="4"
                  Grid.Column="0"
                  Content="00"
                  Command="{Binding AddInputCommand}"
                  CommandParameter="00"
-                 IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                 Style="{StaticResource MaterialDesignFloatingActionButton}"
-                 >
-
+                 Style="{StaticResource MaterialDesignFloatingActionButton}">
         </Button>
         <Button  Grid.Row="4"
                  Grid.Column="1"
                  Content="0"
                  Command="{Binding AddInputCommand}"
                  CommandParameter="0"
-                 IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                 Style="{StaticResource MaterialDesignFloatingActionButton}"
-                 >
-
+                 Style="{StaticResource MaterialDesignFloatingActionButton}">
         </Button>
         <Button  Grid.Row="4"
                  Grid.Column="2"
                  Content="."
                  Command="{Binding AddInputCommand}"
                  CommandParameter="."
-                 IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
-                 Style="{StaticResource MaterialDesignFloatingActionButton}"
-                 >
-
+                 Style="{StaticResource MaterialDesignFloatingActionButton}">
         </Button>
         <Button  Grid.Row="4"
                  Grid.Column="23"
@@ -331,7 +274,6 @@
                  x:Name="enter"
                  IsDefault="True"
                  Command="{Binding ResultCommand}"
-                 IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
                  Style="{StaticResource MaterialDesignFloatingActionButton}">
         </Button>
 

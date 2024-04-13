@@ -1,4 +1,5 @@
-﻿using HelperClass;
+﻿using Calculator.DataAccessLayer;
+using HelperClass;
 using MVVM;
 using System.Data;
 using System.Windows.Input;
@@ -8,12 +9,14 @@ namespace Calculator.MVVM.ViewModels
     public class KeyBoardViewModel:BaseViewModel
     {
         private string specialCharackers = "*,.+/*-%";
+        private IRepository repository;
         public ICommand AddInputCommand { get; private set; }
         public ICommand ResultCommand { get; private set; }
         public ICommand DeleteAllCommand { get; private set; }
         public ICommand DeleteCommand { get; private set; }
-        public KeyBoardViewModel()
+        public KeyBoardViewModel(IRepository repository)
         {
+            this.repository = repository;
             AddInputCommand = new DelegateCommand(addinput);
             ResultCommand = new DelegateCommand(on_result);
             DeleteAllCommand = new DelegateCommand(on_delete_all); 
@@ -35,7 +38,7 @@ namespace Calculator.MVVM.ViewModels
             input.InputText = "0";
             input.OutputText = "0";
         }
-        private void on_result(object parameter)
+        private async void on_result(object parameter)
         {
             InputResultViewModel input = ServiceHelper.InputResultViewModel;
             try
@@ -53,6 +56,11 @@ namespace Calculator.MVVM.ViewModels
             input.OutputText = Utility.RemoveComma(input.OutputText);
             input.OutputText = Utility.RoundOutput(input.OutputText);
             input.OutputText = Utility.RemoveComma(input.OutputText);
+            if(!await repository.IsAlreadyPresent(input.InputText) && !string.IsNullOrEmpty(input.InputText))
+            {
+                await repository.SaveItem(new(input.InputText, input.OutputText));
+                await ServiceHelper.MainViewModel.Load();
+            }
 
         }
         private void addinput(object parameter)
