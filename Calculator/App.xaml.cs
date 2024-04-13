@@ -1,5 +1,7 @@
-﻿using Calculator.MVVM.ViewModels;
+﻿using Calculator.DataAccessLayer;
+using Calculator.MVVM.ViewModels;
 using Calculator.MVVM.Views;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MVVM;
 using System.Windows;
@@ -21,6 +23,9 @@ namespace Calculator
         public void ConfigureServices(ServiceCollection services)
         {
             services.AddSingleton<KeyboardView>();
+            services.AddSingleton<OperationContext>();
+            services.AddSingleton<MainViewModel>();
+            services.AddSingleton<IRepository, Repository>();
             services.AddSingleton<KeyBoardViewModel>();
             services.AddSingleton<InputResultView>();
             services.AddSingleton<InputResultViewModel>();

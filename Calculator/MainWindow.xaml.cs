@@ -1,5 +1,5 @@
-﻿using System.Windows;
-using System.Windows.Input;
+﻿using Calculator.DataAccessLayer;
+using System.Windows;
 
 namespace Calculator
 {
@@ -8,9 +8,17 @@ namespace Calculator
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        private readonly IRepository repository;
+        public MainWindow(IRepository repository)
         {
             InitializeComponent();
+            this.repository = repository;
+            Closing += MainWindow_Closing;
+        }
+
+        private async void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            await repository.DeleteAll();
         }
     }
 }
