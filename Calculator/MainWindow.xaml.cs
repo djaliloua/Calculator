@@ -1,5 +1,4 @@
 ﻿using Calculator.DataAccessLayer;
-using Calculator.MVVM.Views;
 using System.Windows;
 using System.Windows.Input;
 
