@@ -112,7 +112,7 @@
                     Command="{Binding DeleteAllCommand}" />
 
     </UserControl.InputBindings>
-    <Grid FocusManager.FocusedElement="{Binding ElementName=enter}">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition />

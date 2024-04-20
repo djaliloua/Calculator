@@ -1,5 +1,7 @@
 ﻿using Calculator.DataAccessLayer;
+using Calculator.MVVM.Views;
 using System.Windows;
+using System.Windows.Input;
 
 namespace Calculator
 {
@@ -14,6 +16,15 @@ namespace Calculator
             InitializeComponent();
             this.repository = repository;
             Closing += MainWindow_Closing;
+            Loaded += MainWindow_Loaded;
+        }
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            var f = FocusManager.GetFocusedElement(this);
+            if (f != null)
+            {
+                Keyboard.Focus(f);
+            }
         }
 
         private async void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)

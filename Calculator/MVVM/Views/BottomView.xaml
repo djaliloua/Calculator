@@ -16,13 +16,16 @@
         </Grid.RowDefinitions>
         <ListView ItemsSource="{Binding Operations}"
                   SelectedItem="{Binding SelectedOperation}">
+            <ListView.Resources>
+                <Style TargetType="ScrollBar"
+                       BasedOn="{StaticResource 
+                    MaterialDesignScrollBarMinimal}" />
+            </ListView.Resources>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Grid.Column="1"
-                                HorizontalAlignment="Right">
+                    <StackPanel>
                         <TextBlock Text="{Binding OpValue}"
-                                   Grid.Column="1"
-                                   HorizontalAlignment="Right" />
+                                   Grid.Column="1" />
                         <TextBlock Text="{Binding OpResult}"
                                    Grid.Column="1"
                                    Grid.Row="1" />
@@ -30,12 +33,12 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Button 
-                Style="{StaticResource MaterialDesignIconButton}"
+        <Button Style="{StaticResource MaterialDesignIconButton}"
                 HorizontalAlignment="Left"
                 Command="{Binding DeleteAllCommand}"
                 Grid.Row="1"
-                ToolTip="delete All">
+                ToolTip="delete All"
+                RenderTransformOrigin="0.5,0.5">
             <materialDesign:PackIcon Kind="TrashCan" />
         </Button>
     </Grid>
