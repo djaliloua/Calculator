@@ -30,13 +30,15 @@ namespace Calculator.MVVM.ViewModels
                 input.InputText = input.InputText[..(input.InputText.Length - 1)];
             }
             else
+            {
                 input.InputText = "0";
+                input.OutputText = input.InputText;
+            }
         }
         private void on_delete_all(object parameter)
         {
-            InputResultViewModel input = ServiceHelper.InputResultViewModel;
-            input.InputText = "0";
-            input.OutputText = "0";
+            ServiceHelper.InputResultViewModel.InputText = "0";
+            ServiceHelper.InputResultViewModel.OutputText = "0";
         }
         private async void on_result(object parameter)
         {
