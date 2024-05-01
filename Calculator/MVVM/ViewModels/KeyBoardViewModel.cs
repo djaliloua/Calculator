@@ -24,7 +24,7 @@ namespace Calculator.MVVM.ViewModels
         }
         private void on_delete(object parameter)
         {
-            InputResultViewModel input = ServiceHelper.InputResultViewModel;
+            InputResultViewModel input = ServiceLocator.InputResultViewModel;
             if (input.InputText.Length > 1)
             {
                 input.InputText = input.InputText[..(input.InputText.Length - 1)];
@@ -37,12 +37,12 @@ namespace Calculator.MVVM.ViewModels
         }
         private void on_delete_all(object parameter)
         {
-            ServiceHelper.InputResultViewModel.InputText = "0";
-            ServiceHelper.InputResultViewModel.OutputText = "0";
+            ServiceLocator.InputResultViewModel.InputText = "0";
+            ServiceLocator.InputResultViewModel.OutputText = "0";
         }
         private async void on_result(object parameter)
         {
-            InputResultViewModel input = ServiceHelper.InputResultViewModel;
+            InputResultViewModel input = ServiceLocator.InputResultViewModel;
             try
             {
                 object value = new DataTable().Compute(input.InputText, null);
@@ -61,7 +61,7 @@ namespace Calculator.MVVM.ViewModels
             if(!await repository.IsAlreadyPresent(input.InputText) && !string.IsNullOrEmpty(input.InputText))
             {
                 await repository.SaveItem(new(input.InputText, input.OutputText));
-                await ServiceHelper.MainViewModel.Load();
+                await ServiceLocator.MainViewModel.Load();
             }
 
         }
@@ -70,7 +70,7 @@ namespace Calculator.MVVM.ViewModels
             string p = parameter as string;
             if (!string.IsNullOrEmpty(p))
             {
-                InputResultViewModel input = ServiceHelper.InputResultViewModel;
+                InputResultViewModel input = ServiceLocator.InputResultViewModel;
                 if (input.InputText == "0" && !specialCharackers.Contains(p))
                 {
                     input.InputText = p;

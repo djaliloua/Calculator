@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Calculator
 {
-    public static class ServiceHelper
+    public class ServiceLocator
     {
         public static InputResultViewModel InputResultViewModel => GetViewModel<InputResultViewModel>();
         public static MainViewModel MainViewModel => GetViewModel<MainViewModel>();

@@ -1,5 +1,6 @@
 ﻿using Calculator.DataAccessLayer;
 using Calculator.MVVM.Models;
+using Microsoft.Extensions.Logging;
 using MVVM;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
@@ -18,8 +19,8 @@ namespace Calculator.MVVM.ViewModels
             {
                 if(value != null)
                 {
-                    ServiceHelper.InputResultViewModel.InputText = value.OpValue;
-                    ServiceHelper.InputResultViewModel.OutputText = value.OpResult;
+                    ServiceLocator.InputResultViewModel.InputText = value.OpValue;
+                    ServiceLocator.InputResultViewModel.OutputText = value.OpResult;
                     IsBottomDrawerOpen = !IsBottomDrawerOpen;
                 }
             });
@@ -30,9 +31,12 @@ namespace Calculator.MVVM.ViewModels
             get => _isBottomDrawerOpen;
             set => UpdateObservable(ref _isBottomDrawerOpen, value);
         }
+        private readonly ILogger<MainViewModel> logger;
         public ICommand DeleteAllCommand { get; private set; }
-        public MainViewModel(IRepository repository)
+        public MainViewModel(IRepository repository, ILogger<MainViewModel> _log)
         {
+            logger = _log;
+            logger.LogInformation("MainViewModel started......");
             this.repository = repository;
             load();
             DeleteAllCommand = new DelegateCommand(On_DeleteAll);
