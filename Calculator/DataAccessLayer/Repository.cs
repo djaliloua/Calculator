@@ -9,7 +9,7 @@ namespace Calculator.DataAccessLayer
         public Repository(OperationContext dbContext) 
         {
             DbContext = dbContext;
-            DbContext.Database.EnsureCreated();
+            //DbContext.Database.EnsureCreated();
         }
         public async Task UpdateItem(Operation operation)
         {

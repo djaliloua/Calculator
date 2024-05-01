@@ -4,6 +4,7 @@ using Calculator.MVVM.Views;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MVVM;
+using NReco.Logging.File;
 using System.Windows;
 
 namespace Calculator
@@ -22,19 +23,23 @@ namespace Calculator
         }
         public void ConfigureServices(ServiceCollection services)
         {
+            services.AddLogging(b => b.AddFile("calculator.log", append:true));
             services.AddSingleton<KeyboardView>();
-            services.AddSingleton<OperationContext>();
             services.AddSingleton<MainViewModel>();
             services.AddSingleton<IRepository, Repository>();
             services.AddSingleton<KeyBoardViewModel>();
             services.AddSingleton<InputResultView>();
             services.AddSingleton<InputResultViewModel>();
             services.AddSingleton<MainWindow>();
+            services.AddDbContext<OperationContext>(options =>
+            {
+                options.UseSqlite($"Data Source = calculator.db");
+            });
         }
 
         public void Application_Startup(object sender, StartupEventArgs e)
         {
-            var window = ServiceHelper.GetViewModel<MainWindow>();
+            var window = ServiceLocator.GetViewModel<MainWindow>();
             window.Show();
         }
     }
