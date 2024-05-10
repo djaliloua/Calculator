@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:Calculator.MVVM.Views"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             DataContext="{Binding Source={StaticResource locator}, Path=BottomViewModel}"
              mc:Ignorable="d"
              Height="450"
              d:DesignHeight="450"
@@ -15,7 +15,10 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <ListView ItemsSource="{Binding Operations}"
-                  SelectedItem="{Binding SelectedOperation}">
+                  SelectedItem="{Binding SelectedOperation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  HorizontalContentAlignment="Right"
+                  ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                  >
             <ListView.Resources>
                 <Style TargetType="ScrollBar"
                        BasedOn="{StaticResource 
@@ -25,16 +28,16 @@
                 <DataTemplate>
                     <StackPanel>
                         <TextBlock Text="{Binding OpValue}"
-                                   Grid.Column="1" />
+                                   Grid.Column="0" />
                         <TextBlock Text="{Binding OpResult}"
-                                   Grid.Column="1"
-                                   Grid.Row="1" />
+                                   Grid.Column="1" />
                     </StackPanel>
+                    
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
         <Button Style="{StaticResource MaterialDesignIconButton}"
-                HorizontalAlignment="Left"
+                HorizontalAlignment="Right"
                 Command="{Binding DeleteAllCommand}"
                 Grid.Row="1"
                 ToolTip="delete All"

@@ -61,7 +61,7 @@ namespace Calculator.MVVM.ViewModels
             if(!await repository.IsAlreadyPresent(input.InputText) && !string.IsNullOrEmpty(input.InputText))
             {
                 await repository.SaveItem(new(input.InputText, input.OutputText));
-                await ServiceLocator.MainViewModel.Load();
+                await ServiceLocator.BottomViewModel.Load();
             }
 
         }

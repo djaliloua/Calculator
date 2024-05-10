@@ -30,6 +30,7 @@ namespace Calculator
             services.AddSingleton<KeyBoardViewModel>();
             services.AddSingleton<InputResultView>();
             services.AddSingleton<InputResultViewModel>();
+            services.AddSingleton<BottomViewModel>();
             services.AddSingleton<MainWindow>();
             services.AddDbContext<OperationContext>(options =>
             {
