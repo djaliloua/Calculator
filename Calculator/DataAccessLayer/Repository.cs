@@ -11,7 +11,7 @@ namespace Calculator.DataAccessLayer
             DbContext = dbContext;
             //DbContext.Database.EnsureCreated();
         }
-        public async Task UpdateItem(Operation operation)
+        public async Task<Operation> UpdateItem(Operation operation)
         {
             if (operation.Id != 0)
             {
@@ -21,6 +21,7 @@ namespace Calculator.DataAccessLayer
                     );
                 await DbContext.SaveChangesAsync();
             }
+            return operation;
         }
         public async Task<bool> IsAlreadyPresent(string input)
         {
@@ -28,10 +29,11 @@ namespace Calculator.DataAccessLayer
             var data = DbContext.Operations.Where(o => o.OpValue == input).ToList();
             return data.Count()!=0;
         }
-        public async Task SaveItem(Operation operation)
+        public async Task<Operation> SaveItem(Operation operation)
         {
             await DbContext.Operations.AddAsync(operation);
             await DbContext.SaveChangesAsync();
+            return operation;
         }
         public async Task DeleteAll()
         {

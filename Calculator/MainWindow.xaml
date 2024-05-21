@@ -39,8 +39,7 @@
                                     x:Name="keys" />
             </Grid>
             <materialDesign:DrawerHost.BottomDrawerContent>
-                <local:BottomView Background="{Binding RelativeSource={RelativeSource AncestorType=Window, 
-            Mode=FindAncestor}, Path=Background}" />
+                <local:BottomView  />
             </materialDesign:DrawerHost.BottomDrawerContent>
         </materialDesign:DrawerHost>
     </materialDesign:DialogHost>
