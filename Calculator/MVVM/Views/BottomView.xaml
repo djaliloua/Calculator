@@ -9,22 +9,49 @@
              Height="450"
              d:DesignHeight="450"
              d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style TargetType="ListBox" BasedOn="{StaticResource MaterialDesignListBox}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=txt, Path=Visibility}"
+                             Value="Hidden">
+                    <Setter Property="Visibility"
+                            Value="Visible" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=txt, Path=Visibility}"
+                             Value="Visible">
+                    <Setter Property="Visibility"
+                            Value="Hidden" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="Label">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsLblVisible}"
+                             Value="false">
+                    <Setter Property="Visibility"
+                            Value="Visible" />
+                </DataTrigger>
+                <DataTrigger Binding="{Binding IsLblVisible}"
+                             Value="true">
+                    <Setter Property="Visibility"
+                            Value="Hidden" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <ListView ItemsSource="{Binding Operations}"
-                  SelectedItem="{Binding SelectedOperation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                  HorizontalContentAlignment="Right"
-                  ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                  >
-            <ListView.Resources>
-                <Style TargetType="ScrollBar"
-                       BasedOn="{StaticResource 
-                    MaterialDesignScrollBarMinimal}" />
-            </ListView.Resources>
-            <ListView.ItemTemplate>
+        <Label Content="Story"
+               x:Name="txt"
+               HorizontalAlignment="Center" />
+        <ListBox ItemsSource="{Binding Items}"
+                 SelectedValue="{Binding SelectedItem}"
+                 HorizontalContentAlignment="Right"
+                 ScrollViewer.VerticalScrollBarVisibility="Hidden">
+            <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel>
                         <TextBlock Text="{Binding OpValue}"
@@ -34,8 +61,8 @@
                     </StackPanel>
                     
                 </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            </ListBox.ItemTemplate>
+        </ListBox>
         <Button Style="{StaticResource MaterialDesignIconButton}"
                 HorizontalAlignment="Right"
                 Command="{Binding DeleteAllCommand}"
