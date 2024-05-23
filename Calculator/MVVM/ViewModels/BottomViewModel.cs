@@ -29,6 +29,16 @@ namespace Calculator.MVVM.ViewModels
             base.SetItems(items);
             IsLblVisible = !IsEmpty;
         }
+        public override void Callback(TItem selectedItem)
+        {
+            setValue(selectedItem);
+            ServiceLocator.MainViewModel.IsBottomDrawerOpen = false;
+        }
+        private void setValue(TItem v)
+        {
+            ServiceLocator.InputResultViewModel.InputText = v.OpValue;
+            ServiceLocator.InputResultViewModel.OutputText = v.OpResult;
+        }
     }
     public class BottomViewModel: BottomViewModelLoadable<Operation>
     {
@@ -56,7 +66,6 @@ namespace Calculator.MVVM.ViewModels
             SetItems(data);
             IsLblVisible = !IsEmpty;
         }
-      
        
     }
 }

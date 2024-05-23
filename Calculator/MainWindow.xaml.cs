@@ -15,7 +15,7 @@ namespace Calculator
             InitializeComponent();
             this.repository = repository;
             Closing += MainWindow_Closing;
-            Loaded += MainWindow_Loaded;
+            //Loaded += MainWindow_Loaded;
         }
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
@@ -25,6 +25,11 @@ namespace Calculator
                 Keyboard.Focus(f);
             }
         }
+        //protected override void OnLostKeyboardFocus(KeyboardFocusChangedEventArgs e)
+        //{
+        //    base.OnLostKeyboardFocus(e);
+        //    Keyboard.Focus(this);
+        //}
 
         private async void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
