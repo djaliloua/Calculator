@@ -1,6 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
+﻿using System.Windows.Controls;
 
 namespace Calculator.MVVM.Views
 {
@@ -12,11 +10,6 @@ namespace Calculator.MVVM.Views
         public KeyboardView()
         {
             InitializeComponent();
-        }
-        protected override void OnLostKeyboardFocus(KeyboardFocusChangedEventArgs e)
-        {
-            base.OnLostKeyboardFocus(e);
-            Keyboard.Focus(this);
         }
     }
 }

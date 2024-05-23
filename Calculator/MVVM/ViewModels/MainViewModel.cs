@@ -1,13 +1,11 @@
 ﻿using Calculator.DataAccessLayer;
-using Calculator.MVVM.Models;
 using Microsoft.Extensions.Logging;
 using MVVM;
-using System.Collections.ObjectModel;
-using System.Windows.Input;
 
 namespace Calculator.MVVM.ViewModels
 {
-    public class MainViewModel:BaseViewModel
+    public record Person(string name, string surname);
+    public class MainViewModel:Loadable<Person>
     {
         
         private bool _isBottomDrawerOpen;
@@ -22,8 +20,25 @@ namespace Calculator.MVVM.ViewModels
         {
             logger = _log;
             logger.LogInformation("MainViewModel started......");
-            
+            _ = LoadItems();
         }
-        
+
+        public override async Task LoadItems()
+        {
+            await Task.Delay(1);
+
+            SetItems(Init());
+        }
+        private static IList<Person> Init()
+        {
+            return new List<Person>() 
+            { 
+                new Person("Ali", "Abdou"),
+                new Person("Ali", "Abdou"),
+                new Person("Ali", "Abdou"),
+                new Person("Ali", "Abdou"),
+                new Person("Ali", "Abdou"),
+            };
+        }
     }
 }

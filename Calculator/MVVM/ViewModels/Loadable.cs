@@ -6,17 +6,22 @@ namespace Calculator.MVVM.ViewModels
     public abstract class Loadable<TItem> : BaseViewModel
     {
         public ObservableCollection<TItem> Items { get; set; } = new ObservableCollection<TItem>();
-        private TItem _selectedItem;
-        public TItem SelectedItem
-        {
-            get => _selectedItem;
-            set => UpdateObservable(ref _selectedItem, value);
-        }
+        
         public abstract Task LoadItems();
         public virtual ObservableCollection<TItem> GetItems() => Items;
         public virtual void DeleteItem(TItem item)
         {
             Items.Remove(item);
+        }
+        private TItem _selectedItem;
+        public TItem SelectedItem
+        {
+            get => _selectedItem;
+            set => UpdateObservable(ref _selectedItem, value, () => Callback(value));
+        }
+        public virtual void Callback(TItem selectedItem)
+        {
+
         }
         public bool IsSelected => SelectedItem != null;
         public int Counter => Items.Count;

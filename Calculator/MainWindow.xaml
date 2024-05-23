@@ -15,17 +15,22 @@
         FocusManager.IsFocusScope="True"
         Height="650"
         Width="350">
+
     <materialDesign:DialogHost DialogTheme="Inherit"
                                Identifier="RootDialog">
+
         <materialDesign:DrawerHost BottomDrawerCornerRadius="15,15,0,0"
                                    x:Name="host"
                                    IsBottomDrawerOpen="{Binding IsBottomDrawerOpen}">
+
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
                     <RowDefinition />
+
                 </Grid.RowDefinitions>
+
                 <Button Style="{StaticResource MaterialDesignIconButton}"
                         HorizontalAlignment="Right"
                         Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
@@ -38,8 +43,9 @@
                                     Focusable="True"
                                     x:Name="keys" />
             </Grid>
+
             <materialDesign:DrawerHost.BottomDrawerContent>
-                <local:BottomView  />
+                <local:BottomView />
             </materialDesign:DrawerHost.BottomDrawerContent>
         </materialDesign:DrawerHost>
     </materialDesign:DialogHost>
