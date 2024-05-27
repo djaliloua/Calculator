@@ -40,6 +40,8 @@ jobs:
     - name: Publish
       run: |
         cd Calculator
-        ls
+        mkdir Output
+        dotnet build
+        dotnet publish -o Output
 
     
