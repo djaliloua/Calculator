@@ -37,7 +37,7 @@ jobs:
       run: |
         cd Calculator
         dotnet publish  -c Release -o Output
-        ls Output
+        ls
         
     - uses: actions/upload-artifact@v4
       with:
