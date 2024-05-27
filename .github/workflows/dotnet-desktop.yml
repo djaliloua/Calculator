@@ -44,6 +44,11 @@ jobs:
         dotnet build
         dotnet publish -o Output
         
+    - name: Upload Artefacts
+    - uses: actions/upload-artifact@v4
+      with:
+        name: Build-Artefact
+        path: Output/
     
 
     
