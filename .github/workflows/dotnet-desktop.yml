@@ -9,14 +9,7 @@ on:
 jobs:
 
   build:
-
-    strategy:
-      matrix:
-        configuration: [Debug, Release]
-
-    runs-on: windows-latest  # For a list of available runner types, refer to
-                             # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
-
+    runs-on: windows-latest  
     env:
       Solution_Name: Calculator.sln                         # Replace with your solution name, i.e. MyWpfApp.sln.
       Test_Project_Path: Calculator.Fitness.Test.csproj                 # Replace with the path to your test project, i.e. MyWpfApp.Tests\MyWpfApp.Tests.csproj.
@@ -41,15 +34,16 @@ jobs:
       run: |
         cd Calculator
         mkdir Output
-        dotnet build
+        dotnet build -o Output
         dotnet publish -o Output
+        
     - name: Create txt file
       run: echo "Hello, world!" > my_file.txt
     - name: Upload Artefacts
       uses: actions/upload-artifact@v4
       with:
         name: Build-Artefact
-        path: my_file.txt
+        path: Output/
     
 
     
