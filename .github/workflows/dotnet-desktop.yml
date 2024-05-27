@@ -9,12 +9,9 @@ on:
 jobs:
 
   build:
-    runs-on: windows-latest  
+    runs-on: ubuntu-latest
     env:
-      Solution_Name: Calculator.sln                         # Replace with your solution name, i.e. MyWpfApp.sln.
-      Test_Project_Path: Calculator.Fitness.Test.csproj                 # Replace with the path to your test project, i.e. MyWpfApp.Tests\MyWpfApp.Tests.csproj.
-      Wap_Project_Directory: Calculator.Package    # Replace with the Wap project directory relative to the solution, i.e. MyWpfApp.Package.
-      Wap_Project_Path: Calculator.App.Package/Calculator.Package.wapproj           # Replace with the path to your Wap project, i.e. MyWpf.App.Package\MyWpfApp.Package.wapproj.
+     v: test
 
     steps:
     - name: Checkout
