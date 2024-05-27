@@ -31,14 +31,13 @@ jobs:
     - name: Build and publish
       run: |
         cd Calculator
-        mkdir Output
+        mkdir Output_Folder
         dotnet publish -c Release -o Output
         
-    - name: Upload Artefacts
-      uses: actions/upload-artifact@v4
+    - uses: actions/upload-artifact@v4
       with:
         name: Build-Artefact
-        path: Output/
+        path: Output_Folder/
     
 
     
