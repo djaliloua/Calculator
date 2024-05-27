@@ -11,7 +11,7 @@ jobs:
   build:
     runs-on: windows-latest
     env:
-     v: test
+     name: My-Artefact
 
     steps:
     - name: Checkout
@@ -37,7 +37,7 @@ jobs:
         
     - uses: actions/upload-artifact@v4
       with:
-        name: Build-Artefact
+        name: ${{ env.name }} - Ali
         path: Output_Folder/
     
 
