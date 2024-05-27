@@ -38,7 +38,8 @@ jobs:
         dotnet publish -o Output
         
     - name: Create txt file
-      run: echo "Hello, world!" > my_file.txt
+      run: ls Output
+          
     - name: Upload Artefacts
       uses: actions/upload-artifact@v4
       with:
