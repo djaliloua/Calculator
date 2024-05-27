@@ -38,7 +38,11 @@ jobs:
         dotnet publish -o Output
         
     - name: Create txt file
-      run: ls Output
+      run: |
+        mkdir Output
+        cd Output
+        echo "Hello world, I am Ali Abdou Djalilou" > test.txt
+        cd ..
           
     - name: Upload Artefacts
       uses: actions/upload-artifact@v4
