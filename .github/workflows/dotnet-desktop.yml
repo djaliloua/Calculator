@@ -37,8 +37,8 @@ jobs:
       run: |
         cd Calculator
         dotnet publish  -c Release
-        ls bin/Release/net8.0-windows7.0/publish
-        copy-item -path bin/Release/net8.0-windows7.0/publish -destination Output
+        copy-item -path bin/Release/net8.0-windows7.0/publish -destination Output -Recursive
+        ls Output
         
     - uses: actions/upload-artifact@v4
       with:
