@@ -27,19 +27,18 @@ jobs:
 
     - name: Restore dependencies
       run: dotnet restore
-      
-    - name: Create Folder
-      run: |
-        cd Calculator
-        mkdir Output
         
     - name: Build and publish
       run: |
         cd Calculator
         dotnet publish  -c Release
+        
+    - name: Copy files
+      run: !
+        cd Calculator
+        mkdir Output
         copy-item -path ./bin/Release/net8.0-windows7.0/publish -destination Output -Recurse
         ls Output/publish
-        
     - uses: actions/upload-artifact@v4
       with:
         name: ${{ env.name }} - Ali
