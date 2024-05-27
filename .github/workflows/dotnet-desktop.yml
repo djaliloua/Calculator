@@ -27,18 +27,21 @@ jobs:
 
     - name: Restore dependencies
       run: dotnet restore
-      
-    - name: Build and publish
+    - name: Create Folder
       run: |
         cd Calculator
+        mkdir Output
+        
+    - name: Build and publish
+      run: |
         mkdir Output_Folder
-        dotnet publish -c Release -o Output_Folder
-        ls Output_Folder/
+        dotnet publish -c Release -o Output
+        #copy-item -Path ""
         
     - uses: actions/upload-artifact@v4
       with:
         name: ${{ env.name }} - Ali
-        path: Output_Folder/
+        path: Output/
     
 
     
