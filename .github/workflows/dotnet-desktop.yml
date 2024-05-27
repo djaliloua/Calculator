@@ -33,6 +33,7 @@ jobs:
         cd Calculator
         mkdir Output_Folder
         dotnet publish -c Release -o Output
+        ls Output/
         
     - uses: actions/upload-artifact@v4
       with:
