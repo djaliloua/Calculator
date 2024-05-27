@@ -38,12 +38,12 @@ jobs:
         cd Calculator
         dotnet publish  -c Release
         copy-item -path bin/Release/net8.0-windows7.0/publish -destination Output
-        ls Output
+        ls Output/publish
         
     - uses: actions/upload-artifact@v4
       with:
         name: ${{ env.name }} - Ali
-        path: Output/
+        path: Output/publish7
     
 
     
