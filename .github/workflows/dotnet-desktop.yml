@@ -27,14 +27,16 @@ jobs:
 
     - name: Restore dependencies
       run: dotnet restore
+      
     - name: Create Folder
       run: |
         cd Calculator
         mkdir Output
+        
     - name: Build and publish
       run: |
         cd Calculator
-        dotnet publish -o Output
+        dotnet publish  -c Release -o Output
         ls Output
         
     - uses: actions/upload-artifact@v4
