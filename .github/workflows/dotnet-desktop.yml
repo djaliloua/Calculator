@@ -32,13 +32,13 @@ jobs:
       run: |
         cd Calculator
         mkdir ${{env.DOTNET_ROOT}}\Output
-        dotnet publish --property:PublishDir=${{env.DOTNET_ROOT}}\Output
-        ls ${{env.DOTNET_ROOT}}\Output
+        dotnet publish --property:PublishDir=${{env.DOTNET_ROOT}}\..\Output
+        ls ${{env.DOTNET_ROOT}}\..\Output
         
     - uses: actions/upload-artifact@v4
       with:
         name: ${{ env.name }} - Ali
-        path: ${{env.DOTNET_ROOT}}\Output
+        path: ${{env.DOTNET_ROOT}}\..\Output
     
 
     
