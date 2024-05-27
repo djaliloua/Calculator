@@ -34,9 +34,8 @@ jobs:
         
     - name: Build and publish
       run: |
-        mkdir Output_Folder
-        dotnet publish -c Release -o Output
-        #copy-item -Path ""
+        cd Calculator
+        dotnet publish -c Release --property:PublishDir=Ouput
         
     - uses: actions/upload-artifact@v4
       with:
