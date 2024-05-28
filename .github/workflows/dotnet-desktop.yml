@@ -40,6 +40,3 @@ jobs:
       with:
         name: ${{ env.name }} - Calculator
         path: ${{ env.basePath }}
-    
-
-    
