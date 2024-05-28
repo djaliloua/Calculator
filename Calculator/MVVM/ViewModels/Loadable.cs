@@ -5,7 +5,7 @@ namespace Calculator.MVVM.ViewModels
 {
     public abstract class Loadable<TItem> : BaseViewModel
     {
-        public ObservableCollection<TItem> Items { get; set; } = new ObservableCollection<TItem>();
+        public ObservableCollection<TItem> Items { get; private set; } = new ObservableCollection<TItem>();
         
         public abstract Task LoadItems();
         public virtual ObservableCollection<TItem> GetItems() => Items;
