@@ -35,7 +35,8 @@ jobs:
         
     - name: Copy files
       run: |
-        #cd Calculator
+        ls
+        cd Calculator
         mkdir Output
         copy-item -path ./bin/Release/net8.0-windows7.0/publish -destination Output -Recurse
         ls Output/publish
