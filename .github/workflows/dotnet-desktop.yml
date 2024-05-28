@@ -39,7 +39,7 @@ jobs:
         mkdir Output
         copy-item -path ./bin/Release/net8.0-windows7.0/publish -destination Output -Recurse
         ls Output/publish
-    - uses: actions/upload-artifact@v4
+    - uses: actions/upload-artifact@v2
       with:
         name: ${{ env.name }} - Ali
         path: Output/publish/
