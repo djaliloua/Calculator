@@ -40,3 +40,6 @@ jobs:
       with:
         name: ${{ env.name }} - Calculator
         path: ${{ env.basePath }}
+
+    - name: Delete output file
+      run: Remove-Item -Path ${{ env.basePath }} -Recurse -Force
