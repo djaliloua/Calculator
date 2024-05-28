@@ -12,7 +12,7 @@ jobs:
     runs-on: windows-latest
     env:
      name: My-Artefact
-     basePath: Calculator/Output
+     basePath: Calculator/Output/
 
     steps:
     - name: Checkout
@@ -34,13 +34,12 @@ jobs:
         cd Calculator
         mkdir Output
         dotnet publish -p:PublishDir=Output
-        ls Output
     
         
     - uses: actions/upload-artifact@v4.3.3
       with:
         name: ${{ env.name }} - Calculator
-        path: Calculator/Output/
+        path: ${{ env.basePath }}
     
 
     
