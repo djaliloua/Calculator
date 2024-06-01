@@ -43,3 +43,6 @@ jobs:
 
     - name: Delete output file
       run: Remove-Item -Path ${{ env.basePath }} -Recurse -Force
+
+    - name: Badge
+      uses: thewerthon/RepoBadges@v1.0.0
