@@ -1,7 +1,6 @@
 ﻿using Calculator.DataAccessLayer;
 using Calculator.MVVM.ViewModels;
 using System.Windows;
-using System.Windows.Input;
 
 namespace Calculator
 {
