@@ -42,7 +42,6 @@
                 <local:KeyboardView Grid.Row="2"
                                     Focusable="True"
                                     IsTabStop="True"
-                                    LostFocus="keyboard_LostFocus"
                                     x:Name="keyboard" />
             </Grid>
 
