@@ -1,4 +1,4 @@
-![example branch parameter](https://img.shields.io/badge/any_text-you_like-blue)
+![example branch parameter](https://img.shields.io/badge/build-passing-green)
 # Calculator(Wpf)
 Simple calucator
 This piece of code makes use of WPF technology to build a simple calculator.
