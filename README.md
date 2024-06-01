@@ -1,4 +1,4 @@
-![example branch parameter](https://github.com/djaliloua/Calculator/tree/master/.github/workflows/dotnet-desktop.yml/badge.svg?branch=master)
+![example branch parameter](https://img.shields.io/badge/any_text-you_like-blue)
 # Calculator(Wpf)
 Simple calucator
 This piece of code makes use of WPF technology to build a simple calculator.
