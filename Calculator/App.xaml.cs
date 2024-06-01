@@ -24,7 +24,7 @@ namespace Calculator
         }
         public void ConfigureServices(ServiceCollection services)
         {
-            services.AddLogging(b => b.AddFile($"{Path.Combine(Helper.GetLocalPath(), "calculator.log")}", append:true));
+            services.AddLogging(b => b.AddFile($"calculator.log", append:true));
             services.AddSingleton<KeyboardView>();
             services.AddSingleton<MainViewModel>();
             services.AddSingleton<IRepository, Repository>();
@@ -35,14 +35,19 @@ namespace Calculator
             services.AddSingleton<MainWindow>();
             services.AddDbContext<OperationContext>(options =>
             {
-                options.UseSqlite($"Data Source = {Path.Combine(Helper.GetLocalPath(), "calculator.db")}");
+                options.UseSqlite($"Data Source = calculator.db");
             });
         }
 
         public void Application_Startup(object sender, StartupEventArgs e)
         {
-            var window = ServiceLocator.GetViewModel<MainWindow>();
-            window.Show();
+            if (Helper.AvoidMore())
+            {
+                var window = ServiceLocator.GetViewModel<MainWindow>();
+                window.Show();
+            }
+            else
+                MessageBox.Show("An Instance of the Application is Already Running");
         }
     }
     
