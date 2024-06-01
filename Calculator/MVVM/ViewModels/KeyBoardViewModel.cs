@@ -2,6 +2,7 @@
 using HelperClass;
 using MVVM;
 using System.Data;
+using System.Diagnostics;
 using System.Windows.Input;
 
 namespace Calculator.MVVM.ViewModels
@@ -68,7 +69,8 @@ namespace Calculator.MVVM.ViewModels
             }
             catch (FormatException fe)
             {
-                input.InputText = fe.Message;
+                input.InputText = "Error(Too long input)";
+                Debug.WriteLine(fe.Message);
             }
             catch (Exception ex)
             {
