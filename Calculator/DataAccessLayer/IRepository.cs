@@ -7,6 +7,7 @@ namespace Calculator.DataAccessLayer
         Task<IList<Operation>> GetAll();
         Task<Operation> SaveItem(Operation operation);
         Task<Operation> UpdateItem(Operation operation);
-        Task DeleteAll();
+        Task DeleteItems();
+        Task DeleteAllAsync();
     }
 }

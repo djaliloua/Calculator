@@ -12,6 +12,11 @@ namespace Calculator.DataAccessLayer
             DbContext = dbContext;
             DbContext.Database.EnsureCreated();
         }
+        public async Task DeleteAllAsync()
+        {
+            await DbContext.Operations.ExecuteDeleteAsync();
+            await DbContext.SaveChangesAsync();
+        }
         public async Task<Operation> UpdateItem(Operation operation)
         {
             if (operation.Id != 0)
@@ -36,7 +41,7 @@ namespace Calculator.DataAccessLayer
             await DbContext.SaveChangesAsync();
             return operation;
         }
-        public async Task DeleteAll()
+        public async Task DeleteItems()
         {
             await Task.Delay(1);
             DbContext.Operations

@@ -31,7 +31,7 @@ namespace Calculator
 
         private async void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            await repository.DeleteAll();
+            await repository.DeleteItems();
         }
      
     }
