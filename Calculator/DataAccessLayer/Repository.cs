@@ -1,5 +1,6 @@
 ﻿using Calculator.MVVM.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace Calculator.DataAccessLayer
 {
@@ -37,8 +38,14 @@ namespace Calculator.DataAccessLayer
         }
         public async Task DeleteAll()
         {
-            await DbContext.Operations.ExecuteDeleteAsync();
-            await DbContext.SaveChangesAsync();
+            await Task.Delay(1);
+            DbContext.Operations
+                .FromSql($"delete from OperationsTable\r\nwhere JULIANDAY(date('now')) - JULIANDAY(date(OperationDate)) > 31;");
+        }
+        private static bool Diff(DateTime t1, DateTime t2)
+        {
+            TimeSpan difference = t1 - t2;
+            return difference.Days > 31;
         }
         public async Task<IList<Operation>> GetAll() => await DbContext.Operations.OrderByDescending(o => o.Id)
                 .ToListAsync();
