@@ -57,7 +57,7 @@ namespace Calculator.MVVM.ViewModels
         }
         private async void On_DeleteAll(object parameter)
         {
-            await repository.DeleteAll();
+            await repository.DeleteAllAsync();
             DeleteAllItems();
         }
         public override async Task LoadItems()

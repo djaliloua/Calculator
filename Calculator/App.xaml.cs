@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MVVM;
 using NReco.Logging.File;
+using System.IO;
 using System.Windows;
 
 namespace Calculator
@@ -23,7 +24,7 @@ namespace Calculator
         }
         public void ConfigureServices(ServiceCollection services)
         {
-            services.AddLogging(b => b.AddFile("calculator.log", append:true));
+            services.AddLogging(b => b.AddFile($"{Path.Combine(Helper.GetLocalPath(), "calculator.log")}", append:true));
             services.AddSingleton<KeyboardView>();
             services.AddSingleton<MainViewModel>();
             services.AddSingleton<IRepository, Repository>();
@@ -34,7 +35,7 @@ namespace Calculator
             services.AddSingleton<MainWindow>();
             services.AddDbContext<OperationContext>(options =>
             {
-                options.UseSqlite($"Data Source = calculator.db");
+                options.UseSqlite($"Data Source = {Path.Combine(Helper.GetLocalPath(), "calculator.db")}");
             });
         }
 
