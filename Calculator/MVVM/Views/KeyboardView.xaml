@@ -9,6 +9,15 @@
              mc:Ignorable="d"
              d:DesignHeight="450"
              d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style TargetType="Button"
+               BasedOn="{StaticResource MaterialDesignFloatingActionButton}">
+            <Setter Property="Focusable"
+                    Value="False" />
+            <Setter Property="IsTabStop"
+                    Value="False" />
+        </Style>
+    </UserControl.Resources>
     <UserControl.InputBindings>
         <KeyBinding CommandParameter="0"
                     Key="{x:Static Key.D0}"
@@ -132,19 +141,19 @@
                  x:Name="ac"
                  Content="AC"
                  Command="{Binding DeleteAllCommand}"
-                 Style="{StaticResource MaterialDesignFloatingActionButton}">
+                 >
         </Button>
         <Button  Grid.Row="0"
                  Grid.Column="1"
                  Command="{Binding AddInputCommand}"
                  CommandParameter="%"
-                 Style="{StaticResource MaterialDesignFloatingActionButton}">
+                 >
             <materialDesign:PackIcon Kind="Percent" />
         </Button>
         <Button  Grid.Row="0"
                  Grid.Column="2"
                  Command="{Binding DeleteCommand}"
-                 Style="{StaticResource MaterialDesignFloatingActionButton}">
+                 >
             <materialDesign:PackIcon Kind="BackspaceOutline" />
         </Button>
 
@@ -152,36 +161,38 @@
                  Grid.Column="3"
                  Command="{Binding AddInputCommand}"
                  CommandParameter="/"
-                 Style="{StaticResource MaterialDesignFloatingActionButton}">
+                 >
             <materialDesign:PackIcon Kind="Division" />
         </Button>
         <!--Second row-->
         <Button  Grid.Row="1"
                  Grid.Column="0"
                  Content="7"
+                 Focusable="False"
+                 IsTabStop="False"
                  Command="{Binding AddInputCommand}"
                  CommandParameter="7"
-                 Style="{StaticResource MaterialDesignFloatingActionButton}">
+                 >
         </Button>
         <Button  Grid.Row="1"
                  Grid.Column="1"
                  Content="8"
                  Command="{Binding AddInputCommand}"
                  CommandParameter="8"
-                 Style="{StaticResource MaterialDesignFloatingActionButton}">
+                 >
         </Button>
         <Button  Grid.Row="1"
                  Grid.Column="2"
                  Content="9"
                  Command="{Binding AddInputCommand}"
                  CommandParameter="9"
-                 Style="{StaticResource MaterialDesignFloatingActionButton}">
+                 >
         </Button>
         <Button  Grid.Row="1"
                  Grid.Column="3"
                  Command="{Binding AddInputCommand}"
                  CommandParameter="*"
-                 Style="{StaticResource MaterialDesignFloatingActionButton}"
+                 
                  >
             <materialDesign:PackIcon Kind="Multiplication" />
         </Button>
@@ -193,28 +204,28 @@
                  Content="4"
                  Command="{Binding AddInputCommand}"
                  CommandParameter="4"
-                 Style="{StaticResource MaterialDesignFloatingActionButton}">
+                 >
         </Button>
         <Button  Grid.Row="2"
                  Grid.Column="1"
                  Content="5"
                  Command="{Binding AddInputCommand}"
                  CommandParameter="5"
-                 Style="{StaticResource MaterialDesignFloatingActionButton}">
+                 >
         </Button>
         <Button  Grid.Row="2"
                  Grid.Column="2"
                  Content="6"
                  Command="{Binding AddInputCommand}"
                  CommandParameter="6"
-                 Style="{StaticResource MaterialDesignFloatingActionButton}">
+                >
         </Button>
         <Button  Grid.Row="2"
                  Grid.Column="3"
                  Content="-"
                  Command="{Binding AddInputCommand}"
                  CommandParameter="-"
-                 Style="{StaticResource MaterialDesignFloatingActionButton}">
+                 >
         </Button>
         <!--fourth row-->
         <Button  Grid.Row="3"
@@ -222,28 +233,28 @@
                  Content="1"
                  Command="{Binding AddInputCommand}"
                  CommandParameter="1"
-                 Style="{StaticResource MaterialDesignFloatingActionButton}">
+                 >
         </Button>
         <Button  Grid.Row="3"
                  Grid.Column="1"
                  Content="2"
                  Command="{Binding AddInputCommand}"
                  CommandParameter="2"
-                 Style="{StaticResource MaterialDesignFloatingActionButton}">
+                 >
         </Button>
         <Button  Grid.Row="3"
                  Grid.Column="2"
                  Content="3"
                  Command="{Binding AddInputCommand}"
                  CommandParameter="3"
-                 Style="{StaticResource MaterialDesignFloatingActionButton}">
+                 >
         </Button>
         <Button  Grid.Row="3"
                  Grid.Column="23"
                  Content="+"
                  Command="{Binding AddInputCommand}"
                  CommandParameter="+"
-                 Style="{StaticResource MaterialDesignFloatingActionButton}">
+                 >
         </Button>
         <!--fith row-->
         <Button  Grid.Row="4"
@@ -251,21 +262,21 @@
                  Content="00"
                  Command="{Binding AddInputCommand}"
                  CommandParameter="00"
-                 Style="{StaticResource MaterialDesignFloatingActionButton}">
+                 >
         </Button>
         <Button  Grid.Row="4"
                  Grid.Column="1"
                  Content="0"
                  Command="{Binding AddInputCommand}"
                  CommandParameter="0"
-                 Style="{StaticResource MaterialDesignFloatingActionButton}">
+                 >
         </Button>
         <Button  Grid.Row="4"
                  Grid.Column="2"
                  Content="."
                  Command="{Binding AddInputCommand}"
                  CommandParameter="."
-                 Style="{StaticResource MaterialDesignFloatingActionButton}">
+                 >
         </Button>
         <Button  Grid.Row="4"
                  Grid.Column="23"
@@ -274,7 +285,7 @@
                  x:Name="enter"
                  IsDefault="True"
                  Command="{Binding ResultCommand}"
-                 Style="{StaticResource MaterialDesignFloatingActionButton}">
+                 >
         </Button>
 
     </Grid>

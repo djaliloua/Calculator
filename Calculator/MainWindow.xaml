@@ -31,15 +31,18 @@
 
                 <Button Style="{StaticResource MaterialDesignIconButton}"
                         HorizontalAlignment="Right"
+                        
                         Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
                         CommandParameter="{x:Static Dock.Bottom}"
                         ToolTip="History">
                     <materialDesign:PackIcon Kind="History" />
                 </Button>
-                <local:InputResultView Grid.Row="1" />
+                <local:InputResultView Grid.Row="1"
+                                       />
                 <local:KeyboardView Grid.Row="2"
                                     Focusable="True"
                                     IsTabStop="True"
+                                    LostFocus="keyboard_LostFocus"
                                     x:Name="keyboard" />
             </Grid>
 

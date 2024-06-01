@@ -33,6 +33,10 @@ namespace Calculator
         {
             await repository.DeleteItems();
         }
-     
+
+        private void keyboard_LostFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
