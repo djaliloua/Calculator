@@ -11,8 +11,6 @@
         DataContext="{Binding Source={StaticResource locator}, Path=MainViewModel}"
         AutomationProperties.Name="{Binding Title, RelativeSource={RelativeSource Self}}"
         Title="Calculator"
-        FocusManager.FocusedElement="{Binding ElementName=keys}"
-        FocusManager.IsFocusScope="True"
         Height="650"
         Width="350">
 
@@ -41,7 +39,8 @@
                 <local:InputResultView Grid.Row="1" />
                 <local:KeyboardView Grid.Row="2"
                                     Focusable="True"
-                                    x:Name="keys" />
+                                    IsTabStop="True"
+                                    x:Name="keyboard" />
             </Grid>
 
             <materialDesign:DrawerHost.BottomDrawerContent>

@@ -19,17 +19,17 @@ namespace Calculator.MVVM.ViewModels
             Operation op = Items.FirstOrDefault(o => o.OpValue.Equals(inputText));
             return op == null;
         }
-        public override void Reorder()
+        protected override void Reorder()
         {
             var data = Items.OrderByDescending(o => o.Id).ToList();
             SetItems(data);
         }
-        public override void SetItems(IEnumerable<TItem> items)
+        public override void SetItems(IList<TItem> items)
         {
-            base.SetItems(items);
+            base.SetItems(items.ToList());
             IsLblVisible = !IsEmpty;
         }
-        public override void Callback(TItem selectedItem)
+        public override void SelectedItemCallBack(TItem selectedItem)
         {
             setValue(selectedItem);
             ServiceLocator.MainViewModel.IsBottomDrawerOpen = false;
