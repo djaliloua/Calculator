@@ -1,14 +1,17 @@
 ﻿using Calculator.DataAccessLayer;
+using Calculator.SettingsLayer.Abstractions;
+using Calculator.SettingsLayer.Implementations;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Extensions.Logging;
 using MVVM;
 
 namespace Calculator.MVVM.ViewModels
 {
-    
+
     public class MainViewModel:BaseViewModel
     {
         public static event Action BottomDrawerOpened;
+        private ISettings Settings;
         protected virtual void OnBottomDrawerOpened() => BottomDrawerOpened?.Invoke();
         private bool _isBottomDrawerOpen;
         public bool IsBottomDrawerOpen
@@ -30,6 +33,7 @@ namespace Calculator.MVVM.ViewModels
             set => UpdateObservable(ref _isDark, value, () =>
             {
                 SetTheme(IsDark);
+                Settings.SetParameter(nameof(IsDark), value);
             });
         }
         
@@ -37,6 +41,8 @@ namespace Calculator.MVVM.ViewModels
         {
             logger = _log;
             logger.LogInformation("MainViewModel started......");
+            Settings = new ThemeSettings();
+            IsDark = (bool)Settings.GetParameter(nameof(IsDark));
         }
         private void SetTheme(bool isDark)
         {
