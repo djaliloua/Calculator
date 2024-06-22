@@ -32,6 +32,7 @@
                 <StackPanel Orientation="Horizontal"
                             HorizontalAlignment="Right">
                     <ToggleButton IsChecked="{Binding IsDark}"
+                                  ToolTip="ChangeTheme"
                                   Focusable="False" />
                     <Button Style="{StaticResource MaterialDesignIconButton}"
                             HorizontalAlignment="Right"
