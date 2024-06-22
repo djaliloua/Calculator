@@ -7,7 +7,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         ResizeMode="CanMinimize"
-        Background="{StaticResource surface}"
+        Style="{StaticResource MaterialDesignWindow}"
         DataContext="{Binding Source={StaticResource locator}, Path=MainViewModel}"
         AutomationProperties.Name="{Binding Title, RelativeSource={RelativeSource Self}}"
         Title="Calculator"
@@ -29,14 +29,18 @@
 
                 </Grid.RowDefinitions>
 
-                <Button Style="{StaticResource MaterialDesignIconButton}"
-                        HorizontalAlignment="Right"
-                        
-                        Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
-                        CommandParameter="{x:Static Dock.Bottom}"
-                        ToolTip="History">
-                    <materialDesign:PackIcon Kind="History" />
-                </Button>
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Right">
+                    <ToggleButton IsChecked="{Binding IsDark}"
+                                  Focusable="False" />
+                    <Button Style="{StaticResource MaterialDesignIconButton}"
+                            HorizontalAlignment="Right"
+                            Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
+                            CommandParameter="{x:Static Dock.Bottom}"
+                            ToolTip="History">
+                        <materialDesign:PackIcon Kind="History" />
+                    </Button>
+                </StackPanel>
                 <local:InputResultView Grid.Row="1"
                                        />
                 <local:KeyboardView Grid.Row="2"
