@@ -1,4 +1,5 @@
-﻿using Calculator.DataAccessLayer;
+﻿using Calculator.DataAccessLayer.Implementations;
+using Calculator.MVVM.Models;
 using Calculator.MVVM.ViewModels;
 using System.Windows;
 
@@ -9,8 +10,8 @@ namespace Calculator
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly IRepository repository;
-        public MainWindow(IRepository repository)
+        private readonly Repository repository;
+        public MainWindow(Repository repository)
         {
             InitializeComponent();
             this.repository = repository;
@@ -29,9 +30,9 @@ namespace Calculator
             keyboard.Focus();
         }
 
-        private async void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            await repository.DeleteItems();
+            repository.Delete(new Operation());
         }
     }
 }

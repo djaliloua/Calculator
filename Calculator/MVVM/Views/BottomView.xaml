@@ -36,6 +36,11 @@
                     <Setter Property="Visibility"
                             Value="Hidden" />
                 </DataTrigger>
+                <DataTrigger Binding="{Binding ElementName=listbox, Path=ItemsSource.Count}"
+                             Value="0">
+                    <Setter Property="Visibility"
+                            Value="Visible" />
+                </DataTrigger>
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
@@ -48,6 +53,7 @@
                x:Name="txt"
                HorizontalAlignment="Center" />
         <ListBox ItemsSource="{Binding Items}"
+                 x:Name="listbox"
                  SelectedValue="{Binding SelectedItem}"
                  HorizontalContentAlignment="Right"
                  ScrollViewer.VerticalScrollBarVisibility="Hidden">

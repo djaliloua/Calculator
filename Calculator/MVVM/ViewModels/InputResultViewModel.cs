@@ -25,6 +25,7 @@ namespace Calculator.MVVM.ViewModels
             Val = val;
             InputText = val;
         }
+
         public string Val = "0";
         private void Initialize()
         {

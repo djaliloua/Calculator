@@ -3,9 +3,8 @@
 namespace Calculator.MVVM.Models
 {
     [Table("OperationsTable")]
-    public class Operation
+    public class Operation:BaseEntity
     {
-        public int Id { get; set; }
         public string OpValue { get; set; }  // operation Value
         public string OpResult { get; set; } // Operation Result
         public DateTime OperationDate { get; set; }

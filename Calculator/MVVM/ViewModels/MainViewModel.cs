@@ -1,4 +1,5 @@
 ﻿using Calculator.DataAccessLayer;
+using Calculator.DataAccessLayer.Implementations;
 using Calculator.SettingsLayer.Abstractions;
 using Calculator.SettingsLayer.Implementations;
 using MaterialDesignThemes.Wpf;
@@ -37,7 +38,7 @@ namespace Calculator.MVVM.ViewModels
             });
         }
         
-        public MainViewModel(IRepository repository, ILogger<MainViewModel> _log)
+        public MainViewModel(Repository repository, ILogger<MainViewModel> _log)
         {
             logger = _log;
             logger.LogInformation("MainViewModel started......");

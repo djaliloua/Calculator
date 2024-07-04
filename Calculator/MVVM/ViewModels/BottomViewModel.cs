@@ -1,7 +1,8 @@
-﻿using Calculator.DataAccessLayer;
+﻿using Calculator.DataAccessLayer.Implementations;
 using Calculator.MVVM.Models;
 using Microsoft.Extensions.Logging;
 using MVVM;
+using Patterns;
 using System.Windows.Input;
 
 namespace Calculator.MVVM.ViewModels
@@ -14,7 +15,7 @@ namespace Calculator.MVVM.ViewModels
             get => _isLblVisible;
             set => UpdateObservable(ref _isLblVisible, value);
         }
-        public virtual bool IsPresent(string inputText)
+        public bool IsPresent(string inputText)
         {
             Operation op = Items.FirstOrDefault(o => o.OpValue.Equals(inputText));
             return op == null;
@@ -42,27 +43,32 @@ namespace Calculator.MVVM.ViewModels
     }
     public class BottomViewModel: BottomViewModelLoadable<Operation>
     {
-        private IRepository repository;
+        private Repository repository;
 
         private readonly ILogger<BottomViewModel> logger;
         
         public ICommand DeleteAllCommand { get; private set; }
-        public BottomViewModel(IRepository _repository, ILogger<BottomViewModel> _log)
+        public BottomViewModel(Repository _repository, ILogger<BottomViewModel> _log)
         {
             repository = _repository;
             logger = _log;
             logger.LogInformation("BottomViewModel started.....");
             _ = LoadItems();
-            DeleteAllCommand = new DelegateCommand(On_DeleteAll);
+            DeleteAllCommand = new DelegateCommand(OnDeleteAll);
         }
-        private async void On_DeleteAll(object parameter)
+        private void OnDeleteAll(object parameter)
         {
-            await repository.DeleteAllAsync();
             DeleteAllItems();
+        }
+        public override void DeleteAllItems()
+        {
+            repository.DeleteAllAsync();
+            base.DeleteAllItems();
         }
         public override async Task LoadItems()
         {
-            var data = await repository.GetAll();
+            await Task.Delay(1);
+            var data = repository.GetAllItems().ToList();
             SetItems(data);
             IsLblVisible = !IsEmpty;
         }

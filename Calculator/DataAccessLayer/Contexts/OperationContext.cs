@@ -1,7 +1,7 @@
 ﻿using Calculator.MVVM.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Calculator.DataAccessLayer
+namespace Calculator.DataAccessLayer.Contexts
 {
     public class OperationContext:DbContext
     {
