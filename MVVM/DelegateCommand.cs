@@ -26,7 +26,7 @@ namespace MVVM
 
         public void Execute(object parameter)
         {
-            execute(parameter);
+            this.execute(parameter);
         }
     }
 }

@@ -23,6 +23,7 @@
   <ItemGroup>
     <ProjectReference Include="..\HelperClass\HelperClass.csproj" />
     <ProjectReference Include="..\MVVM\MVVM.csproj" />
+    <ProjectReference Include="..\Patterns\Patterns.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Patterns">
