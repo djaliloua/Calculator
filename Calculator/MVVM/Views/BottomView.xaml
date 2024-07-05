@@ -49,7 +49,7 @@
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Label Content="Story"
+        <TextBlock Text="Story"
                x:Name="txt"
                HorizontalAlignment="Center" />
         <ListBox ItemsSource="{Binding Items}"
