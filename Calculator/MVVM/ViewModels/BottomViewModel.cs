@@ -2,7 +2,7 @@
 using Calculator.MVVM.Models;
 using Microsoft.Extensions.Logging;
 using MVVM;
-using Patterns;
+using Patterns.Implementations;
 using System.Windows.Input;
 
 namespace Calculator.MVVM.ViewModels
