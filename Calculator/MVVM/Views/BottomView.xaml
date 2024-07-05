@@ -24,7 +24,7 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-        <Style TargetType="Label">
+        <Style TargetType="TextBlock">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding IsLblVisible}"
                              Value="false">
