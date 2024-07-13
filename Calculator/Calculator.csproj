@@ -25,11 +25,6 @@
     <ProjectReference Include="..\MVVM\MVVM.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Patterns">
-      <HintPath>..\..\ManagPassWord\Patterns\bin\Debug\net8.0\Patterns.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Update="Properties\Settings.Designer.cs">
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <AutoGen>True</AutoGen>
@@ -41,5 +36,13 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="SharedDll\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Patterns">
+      <HintPath>SharedDll\Patterns.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>
