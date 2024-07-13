@@ -2,13 +2,18 @@
 using Calculator.MVVM.Models;
 using Microsoft.Extensions.Logging;
 using MVVM;
+using Patterns.Abstractions;
 using Patterns.Implementations;
 using System.Windows.Input;
 
 namespace Calculator.MVVM.ViewModels
 {
-    public abstract class BottomViewModelLoadable<TItem> : Loadable<TItem> where TItem : Operation
+    public class BottomViewModelLoadable<TItem> : Loadable<TItem> where TItem : Operation
     {
+        public BottomViewModelLoadable(ILoadService<TItem> loadService):base(loadService)
+        {
+            
+        }
         private bool _isLblVisible;
         public bool IsLblVisible
         {
@@ -20,25 +25,31 @@ namespace Calculator.MVVM.ViewModels
             Operation op = Items.FirstOrDefault(o => o.OpValue.Equals(inputText));
             return op == null;
         }
-        protected override void Reorder()
+        
+        public override void SetItems(IEnumerable<TItem> items)
         {
-            var data = Items.OrderByDescending(o => o.Id).ToList();
-            SetItems(data);
-        }
-        public override void SetItems(IList<TItem> items)
-        {
-            base.SetItems(items.ToList());
+            base.SetItems(items);
             IsLblVisible = !IsEmpty;
         }
         public override void SelectedItemCallBack(TItem selectedItem)
         {
-            setValue(selectedItem);
-            ServiceLocator.MainViewModel.IsBottomDrawerOpen = false;
+            if(SelectedItem != null)
+            {
+                setValue(selectedItem);
+                ServiceLocator.MainViewModel.IsBottomDrawerOpen = false;
+            }
         }
         private void setValue(TItem v)
         {
             ServiceLocator.InputResultViewModel.InputText = v.OpValue;
             ServiceLocator.InputResultViewModel.OutputText = v.OpResult;
+        }
+    }
+    public class LoadOperationService : ILoadService<Operation>
+    {
+        public IList<Operation> Reorder(IList<Operation> items)
+        {
+            return items.OrderByDescending(o => o.Id).ToList();
         }
     }
     public class BottomViewModel: BottomViewModelLoadable<Operation>
@@ -48,13 +59,23 @@ namespace Calculator.MVVM.ViewModels
         private readonly ILogger<BottomViewModel> logger;
         
         public ICommand DeleteAllCommand { get; private set; }
-        public BottomViewModel(Repository _repository, ILogger<BottomViewModel> _log)
+        public BottomViewModel(Repository _repository, 
+            ILogger<BottomViewModel> _log, 
+            ILoadService<Operation> loadService):base(loadService)
         {
             repository = _repository;
             logger = _log;
             logger.LogInformation("BottomViewModel started.....");
-            _ = LoadItems();
+            Init();
             DeleteAllCommand = new DelegateCommand(OnDeleteAll);
+        }
+        private async void Init()
+        {
+            await Task.Run(async () =>
+            {
+                await LoadItems(repository.GetAllItems());
+                IsLblVisible = !IsEmpty;
+            });
         }
         private void OnDeleteAll(object parameter)
         {
@@ -65,13 +86,6 @@ namespace Calculator.MVVM.ViewModels
             repository.DeleteAllAsync();
             base.DeleteAllItems();
         }
-        public override async Task LoadItems()
-        {
-            await Task.Delay(1);
-            var data = repository.GetAllItems().ToList();
-            SetItems(data);
-            IsLblVisible = !IsEmpty;
-        }
-       
+        
     }
 }

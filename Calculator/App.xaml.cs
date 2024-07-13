@@ -1,14 +1,6 @@
-﻿using Calculator.DataAccessLayer;
-using Calculator.DataAccessLayer.Abstractions;
-using Calculator.DataAccessLayer.Contexts;
-using Calculator.Extensions;
-using Calculator.MVVM.ViewModels;
-using Calculator.MVVM.Views;
-using Microsoft.EntityFrameworkCore;
+﻿using Calculator.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using MVVM;
-using NReco.Logging.File;
-using System.IO;
 using System.Windows;
 
 namespace Calculator
@@ -27,6 +19,7 @@ namespace Calculator
                 .CommonsExtension()
                 .ViewModelsExtension()
                 .ContextExtension()
+                .BIExtension()
                 .RepositoryExtension()
                 .UIExtension()
                 ;
