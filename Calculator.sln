@@ -11,8 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Calculator.Fitness.Test", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelperClass", "HelperClass\HelperClass.csproj", "{1960BCA8-85F4-4F59-8840-5532BF542AEC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Patterns", "Patterns\Patterns.csproj", "{662AF5FC-D5AD-4EBD-9465-4F77DDB46917}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,10 +33,6 @@ Global
 		{1960BCA8-85F4-4F59-8840-5532BF542AEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1960BCA8-85F4-4F59-8840-5532BF542AEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1960BCA8-85F4-4F59-8840-5532BF542AEC}.Release|Any CPU.Build.0 = Release|Any CPU
-		{662AF5FC-D5AD-4EBD-9465-4F77DDB46917}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{662AF5FC-D5AD-4EBD-9465-4F77DDB46917}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{662AF5FC-D5AD-4EBD-9465-4F77DDB46917}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{662AF5FC-D5AD-4EBD-9465-4F77DDB46917}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

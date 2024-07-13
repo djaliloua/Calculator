@@ -23,7 +23,11 @@
   <ItemGroup>
     <ProjectReference Include="..\HelperClass\HelperClass.csproj" />
     <ProjectReference Include="..\MVVM\MVVM.csproj" />
-    <ProjectReference Include="..\Patterns\Patterns.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Patterns">
+      <HintPath>..\..\ManagPassWord\Patterns\bin\Debug\net8.0\Patterns.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Settings.Designer.cs">
