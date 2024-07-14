@@ -18,6 +18,20 @@ namespace Calculator
             Closing += MainWindow_Closing;
             Loaded += MainWindow_Loaded;
             MainViewModel.BottomDrawerOpened += MainViewModel_BottomDrawerOpened;
+            SizeChanged += MainWindow_SizeChanged;
+        }
+
+        private void MainWindow_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (e.NewSize.Height > Height)
+            {
+                ServiceLocator.MainViewModel.IsFullScreen = true;
+            }
+            else
+            {
+                ServiceLocator.MainViewModel.IsFullScreen = false;
+            }
+            Focus();
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -27,7 +41,7 @@ namespace Calculator
 
         private void MainViewModel_BottomDrawerOpened()
         {
-            keyboard.Focus();
+            //keyboard.Focus();
         }
 
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)

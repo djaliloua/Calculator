@@ -1,19 +1,41 @@
-﻿using Calculator.DataAccessLayer;
-using Calculator.DataAccessLayer.Implementations;
+﻿using Calculator.DataAccessLayer.Implementations;
+using Calculator.MVVM.Views;
 using Calculator.SettingsLayer.Abstractions;
 using Calculator.SettingsLayer.Implementations;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Extensions.Logging;
 using MVVM;
+using System.Windows.Controls;
 
 namespace Calculator.MVVM.ViewModels
 {
 
     public class MainViewModel:BaseViewModel
     {
+        #region Private properties
         public static event Action BottomDrawerOpened;
         private ISettings Settings;
+        private readonly ILogger<MainViewModel> logger;
+        #endregion
+
         protected virtual void OnBottomDrawerOpened() => BottomDrawerOpened?.Invoke();
+
+        private bool _canMinimize;
+        public bool IsFullScreen
+        {
+            get => _canMinimize;
+            set => UpdateObservable(ref _canMinimize, value, () =>
+            {
+                if (_canMinimize)
+                {
+                    UserControl = new FullScreenLayout();
+                }
+                else
+                {
+                    UserControl = new SmallScreenLayout();
+                }
+            });
+        }
         private bool _isBottomDrawerOpen;
         public bool IsBottomDrawerOpen
         {
@@ -26,7 +48,13 @@ namespace Calculator.MVVM.ViewModels
                 }
             });
         }
-        private readonly ILogger<MainViewModel> logger;
+        private UserControl _userControl;
+        public UserControl UserControl
+        {
+            get => _userControl;
+            set => UpdateObservable(ref _userControl, value);
+        }
+        
         private bool _isDark;
         public bool IsDark
         {
@@ -44,6 +72,7 @@ namespace Calculator.MVVM.ViewModels
             logger.LogInformation("MainViewModel started......");
             Settings = new ThemeSettings();
             IsDark = (bool)Settings.GetParameter(nameof(IsDark));
+            
         }
         private void SetTheme(bool isDark)
         {
