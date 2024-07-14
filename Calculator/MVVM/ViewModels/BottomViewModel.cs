@@ -20,6 +20,12 @@ namespace Calculator.MVVM.ViewModels
             get => _isLblVisible;
             set => UpdateObservable(ref _isLblVisible, value);
         }
+        private string _nbr;
+        public string Nbr
+        {
+            get => _nbr;
+            set => UpdateObservable(ref _nbr, value);   
+        }
         public bool IsPresent(string inputText)
         {
             Operation op = Items.FirstOrDefault(o => o.OpValue.Equals(inputText));
@@ -54,38 +60,62 @@ namespace Calculator.MVVM.ViewModels
     }
     public class BottomViewModel: BottomViewModelLoadable<Operation>
     {
-        private Repository repository;
-
+        #region Private properties
+        private const int _threshold = 10;
+        private readonly Repository _repositoryOperation;
         private readonly ILogger<BottomViewModel> logger;
-        
+        #endregion
+
+        #region Commands
         public ICommand DeleteAllCommand { get; private set; }
-        public BottomViewModel(Repository _repository, 
+        #endregion
+
+        #region Constructor
+        public BottomViewModel(Repository repository, 
             ILogger<BottomViewModel> _log, 
             ILoadService<Operation> loadService):base(loadService)
         {
-            repository = _repository;
+            _repositoryOperation = repository;
             logger = _log;
             logger.LogInformation("BottomViewModel started.....");
             Init();
             DeleteAllCommand = new DelegateCommand(OnDeleteAll);
         }
+        #endregion
+
+        #region Private methods
         private async void Init()
         {
             await Task.Run(async () =>
             {
-                await LoadItems(repository.GetAllItems());
+                await LoadItems(_repositoryOperation.GetAllItems());
                 IsLblVisible = !IsEmpty;
             });
         }
+        #endregion
+
+        #region Handlers
         private void OnDeleteAll(object parameter)
         {
             DeleteAllItems();
         }
+        #endregion
         public override void DeleteAllItems()
         {
-            repository.DeleteAllAsync();
+            _repositoryOperation.DeleteAllAsync();
             base.DeleteAllItems();
         }
-        
+        protected override void NumberOfItemsChanged(int count)
+        {
+            if(count >= _threshold)
+            {
+                Nbr = $"{_threshold}+";
+            }
+            else
+            {
+                Nbr = $"{count}";
+            }
+        }
+
     }
 }

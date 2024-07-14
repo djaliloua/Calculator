@@ -70,7 +70,7 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <materialDesign:Badged Badge="{Binding NumberOfItems}"
+        <materialDesign:Badged Badge="{Binding Nbr}"
                                Grid.Row="1"
                                HorizontalAlignment="Center">
             <Button Style="{StaticResource MaterialDesignIconButton}"

@@ -17,12 +17,5 @@ namespace Calculator.DataAccessLayer.Implementations
             _entities
                 .FromSql($"delete from OperationsTable\r\nwhere JULIANDAY(date('now')) - JULIANDAY(date(OperationDate)) > 31;");
         }
-        private static bool Diff(DateTime t1, DateTime t2)
-        {
-            TimeSpan difference = t1 - t2;
-            return difference.Days > 31;
-        }
-        
-
     }
 }
