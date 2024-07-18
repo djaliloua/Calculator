@@ -24,6 +24,8 @@ namespace Calculator.Extensions
         {
             services.AddSingleton<KeyboardView>();
             services.AddSingleton<InputResultView>();
+            services.AddScoped<SmallScreenLayout>();
+            services.AddScoped<FullScreenLayout>();
             services.AddSingleton<MainWindow>();
             return services;
         }

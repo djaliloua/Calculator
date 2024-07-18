@@ -5,13 +5,16 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Calculator.MVVM.Views"
              mc:Ignorable="d" 
+             FocusManager.FocusedElement="{Binding ElementName=full}"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width=".75*" />
             <ColumnDefinition Width=".25*" />
         </Grid.ColumnDefinitions>
-        <local:CalcFullScreen />
+        <local:CalcFullScreen x:Name="full"
+                              Focusable="True"
+                              IsTabStop="True" />
         <Grid Grid.Column="1" Margin="10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>

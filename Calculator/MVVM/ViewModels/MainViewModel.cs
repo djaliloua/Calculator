@@ -28,11 +28,11 @@ namespace Calculator.MVVM.ViewModels
             {
                 if (_canMinimize)
                 {
-                    UserControl = new FullScreenLayout();
+                    UserControl = ServiceLocator.GetService<FullScreenLayout>();
                 }
                 else
                 {
-                    UserControl = new SmallScreenLayout();
+                    UserControl = ServiceLocator.GetService< SmallScreenLayout>();
                 }
             });
         }
@@ -72,7 +72,6 @@ namespace Calculator.MVVM.ViewModels
             logger.LogInformation("MainViewModel started......");
             Settings = new ThemeSettings();
             IsDark = (bool)Settings.GetParameter(nameof(IsDark));
-            
         }
         private void SetTheme(bool isDark)
         {

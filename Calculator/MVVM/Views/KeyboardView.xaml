@@ -7,6 +7,9 @@
              xmlns:local="clr-namespace:Calculator"
              DataContext="{Binding Source={StaticResource locator}, Path=KeyBoardViewModel}"
              mc:Ignorable="d"
+             IsTabStop="True"
+             Focusable="True"
+             x:Name="keys"
              d:DesignHeight="450"
              d:DesignWidth="800">
     <UserControl.Resources>

@@ -12,11 +12,6 @@ namespace Calculator.MVVM.Views
         {
             InitializeComponent();
             bottomView.Height = height;
-            MainViewModel.BottomDrawerOpened += MainViewModel_BottomDrawerOpened;
-        }
-        private void MainViewModel_BottomDrawerOpened()
-        {
-            keyboard.Focus();
         }
     }
 }

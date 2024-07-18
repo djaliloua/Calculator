@@ -8,15 +8,18 @@
         mc:Ignorable="d"
         Style="{StaticResource MaterialDesignWindow}"
         DataContext="{Binding Source={StaticResource locator}, Path=MainViewModel}"
-        AutomationProperties.Name="{Binding Title, RelativeSource={RelativeSource Self}}"
         Title="Calculator"
         x:Name="window"
+        MinHeight="690"
+        MinWidth="370"
         Height="690"
         Width="370">
    
     <materialDesign:DialogHost DialogTheme="Inherit"
                                Identifier="RootDialog">
         <ContentControl  Content="{Binding UserControl}"
+                         
+                         x:Name="content"
                          Padding="20" />
     </materialDesign:DialogHost>
 </Window>
