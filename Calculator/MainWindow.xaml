@@ -6,53 +6,19 @@
         xmlns:local="clr-namespace:Calculator.MVVM.Views"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        ResizeMode="CanMinimize"
         Style="{StaticResource MaterialDesignWindow}"
         DataContext="{Binding Source={StaticResource locator}, Path=MainViewModel}"
-        AutomationProperties.Name="{Binding Title, RelativeSource={RelativeSource Self}}"
         Title="Calculator"
-        Height="650"
-        Width="350">
-
+        x:Name="window"
+        MinHeight="690"
+        MinWidth="370"
+        Height="690"
+        Width="370">
+   
     <materialDesign:DialogHost DialogTheme="Inherit"
                                Identifier="RootDialog">
-
-        <materialDesign:DrawerHost BottomDrawerCornerRadius="15,15,0,0"
-                                   x:Name="host"
-                                   IsBottomDrawerOpen="{Binding IsBottomDrawerOpen}">
-
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
-                    <RowDefinition />
-
-                </Grid.RowDefinitions>
-
-                <StackPanel Orientation="Horizontal"
-                            HorizontalAlignment="Right">
-                    <ToggleButton IsChecked="{Binding IsDark}"
-                                  ToolTip="ChangeTheme"
-                                  Focusable="False" />
-                    <Button Style="{StaticResource MaterialDesignIconButton}"
-                            HorizontalAlignment="Right"
-                            Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
-                            CommandParameter="{x:Static Dock.Bottom}"
-                            ToolTip="History">
-                        <materialDesign:PackIcon Kind="History" />
-                    </Button>
-                </StackPanel>
-                <local:InputResultView Grid.Row="1"
-                                       />
-                <local:KeyboardView Grid.Row="2"
-                                    Focusable="True"
-                                    IsTabStop="True"
-                                    x:Name="keyboard" />
-            </Grid>
-
-            <materialDesign:DrawerHost.BottomDrawerContent>
-                <local:BottomView />
-            </materialDesign:DrawerHost.BottomDrawerContent>
-        </materialDesign:DrawerHost>
+        <ContentControl  Content="{Binding UserControl}"
+                         x:Name="content"
+                         Padding="20" />
     </materialDesign:DialogHost>
 </Window>

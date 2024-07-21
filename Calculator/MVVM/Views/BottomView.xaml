@@ -6,7 +6,6 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              DataContext="{Binding Source={StaticResource locator}, Path=BottomViewModel}"
              mc:Ignorable="d"
-             Height="450"
              d:DesignHeight="450"
              d:DesignWidth="800">
     <UserControl.Resources>
@@ -49,7 +48,7 @@
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <TextBlock Text="Story"
+        <TextBlock Text="History"
                x:Name="txt"
                    Margin="0,10,0,0"
                HorizontalAlignment="Center" />
@@ -72,11 +71,14 @@
         </ListBox>
         <materialDesign:Badged Badge="{Binding Nbr}"
                                Grid.Row="1"
+                               Focusable="False"
+                               IsTabStop="False"
                                HorizontalAlignment="Center">
             <Button Style="{StaticResource MaterialDesignIconButton}"
                     HorizontalAlignment="Right"
                     Command="{Binding DeleteAllCommand}"
-                    Grid.Row="1"
+                    Focusable="False"
+                    IsTabStop="False"
                     ToolTip="delete All"
                     RenderTransformOrigin="0.5,0.5">
                 <materialDesign:PackIcon Kind="TrashCan" />

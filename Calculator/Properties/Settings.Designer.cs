@@ -34,5 +34,29 @@ namespace Calculator.Properties {
                 this["IsDark"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("300")]
+        public double WidthThreshold {
+            get {
+                return ((double)(this["WidthThreshold"]));
+            }
+            set {
+                this["WidthThreshold"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("15")]
+        public int CountThreshold {
+            get {
+                return ((int)(this["CountThreshold"]));
+            }
+            set {
+                this["CountThreshold"] = value;
+            }
+        }
     }
 }

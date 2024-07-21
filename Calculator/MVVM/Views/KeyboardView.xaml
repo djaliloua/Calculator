@@ -7,6 +7,9 @@
              xmlns:local="clr-namespace:Calculator"
              DataContext="{Binding Source={StaticResource locator}, Path=KeyBoardViewModel}"
              mc:Ignorable="d"
+             IsTabStop="True"
+             Focusable="True"
+             x:Name="keys"
              d:DesignHeight="450"
              d:DesignWidth="800">
     <UserControl.Resources>
@@ -14,9 +17,20 @@
                BasedOn="{StaticResource MaterialDesignFloatingActionButton}">
             <Setter Property="Focusable"
                     Value="False" />
-            <Setter Property="IsTabStop"
-                    Value="False" />
+            <Style.Triggers>
+                <EventTrigger RoutedEvent="Button.Click">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <ColorAnimation To="GreenYellow"
+                                            Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)"
+                                            FillBehavior="Stop"
+                                            Duration="0:0:1" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Style.Triggers>
         </Style>
+        
     </UserControl.Resources>
     <UserControl.InputBindings>
         <KeyBinding CommandParameter="0"
@@ -168,11 +182,8 @@
         <Button  Grid.Row="1"
                  Grid.Column="0"
                  Content="7"
-                 Focusable="False"
-                 IsTabStop="False"
                  Command="{Binding AddInputCommand}"
-                 CommandParameter="7"
-                 >
+                 CommandParameter="7">
         </Button>
         <Button  Grid.Row="1"
                  Grid.Column="1"
@@ -192,7 +203,6 @@
                  Grid.Column="3"
                  Command="{Binding AddInputCommand}"
                  CommandParameter="*"
-                 
                  >
             <materialDesign:PackIcon Kind="Multiplication" />
         </Button>

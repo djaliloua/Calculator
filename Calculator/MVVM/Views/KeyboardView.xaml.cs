@@ -10,6 +10,12 @@ namespace Calculator.MVVM.Views
         public KeyboardView()
         {
             InitializeComponent();
+            Loaded += KeyboardView_Loaded;
+        }
+
+        private void KeyboardView_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        {
+            Focus();
         }
     }
 }
