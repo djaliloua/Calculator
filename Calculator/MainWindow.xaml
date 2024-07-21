@@ -18,7 +18,6 @@
     <materialDesign:DialogHost DialogTheme="Inherit"
                                Identifier="RootDialog">
         <ContentControl  Content="{Binding UserControl}"
-                         
                          x:Name="content"
                          Padding="20" />
     </materialDesign:DialogHost>

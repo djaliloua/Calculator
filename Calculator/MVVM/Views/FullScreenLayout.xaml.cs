@@ -12,6 +12,15 @@ namespace Calculator.MVVM.Views
         public FullScreenLayout()
         {
             InitializeComponent();
+            bottom.Loaded += Bottom_Loaded;
+        }
+
+        private void Bottom_Loaded(object sender, RoutedEventArgs e)
+        {
+            if(ServiceLocator.MainViewModel.IsFullScreen)
+            {
+                bottom.txt.Visibility = Visibility.Hidden;
+            }
         }
     }
 }
