@@ -72,7 +72,6 @@ namespace Calculator.MVVM.ViewModels
             _logger.LogInformation("MainViewModel started......");
             _settings = settings;
             IsDark = (bool)settings.GetParameter(nameof(IsDark));
-            IsFullScreen = (bool)settings.GetParameter(nameof(IsFullScreen));
         }
         private void SetTheme(bool isDark)
         {
