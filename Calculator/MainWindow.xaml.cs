@@ -2,6 +2,8 @@
 using Calculator.MVVM.Models;
 using Calculator.MVVM.ViewModels;
 using Calculator.MVVM.Views;
+using Calculator.SettingsLayer.Abstractions;
+using Calculator.SettingsLayer.Implementations;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -14,16 +16,15 @@ namespace Calculator
     public partial class MainWindow : Window
     {
         private readonly Repository _repositoryOperation;
-        private UserControl _userControl;
         private double _currentWidth;
-        private double _currentHeight;
         private double _widthThreshold;
-        public MainWindow(Repository repository)
+        private ISettingsManager Settings;
+        public MainWindow(Repository repository, ISettingsManager settings)
         {
             InitializeComponent();
             _repositoryOperation = repository;
             _currentWidth = Width;
-            _widthThreshold = 250;
+            _widthThreshold = (double)settings.GetParameter("WidthThreshold");
             SizeChanged += MainWindow_SizeChanged;
             Closing += MainWindow_Closing;
             Loaded += MainWindow_Loaded;

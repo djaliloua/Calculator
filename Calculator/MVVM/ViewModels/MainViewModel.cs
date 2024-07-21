@@ -14,7 +14,7 @@ namespace Calculator.MVVM.ViewModels
     {
         #region Private properties
         public static event Action BottomDrawerOpened;
-        private ISettings Settings;
+        private ISettingsManager _settings;
         private readonly ILogger<MainViewModel> logger;
         #endregion
 
@@ -62,16 +62,16 @@ namespace Calculator.MVVM.ViewModels
             set => UpdateObservable(ref _isDark, value, () =>
             {
                 SetTheme(IsDark);
-                Settings.SetParameter(nameof(IsDark), value);
+                _settings.SetParameter(nameof(IsDark), value);
             });
         }
         
-        public MainViewModel(Repository repository, ILogger<MainViewModel> _log)
+        public MainViewModel(Repository repository, ILogger<MainViewModel> _log, ISettingsManager settings)
         {
             logger = _log;
             logger.LogInformation("MainViewModel started......");
-            Settings = new ThemeSettings();
-            IsDark = (bool)Settings.GetParameter(nameof(IsDark));
+            _settings = settings;
+            IsDark = (bool)settings.GetParameter(nameof(IsDark));
         }
         private void SetTheme(bool isDark)
         {

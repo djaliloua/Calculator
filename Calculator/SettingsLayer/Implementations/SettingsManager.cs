@@ -2,7 +2,7 @@
 
 namespace Calculator.SettingsLayer.Implementations
 {
-    public class ThemeSettings : ISettings
+    public class SettingsManager : ISettingsManager
     {
         public object GetParameter(string name)
         {

@@ -1,5 +1,6 @@
 ﻿using Calculator.DataAccessLayer.Implementations;
 using Calculator.MVVM.Models;
+using Calculator.SettingsLayer.Abstractions;
 using Microsoft.Extensions.Logging;
 using MVVM;
 using Patterns.Abstractions;
@@ -61,7 +62,8 @@ namespace Calculator.MVVM.ViewModels
     public class BottomViewModel: BottomViewModelLoadable<Operation>
     {
         #region Private properties
-        private const int _threshold = 10;
+        private readonly int _threshold;
+        private readonly ISettingsManager _settings;
         private readonly Repository _repositoryOperation;
         private readonly ILogger<BottomViewModel> _logger;
         #endregion
@@ -72,11 +74,14 @@ namespace Calculator.MVVM.ViewModels
 
         #region Constructor
         public BottomViewModel(Repository repository, 
-            ILogger<BottomViewModel> logger, 
+            ILogger<BottomViewModel> logger,
+            ISettingsManager settings,
             ILoadService<Operation> loadService):base(loadService)
         {
             _repositoryOperation = repository;
             _logger = logger;
+            _settings = settings;
+            _threshold = (int)_settings.GetParameter("CountThreshold");
             _logger.LogInformation("BottomViewModel started.....");
             Init();
             DeleteAllCommand = new DelegateCommand(OnDeleteAll);

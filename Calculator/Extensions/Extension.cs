@@ -7,6 +7,8 @@ using NReco.Logging.File;
 using Calculator.DataAccessLayer.Implementations;
 using Calculator.MVVM.Models;
 using Patterns.Abstractions;
+using Calculator.SettingsLayer.Abstractions;
+using Calculator.SettingsLayer.Implementations;
 
 namespace Calculator.Extensions
 {
@@ -45,6 +47,7 @@ namespace Calculator.Extensions
         public static IServiceCollection CommonsExtension(this IServiceCollection services)
         {
             services.AddLogging(b => b.AddFile($"calculator.log", append: true));
+            services.AddScoped<ISettingsManager, SettingsManager>();
             return services;
         }
         public static IServiceCollection BIExtension(this IServiceCollection services)

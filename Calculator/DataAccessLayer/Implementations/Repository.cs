@@ -15,7 +15,7 @@ namespace Calculator.DataAccessLayer.Implementations
         public override void Delete(Operation item)
         {
             _entities
-                .FromSql($"delete from OperationsTable\r\nwhere JULIANDAY(date('now')) - JULIANDAY(date(OperationDate)) > 31;");
+                .FromSql($"delete from OperationsTable\r\nwhere JULIANDAY(date('now')) - JULIANDAY(date(OperationDate)) > 10;");
         }
     }
 }
