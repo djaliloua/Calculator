@@ -12,8 +12,7 @@
         x:Name="window"
         MinHeight="690"
         MinWidth="370"
-        Height="690"
-        Width="370">
+        >
    
     <materialDesign:DialogHost DialogTheme="Inherit"
                                Identifier="RootDialog">

@@ -18,18 +18,29 @@ namespace Calculator
         private readonly Repository _repositoryOperation;
         private double _currentWidth;
         private double _widthThreshold;
-        private ISettingsManager Settings;
+        private ISettingsManager _settings;
         public MainWindow(Repository repository, ISettingsManager settings)
         {
             InitializeComponent();
             _repositoryOperation = repository;
-            _currentWidth = Width;
-            _widthThreshold = (double)settings.GetParameter("WidthThreshold");
+            _settings = settings;
+            _currentWidth = MinWidth;
+            Width = (double)_settings.GetParameter(nameof(Width));
+            Height = (double)_settings.GetParameter(nameof(Height));
+            WindowState = (WindowState)(int)_settings.GetParameter(nameof(WindowState));
+            _widthThreshold = (double)_settings.GetParameter("WidthThreshold");
             SizeChanged += MainWindow_SizeChanged;
             Closing += MainWindow_Closing;
             Loaded += MainWindow_Loaded;
+            StateChanged += MainWindow_StateChanged;
             MainViewModel.BottomDrawerOpened += MainViewModel_BottomDrawerOpened;
         }
+
+        private void MainWindow_StateChanged(object sender, EventArgs e)
+        {
+            _settings.SetParameter("WindowState", (int)WindowState);
+        }
+
         private void MainViewModel_BottomDrawerOpened()
         {
             if(content.Content is SmallScreenLayout layout)
@@ -44,7 +55,8 @@ namespace Calculator
         }
         private void MainWindow_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (e.NewSize.Height > Height || (e.NewSize.Width - _currentWidth) > _widthThreshold)
+            if (e.NewSize.Height > Height 
+                || (e.NewSize.Width - _currentWidth) > _widthThreshold)
             {
                 ServiceLocator.MainViewModel.IsFullScreen = true;
             }
@@ -52,7 +64,9 @@ namespace Calculator
             {
                 ServiceLocator.MainViewModel.IsFullScreen = false;
             }
-           
+            _settings.SetParameter(nameof(Width), e.NewSize.Width);
+            _settings.SetParameter(nameof(Height), e.NewSize.Height);
+            _settings.SetParameter("IsFullScreen", ServiceLocator.MainViewModel.IsFullScreen);
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
