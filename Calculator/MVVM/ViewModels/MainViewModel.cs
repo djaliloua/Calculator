@@ -15,7 +15,7 @@ namespace Calculator.MVVM.ViewModels
         #region Private properties
         public static event Action BottomDrawerOpened;
         private ISettingsManager _settings;
-        private readonly ILogger<MainViewModel> logger;
+        private readonly ILogger<MainViewModel> _logger;
         #endregion
 
         protected virtual void OnBottomDrawerOpened() => BottomDrawerOpened?.Invoke();
@@ -68,10 +68,11 @@ namespace Calculator.MVVM.ViewModels
         
         public MainViewModel(Repository repository, ILogger<MainViewModel> _log, ISettingsManager settings)
         {
-            logger = _log;
-            logger.LogInformation("MainViewModel started......");
+            _logger = _log;
+            _logger.LogInformation("MainViewModel started......");
             _settings = settings;
             IsDark = (bool)settings.GetParameter(nameof(IsDark));
+            IsFullScreen = (bool)settings.GetParameter(nameof(IsFullScreen));
         }
         private void SetTheme(bool isDark)
         {
