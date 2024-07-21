@@ -17,9 +17,8 @@
                BasedOn="{StaticResource MaterialDesignFloatingActionButton}">
             <Setter Property="Focusable"
                     Value="False" />
-            <Setter Property="IsTabStop"
-                    Value="False" />
         </Style>
+        
     </UserControl.Resources>
     <UserControl.InputBindings>
         <KeyBinding CommandParameter="0"
