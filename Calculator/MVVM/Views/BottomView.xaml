@@ -48,7 +48,7 @@
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <TextBlock Text="Story"
+        <TextBlock Text="History"
                x:Name="txt"
                    Margin="0,10,0,0"
                HorizontalAlignment="Center" />
