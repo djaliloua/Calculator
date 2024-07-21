@@ -63,7 +63,7 @@ namespace Calculator.MVVM.ViewModels
         #region Private properties
         private const int _threshold = 10;
         private readonly Repository _repositoryOperation;
-        private readonly ILogger<BottomViewModel> logger;
+        private readonly ILogger<BottomViewModel> _logger;
         #endregion
 
         #region Commands
@@ -72,12 +72,12 @@ namespace Calculator.MVVM.ViewModels
 
         #region Constructor
         public BottomViewModel(Repository repository, 
-            ILogger<BottomViewModel> _log, 
+            ILogger<BottomViewModel> logger, 
             ILoadService<Operation> loadService):base(loadService)
         {
             _repositoryOperation = repository;
-            logger = _log;
-            logger.LogInformation("BottomViewModel started.....");
+            _logger = logger;
+            _logger.LogInformation("BottomViewModel started.....");
             Init();
             DeleteAllCommand = new DelegateCommand(OnDeleteAll);
         }
