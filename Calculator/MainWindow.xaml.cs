@@ -36,6 +36,7 @@ namespace Calculator
             {
                 layout.keyboard.Focus();
             }
+
            if(content.Content is FullScreenLayout fulllayout)
             {
                 fulllayout.calculator.keyboard.Focus();

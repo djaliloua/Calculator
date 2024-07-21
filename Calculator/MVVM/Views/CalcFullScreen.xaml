@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:Calculator.MVVM.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -21,7 +22,7 @@
         <local:InputResultView Grid.Row="1" />
         <local:KeyboardView Grid.Row="2"
                             Focusable="True"
-                            IsTabStop="True"
+                            FocusVisualStyle="{x:Null}"
                             x:Name="keyboard" />
     </Grid>
 </UserControl>
