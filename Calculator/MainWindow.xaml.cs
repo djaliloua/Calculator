@@ -47,19 +47,17 @@ namespace Calculator
         }
         private void MainWindow_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            _settings.SetParameter(nameof(Width), e.NewSize.Width);
-            _settings.SetParameter(nameof(Height), e.NewSize.Height);
             if (e.NewSize.Height > Height || (e.NewSize.Width - _currentWidth) > _widthThreshold)
             {
                 ServiceLocator.MainViewModel.IsFullScreen = true;
-                _settings.SetParameter("IsFullScreen", true);
             }
             else
             {
                 ServiceLocator.MainViewModel.IsFullScreen = false;
-                _settings.SetParameter("IsFullScreen", false);
             }
-
+            _settings.SetParameter(nameof(Width), e.NewSize.Width);
+            _settings.SetParameter(nameof(Height), e.NewSize.Height);
+            _settings.SetParameter("IsFullScreen", ServiceLocator.MainViewModel.IsFullScreen);
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
