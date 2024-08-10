@@ -11,7 +11,6 @@ Simple calucator to show the use of WPF and meterial design
 - CommunityToolkit.Mvvm
 - FluentValidation
 - Material Design
-</br>
 ### Author
 - Software developer @self employement
 - Abdou Djalilou Ali
