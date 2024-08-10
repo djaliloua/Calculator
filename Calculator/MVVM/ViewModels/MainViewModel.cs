@@ -1,60 +1,37 @@
 ﻿using Calculator.DataAccessLayer.Implementations;
 using Calculator.MVVM.Views;
+using Calculator.MVVM.Views.Standard;
 using Calculator.SettingsLayer.Abstractions;
-using Calculator.SettingsLayer.Implementations;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Extensions.Logging;
 using MVVM;
+using System.Collections.ObjectModel;
 using System.Windows.Controls;
 
 namespace Calculator.MVVM.ViewModels
 {
-
+    public class ControlData
+    {
+        public string Title { get; set; }
+        public string Kind { get; set; }
+        public UserControl UserControl { get; set; }
+        public ControlData()
+        {
+            
+        }
+        public ControlData(string title,string kind, UserControl userControl)
+        {
+            UserControl = userControl;
+            Title = title;
+            Kind = kind;
+        }
+    }
     public class MainViewModel:BaseViewModel
     {
         #region Private properties
-        public static event Action BottomDrawerOpened;
         private ISettingsManager _settings;
         private readonly ILogger<MainViewModel> _logger;
         #endregion
-
-        protected virtual void OnBottomDrawerOpened() => BottomDrawerOpened?.Invoke();
-
-        private bool _canMinimize;
-        public bool IsFullScreen
-        {
-            get => _canMinimize;
-            set => UpdateObservable(ref _canMinimize, value, () =>
-            {
-                if (_canMinimize)
-                {
-                    UserControl = ServiceLocator.GetService<FullScreenLayout>();
-                }
-                else
-                {
-                    UserControl = ServiceLocator.GetService< SmallScreenLayout>();
-                }
-            });
-        }
-        private bool _isBottomDrawerOpen;
-        public bool IsBottomDrawerOpen
-        {
-            get => _isBottomDrawerOpen;
-            set => UpdateObservable(ref _isBottomDrawerOpen, value, () =>
-            {
-                if(value == false)
-                {
-                    OnBottomDrawerOpened();
-                }
-            });
-        }
-        private UserControl _userControl;
-        public UserControl UserControl
-        {
-            get => _userControl;
-            set => UpdateObservable(ref _userControl, value);
-        }
-        
         private bool _isDark;
         public bool IsDark
         {
@@ -65,13 +42,43 @@ namespace Calculator.MVVM.ViewModels
                 _settings.SetParameter(nameof(IsDark), value);
             });
         }
-        
+        public ObservableCollection<ControlData> Controls { get; }
+        private ControlData _selectedControl;
+        public ControlData SelectedControl
+        {
+            get => _selectedControl;
+            set => UpdateObservable(ref _selectedControl, value, () =>
+            {
+                CloseLeftDrawer = false;
+            });
+        }
+        private bool closeLeftDrawer;
+        public bool CloseLeftDrawer
+        {
+            get => closeLeftDrawer;
+            set => UpdateObservable(ref closeLeftDrawer, value);
+        }
+
+        #region Constructor
         public MainViewModel(Repository repository, ILogger<MainViewModel> _log, ISettingsManager settings)
         {
+            Controls ??= new();
+            Init();
             _logger = _log;
             _logger.LogInformation("MainViewModel started......");
             _settings = settings;
             IsDark = (bool)settings.GetParameter(nameof(IsDark));
+        }
+        #endregion
+
+        #region Private methods
+        private void Init()
+        {
+            Controls.Add(new ControlData("Standard", "Calculator", new StandardCalculator()));
+            if(Controls.Count > 0)
+            {
+                SelectedControl = Controls[0];
+            }
         }
         private void SetTheme(bool isDark)
         {
@@ -80,5 +87,6 @@ namespace Calculator.MVVM.ViewModels
             theme.SetBaseTheme(isDark ? BaseTheme.Dark : BaseTheme.Light);
             paletteHelper.SetTheme(theme);
         }
+        #endregion
     }
 }
