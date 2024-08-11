@@ -1,5 +1,6 @@
 ﻿using Calculator.DataAccessLayer.Implementations;
 using Calculator.MVVM.Models;
+using Calculator.MVVM.ViewModels;
 using Calculator.MVVM.Views.Standard;
 using Calculator.SettingsLayer.Abstractions;
 using System.Windows;
@@ -31,8 +32,14 @@ namespace Calculator
             SizeChanged += MainWindow_SizeChanged;
             Closing += MainWindow_Closing;
             StateChanged += MainWindow_StateChanged;
-            listbox.SelectedIndex = 0;
+            MainViewModel.LeftDrawerClosed += MainViewModel_LeftDrawerClosed;
         }
+
+        private void MainViewModel_LeftDrawerClosed()
+        {
+            PopupBox_Closed(null, null);
+        }
+
         private void UIElement_OnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             //until we had a StaysOpen flag to Drawer, this will help with scroll bars

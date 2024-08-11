@@ -30,7 +30,10 @@ namespace Calculator.MVVM.ViewModels
     {
         #region Private properties
         private ISettingsManager _settings;
+        public static event Action LeftDrawerClosed;
         private readonly ILogger<MainViewModel> _logger;
+
+        protected virtual void OnLeftDrawerClosed() => LeftDrawerClosed?.Invoke();
         #endregion
         private bool _isDark;
         public bool IsDark
@@ -56,7 +59,13 @@ namespace Calculator.MVVM.ViewModels
         public bool CloseLeftDrawer
         {
             get => closeLeftDrawer;
-            set => UpdateObservable(ref closeLeftDrawer, value);
+            set => UpdateObservable(ref closeLeftDrawer, value, () =>
+            {
+                if (!CloseLeftDrawer)
+                {
+                    OnLeftDrawerClosed();
+                }
+            });
         }
 
         #region Constructor
