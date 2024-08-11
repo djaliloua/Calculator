@@ -1,12 +1,11 @@
 ﻿using Calculator.DataAccessLayer.Implementations;
 using Calculator.MVVM.Models;
-using Calculator.MVVM.ViewModels;
-using Calculator.MVVM.Views;
+using Calculator.MVVM.Views.Standard;
 using Calculator.SettingsLayer.Abstractions;
-using Calculator.SettingsLayer.Implementations;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace Calculator
 {
@@ -31,52 +30,62 @@ namespace Calculator
             _widthThreshold = (double)_settings.GetParameter("WidthThreshold");
             SizeChanged += MainWindow_SizeChanged;
             Closing += MainWindow_Closing;
-            Loaded += MainWindow_Loaded;
             StateChanged += MainWindow_StateChanged;
-            MainViewModel.BottomDrawerOpened += MainViewModel_BottomDrawerOpened;
+            listbox.SelectedIndex = 0;
         }
+        private void UIElement_OnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            //until we had a StaysOpen flag to Drawer, this will help with scroll bars
+            var dependencyObject = Mouse.Captured as DependencyObject;
 
+            while (dependencyObject != null)
+            {
+                if (dependencyObject is ContentControl) return;
+                dependencyObject = VisualTreeHelper.GetParent(dependencyObject);
+            }
+
+            MenuToggleButton.IsChecked = false;
+        }
         private void MainWindow_StateChanged(object sender, EventArgs e)
         {
             _settings.SetParameter("WindowState", (int)WindowState);
         }
-
-        private void MainViewModel_BottomDrawerOpened()
-        {
-            if(content.Content is SmallScreenLayout layout)
-            {
-                layout.keyboard.Focus();
-            }
-
-           if(content.Content is FullScreenLayout fulllayout)
-            {
-                fulllayout.calculator.keyboard.Focus();
-            }
-        }
+        
         private void MainWindow_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (e.NewSize.Height > Height 
                 || (e.NewSize.Width - _currentWidth) > _widthThreshold)
             {
-                ServiceLocator.MainViewModel.IsFullScreen = true;
+                ServiceLocator.StandardCalculatorViewModel.IsFullScreen = true;
             }
             else
             {
-                ServiceLocator.MainViewModel.IsFullScreen = false;
+                ServiceLocator.StandardCalculatorViewModel.IsFullScreen = false;
             }
             _settings.SetParameter(nameof(Width), e.NewSize.Width);
             _settings.SetParameter(nameof(Height), e.NewSize.Height);
-            _settings.SetParameter("IsFullScreen", ServiceLocator.MainViewModel.IsFullScreen);
+            _settings.SetParameter("IsFullScreen", ServiceLocator.StandardCalculatorViewModel.IsFullScreen);
         }
-
-        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            ServiceLocator.MainViewModel.IsBottomDrawerOpen = false;
-        }
-
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             _repositoryOperation.Delete(new Operation());
+        }
+
+        private void PopupBox_Closed(object sender, RoutedEventArgs e)
+        {
+            if(content.Content is StandardCalculator standard)
+            {
+                if (standard.content.Content is SmallScreenLayout layout)
+                {
+                    layout.keyboard.Focus();
+                }
+
+                if (standard.content.Content is FullScreenLayout fulllayout)
+                {
+                    fulllayout.calculator.keyboard.Focus();
+                }
+            }
+            
         }
     }
 }

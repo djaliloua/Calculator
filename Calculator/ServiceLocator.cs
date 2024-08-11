@@ -1,4 +1,5 @@
 ﻿using Calculator.MVVM.ViewModels;
+using Calculator.MVVM.ViewModels.Standard;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Calculator
@@ -9,6 +10,7 @@ namespace Calculator
         public static MainViewModel MainViewModel => GetService<MainViewModel>();
         public static KeyBoardViewModel KeyBoardViewModel => GetService<KeyBoardViewModel>();
         public static BottomViewModel BottomViewModel => GetService<BottomViewModel>();
+        public static StandardCalculatorViewModel StandardCalculatorViewModel => GetService<StandardCalculatorViewModel>();
         public static T GetService<T>() => App.ServiceProvider.GetRequiredService<T>();
 
     }

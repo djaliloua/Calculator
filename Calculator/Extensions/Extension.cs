@@ -1,6 +1,5 @@
 ﻿using Calculator.DataAccessLayer.Contexts;
 using Calculator.MVVM.ViewModels;
-using Calculator.MVVM.Views;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using NReco.Logging.File;
@@ -9,6 +8,8 @@ using Calculator.MVVM.Models;
 using Patterns.Abstractions;
 using Calculator.SettingsLayer.Abstractions;
 using Calculator.SettingsLayer.Implementations;
+using Calculator.MVVM.Views.Standard;
+using Calculator.MVVM.ViewModels.Standard;
 
 namespace Calculator.Extensions
 {
@@ -20,6 +21,7 @@ namespace Calculator.Extensions
             services.AddSingleton<KeyBoardViewModel>();
             services.AddSingleton<InputResultViewModel>();
             services.AddSingleton<BottomViewModel>();
+            services.AddSingleton<StandardCalculatorViewModel>();
             return services;
         }
         public static IServiceCollection UIExtension(this IServiceCollection services)
