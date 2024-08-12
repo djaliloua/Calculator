@@ -23,7 +23,7 @@
                  IsReadOnly="True"
                  HorizontalContentAlignment="Right"
                  VerticalContentAlignment="Bottom"
-                 Padding="0,0,12,5" />
+                 Padding="0,0,25,5" />
         <TextBox Height="40"
                  x:Name="resultBox"
                  Grid.Row="1"
@@ -36,6 +36,6 @@
                  BorderThickness="0"
                  HorizontalContentAlignment="Right"
                  VerticalContentAlignment="Bottom"
-                 Padding="0,0,12,5" />
+                 Padding="0,0,25,5" />
     </Grid>
 </UserControl>

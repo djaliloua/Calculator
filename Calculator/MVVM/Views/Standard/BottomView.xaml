@@ -69,10 +69,9 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <materialDesign:Badged Badge="{Binding Nbr}"
+        <materialDesign:Badged Badge="12"
                                Grid.Row="1"
                                Focusable="False"
-                               IsTabStop="False"
                                HorizontalAlignment="Center">
             <Button Style="{StaticResource MaterialDesignIconButton}"
                     HorizontalAlignment="Right"

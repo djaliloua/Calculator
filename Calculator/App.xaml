@@ -6,17 +6,20 @@
              Startup="Application_Startup">
     <Application.Resources>
         <ResourceDictionary>
+            
             <local:ServiceLocator x:Key="locator" />
             <ResourceDictionary.MergedDictionaries>
-                <materialDesign:BundledTheme BaseTheme="Inherit"
+                <!--<materialDesign:BundledTheme BaseTheme="Light"
                                              ColorAdjustment="{materialDesign:ColorAdjustment}"
                                              PrimaryColor="DeepPurple"
-                                             SecondaryColor="Lime" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ObsoleteBrushes.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign2.Defaults.xaml" />
-                <ResourceDictionary Source="ResourceDictionary/Colors.xaml" />
+                                             SecondaryColor="Lime" />-->
+                <materialDesign:CustomColorTheme BaseTheme="Light"
+                                                 PrimaryColor="Yellow"
+                                                 SecondaryColor="DarkGreen" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign3.Defaults.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            
         </ResourceDictionary>
-       
+        
     </Application.Resources>
 </Application>

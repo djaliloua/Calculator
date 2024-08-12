@@ -24,6 +24,7 @@
                         HorizontalAlignment="Right"
                         Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
                         CommandParameter="{x:Static Dock.Bottom}"
+                        Padding="0,0,20,0"
                         ToolTip="History">
                     <materialDesign:PackIcon Kind="History" />
                 </Button>
