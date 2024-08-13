@@ -9,13 +9,13 @@
             
             <local:ServiceLocator x:Key="locator" />
             <ResourceDictionary.MergedDictionaries>
-                <!--<materialDesign:BundledTheme BaseTheme="Light"
+                <materialDesign:BundledTheme BaseTheme="Light"
                                              ColorAdjustment="{materialDesign:ColorAdjustment}"
                                              PrimaryColor="DeepPurple"
-                                             SecondaryColor="Lime" />-->
-                <materialDesign:CustomColorTheme BaseTheme="Light"
+                                             SecondaryColor="Lime" />
+                <!--<materialDesign:CustomColorTheme BaseTheme="Light"
                                                  PrimaryColor="Yellow"
-                                                 SecondaryColor="DarkGreen" />
+                                                 SecondaryColor="DarkGreen" />-->
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign3.Defaults.xaml" />
             </ResourceDictionary.MergedDictionaries>
             

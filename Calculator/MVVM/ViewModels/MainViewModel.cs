@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using MVVM;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace Calculator.MVVM.ViewModels
 {
@@ -36,6 +37,7 @@ namespace Calculator.MVVM.ViewModels
         protected virtual void OnLeftDrawerClosed() => LeftDrawerClosed?.Invoke();
         #endregion
         private bool _isDark;
+        private readonly PaletteHelper _paletteHelper;
         public bool IsDark
         {
             get => _isDark;
@@ -72,6 +74,7 @@ namespace Calculator.MVVM.ViewModels
         public MainViewModel(Repository repository, ILogger<MainViewModel> _log, ISettingsManager settings)
         {
             Controls ??= new();
+            _paletteHelper = new PaletteHelper();
             Init();
             _logger = _log;
             _logger.LogInformation("MainViewModel started......");
@@ -91,11 +94,20 @@ namespace Calculator.MVVM.ViewModels
         }
         private void SetTheme(bool isDark)
         {
-            var paletteHelper = new PaletteHelper();
-            var theme = paletteHelper.GetTheme();
-            theme.SetBaseTheme(isDark ? BaseTheme.Dark : BaseTheme.Light);
-            paletteHelper.SetTheme(theme);
+            Theme theme = _paletteHelper.GetTheme();
+            if (isDark)
+            {
+                theme.SetPrimaryColor(Colors.Yellow);
+                theme.SetBaseTheme(BaseTheme.Dark);
+            }
+            else
+            {
+                theme.SetPrimaryColor(Color.FromArgb(255, 103, 58, 183));
+                theme.SetBaseTheme(BaseTheme.Light);
+            }
+            _paletteHelper.SetTheme(theme);
         }
+        
         #endregion
     }
 }
