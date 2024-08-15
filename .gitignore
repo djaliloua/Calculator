@@ -361,3 +361,10 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+# ignore test
+FlaUIWpf/
+
+# Ignore
+
+Calculator/MVVM/Views/OtherControls/
+Calculator/MVVM/ViewModels/OtherControls/

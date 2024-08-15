@@ -97,7 +97,7 @@ namespace Calculator.MVVM.ViewModels
             Theme theme = _paletteHelper.GetTheme();
             if (isDark)
             {
-                theme.SetPrimaryColor(Colors.Yellow);
+                theme.SetPrimaryColor(Color.FromArgb(255, 103, 58, 183));
                 theme.SetBaseTheme(BaseTheme.Dark);
             }
             else

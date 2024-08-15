@@ -69,7 +69,7 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <materialDesign:Badged Badge="12"
+        <materialDesign:Badged Badge="{Binding Nbr}"
                                Grid.Row="1"
                                Focusable="False"
                                HorizontalAlignment="Center">
