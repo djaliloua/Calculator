@@ -1,7 +1,7 @@
 using static ArchUnitNET.Fluent.ArchRuleDefinition;
 using ArchUnitNET.xUnit;
 using Calculator.MVVM.ViewModels;
-using Calculator.MVVM.Views;
+using Calculator.MVVM.Views.Standard;
 
 namespace Calculator.Fitness.Test.Fitness.MVVM.ViewModels
 {
