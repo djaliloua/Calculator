@@ -1,24 +1,41 @@
-﻿using Patterns.Abstractions;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Windows;
+using System.Windows.Data;
+using Patterns.Abstractions;
 
-namespace Patterns.Implementations
+namespace Patterns.Implementation
 {
-    public abstract class Loadable<TItem> : ILoadable<TItem>, ILoadableService<TItem>, INotifyPropertyChanged, IActivity where TItem : class
+    public class Loadable<TItem> : ILoadable<TItem>, ILoadableService<TItem>, INotifyPropertyChanged, IActivity where TItem : class
     {
-        public abstract Task LoadItems();
-        protected abstract void Reorder();
-        protected Loadable()
+        private ICollectionView _view;
+        protected SortDescription SortDescription;
+        protected Application App;
+        public Loadable()
         {
             Items.CollectionChanged += Items_CollectionChanged;
         }
-
-        private void Items_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        protected void SetSortingProperty()
         {
-            ItemsCollectionChanged(e);
+            try
+            {
+                _view = CollectionViewSource.GetDefaultView(Items);
+                _view.SortDescriptions.Clear();
+                _view.SortDescriptions.Add(SortDescription);
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
-        protected virtual void ItemsCollectionChanged(System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        protected void SetSortDescription(SortDescription sortDescription)
+        {
+            SortDescription = sortDescription;
+        }
+
+        protected virtual void Items_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             Counter = Items.Count;
         }
@@ -29,12 +46,13 @@ namespace Patterns.Implementations
             get => _selectedItem;
             set => UpdateObservable(ref _selectedItem, value, () => SelectedItemCallBack(value));
         }
-        private ObservableCollection<TItem> _items;
-        public ObservableCollection<TItem> Items
+        private bool isRefreshed;
+        public bool IsRefreshed
         {
-            get => _items ?? new ObservableCollection<TItem>();
-            set => UpdateObservable(ref _items, value, () => ItemsCallBack(value));
+            get => isRefreshed;
+            set => UpdateObservable(ref isRefreshed, value);
         }
+
         public bool IsSelected => SelectedItem != null;
         private int _counter;
         public int Counter
@@ -48,7 +66,7 @@ namespace Patterns.Implementations
         public int NumberOfItems
         {
             get => _numberOfItems;
-            set => UpdateObservable(ref _numberOfItems, value);
+            set => UpdateObservable(ref _numberOfItems, value, () => NumberOfItemsChanged(value));
         }
         private bool _isActivity;
         public bool IsActivity
@@ -56,11 +74,30 @@ namespace Patterns.Implementations
             get => _isActivity;
             set => UpdateObservable(ref _isActivity, value);
         }
+        private ObservableCollection<TItem> _items;
+        public ObservableCollection<TItem> Items
+        {
+            get => _items ?? new ObservableCollection<TItem>();
+            set => UpdateObservable(ref _items, value, () => ItemsCallBack(value));
+        }
+
+        #region Protected Methods
+        protected virtual void NumberOfItemsChanged(int count)
+        {
+
+        }
+        #endregion
 
         #region Public Methods
         public virtual void SelectedItemCallBack(TItem item)
         {
 
+        }
+
+        public Task LoadItems(IEnumerable<TItem> items)
+        {
+            SetItems(items);
+            return Task.CompletedTask;
         }
         public virtual void ItemsCallBack(IList<TItem> item)
         {
@@ -68,38 +105,48 @@ namespace Patterns.Implementations
         }
         public virtual bool ItemExist(TItem item)
         {
-            return _items.Contains(item);
+            return Items.Contains(item);
         }
-        public virtual void SetItems(IList<TItem> items)
+        public virtual void SetItems(IEnumerable<TItem> items)
         {
-            Items = new ObservableCollection<TItem>(items);
-            Notify();
+            try
+            {
+                Items = new ObservableCollection<TItem>(items);
+                NumberOfItems = Items.Count;
+                OnPropertyChanged(nameof(Items));
+                App.Dispatcher.BeginInvoke(() => SetSortingProperty());
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
         }
-        public virtual void AddOrUpdateItem(TItem item)
+        public virtual void SaveOrUpdateItem(TItem item)
         {
-            if (!Items.Contains(item))
+            if (!ItemExist(item))
                 AddItem(item);
             else
                 UpdateItem(item);
-            Notify();
+
         }
         public virtual void DeleteAllItems()
         {
             Items.Clear();
             Counter = Items.Count;
-            Notify();
+            SetItems(Items);
         }
         public virtual void DeleteItem(TItem item)
         {
             Items.Remove(item);
             Counter = Items.Count;
+            SetItems(Items);
         }
 
         public virtual void AddItem(TItem item)
         {
             Items.Add(item);
             Counter = Items.Count;
-            Reorder();
+            SetItems(Items);
         }
         protected virtual int Index(TItem item)
         {
@@ -113,6 +160,7 @@ namespace Patterns.Implementations
                 Items.RemoveAt(index);
                 Items.Insert(index, item);
             }
+            Notify();
         }
 
         public virtual ObservableCollection<TItem> GetItems()

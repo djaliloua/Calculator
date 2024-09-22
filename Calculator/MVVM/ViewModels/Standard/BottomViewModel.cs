@@ -4,8 +4,9 @@ using Calculator.SettingsLayer.Abstractions;
 using Microsoft.Extensions.Logging;
 using MVVM;
 using Patterns.Abstractions;
-using Patterns.Implementations;
+using Patterns.Implementation;
 using System.ComponentModel;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -13,10 +14,7 @@ namespace Calculator.MVVM.ViewModels.Standard
 {
     public class BottomViewModelLoadable<TItem> : Loadable<TItem> where TItem : Operation
     {
-        public BottomViewModelLoadable(ILoadService<TItem> loadService):base(loadService)
-        {
-            
-        }
+        
         private bool _isLblVisible;
         public bool IsLblVisible
         {
@@ -77,13 +75,14 @@ namespace Calculator.MVVM.ViewModels.Standard
         #region Constructor
         public BottomViewModel(
             ILogger<BottomViewModel> logger,
-            ISettingsManager settings,
-            ILoadService<Operation> loadService):base(loadService)
+            ISettingsManager settings)
         {
             _logger = logger;
             _settings = settings;
             _threshold = (int)_settings.GetParameter("CountThreshold");
             _logger.LogInformation("BottomViewModel started.....");
+            App = Application.Current;
+            SetSortDescription(new SortDescription("Id", ListSortDirection.Descending));
             Init();
             DeleteAllCommand = new DelegateCommand(OnDeleteAll);
         }
@@ -112,13 +111,6 @@ namespace Calculator.MVVM.ViewModels.Standard
         #endregion
 
         #region Override Methods
-        public override void AddItem(Operation item)
-        {
-            base.AddItem(item);
-            _myCollectionView = CollectionViewSource.GetDefaultView(Items);
-            _myCollectionView.SortDescriptions.Clear();
-            _myCollectionView.SortDescriptions.Add(new SortDescription("Id", ListSortDirection.Descending));
-        }
         public override void DeleteAllItems()
         {
             using var repo = new Repository();
