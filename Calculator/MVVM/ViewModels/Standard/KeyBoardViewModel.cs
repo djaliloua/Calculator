@@ -9,21 +9,29 @@ namespace Calculator.MVVM.ViewModels.Standard
 {
     public class KeyBoardViewModel:BaseViewModel
     {
+        #region Private properties
         private string specialCharackers = "*,.+/*-%";
-        private Repository repository;
+        #endregion
+
+        #region Commands
         public ICommand AddInputCommand { get; private set; }
         public ICommand ResultCommand { get; private set; }
         public ICommand DeleteAllCommand { get; private set; }
         public ICommand DeleteCommand { get; private set; }
-        public KeyBoardViewModel(Repository repository)
+        #endregion
+
+        #region Constructor
+        public KeyBoardViewModel()
         {
-            this.repository = repository;
-            AddInputCommand = new DelegateCommand(addinput);
-            ResultCommand = new DelegateCommand(on_result);
-            DeleteAllCommand = new DelegateCommand(on_delete_all); 
-            DeleteCommand = new DelegateCommand(on_delete);
+            AddInputCommand = new DelegateCommand(AddInput);
+            ResultCommand = new DelegateCommand(OnResult);
+            DeleteAllCommand = new DelegateCommand(OnDeleteAll); 
+            DeleteCommand = new DelegateCommand(OnDelete);
         }
-        private void on_delete(object parameter)
+        #endregion
+
+        #region Handlers
+        private void OnDelete(object parameter)
         {
             InputResultViewModel input = ServiceLocator.InputResultViewModel;
             if (input.InputText.Length > 1)
@@ -36,12 +44,12 @@ namespace Calculator.MVVM.ViewModels.Standard
                 input.OutputText = input.InputText;
             }
         }
-        private void on_delete_all(object parameter)
+        private void OnDeleteAll(object parameter)
         {
             ServiceLocator.InputResultViewModel.InputText = "0";
             ServiceLocator.InputResultViewModel.OutputText = "0";
         }
-        private void on_result(object parameter)
+        private void OnResult(object parameter)
         {
             InputResultViewModel input = ServiceLocator.InputResultViewModel;
             try
@@ -63,7 +71,8 @@ namespace Calculator.MVVM.ViewModels.Standard
                 input.OutputText = Utility.RemoveComma(input.OutputText);
                 if (ServiceLocator.BottomViewModel.IsPresent(input.InputText) && !string.IsNullOrEmpty(input.InputText))
                 {
-                    var op = repository.SaveOrUpdate(new(input.InputText, input.OutputText));
+                    using var repo = new Repository();
+                    var op = repo.SaveOrUpdate(new(input.InputText, input.OutputText));
                     ServiceLocator.BottomViewModel.AddItem(op);
                 }
             }
@@ -78,7 +87,7 @@ namespace Calculator.MVVM.ViewModels.Standard
             }
 
         }
-        private void addinput(object parameter)
+        private void AddInput(object parameter)
         {
             string p = parameter as string;
             if (!string.IsNullOrEmpty(p))
@@ -107,5 +116,6 @@ namespace Calculator.MVVM.ViewModels.Standard
 
             }
         }
+        #endregion
     }
 }

@@ -91,7 +91,6 @@
                                  x:Name="content"
                                  Padding="20" />
             </DockPanel>
-
         </materialDesign:DrawerHost>
     </materialDesign:DialogHost>
 </Window>

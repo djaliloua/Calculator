@@ -5,54 +5,53 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Calculator.DataAccessLayer.Implementations
 {
-    public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
+    public class GenericRepository<T> : IGenericRepository<T>, IDisposable where T : BaseEntity
     {
-        protected readonly OperationContext _context;
-        protected readonly DbSet<T> _entities;
-        public GenericRepository(OperationContext context)
-        {
-            _context = context;
-            _entities = _context.Set<T>();
-            _context.Database.EnsureCreated();
-        }
+        public OperationContext _context;
+        private bool _isDisposed;
         public GenericRepository()
         {
-            _context = ServiceLocator.GetService<OperationContext>();
-            _entities = _context.Set<T>();
+            _context = new OperationContext();
             _context.Database.EnsureCreated();
         }
         public virtual void Delete(T item)
         {
-            _entities.Remove(item);
+            _context.Set<T>().Remove(item);
             _context.SaveChanges();
         }
 
         public virtual IEnumerable<T> GetAllItems()
         {
-            return _entities.ToList();
+            return _context.Set<T>().ToList();
         }
 
         public virtual T GetItemById(int id)
         {
-            return _entities.Find(id);
+            return _context.Set<T>().Find(id);
         }
 
         public virtual bool HasItem(T item)
         {
-            return _entities.Any(x => x.Id==item.Id);
+            return _context.Set<T>().Any(x => x.Id==item.Id);
         }
         public virtual T SaveOrUpdate(T item)
         {
             if(item.Id != 0)
             {
-                _context.Entry(item).OriginalValues.SetValues(item);
+                _context.Update(item);
             }
             else
             {
-                _entities.Add(item);
+                _context.Set<T>().Add(item);
             }
             _context.SaveChanges();
             return item;
+        }
+        public void Dispose()
+        {
+            if (_context != null)
+                _context.Dispose();
+            _isDisposed = true;
         }
     }
 }

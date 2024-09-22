@@ -1,11 +1,12 @@
-﻿
-using Calculator.DataAccessLayer.Implementations;
+﻿using Calculator.DataAccessLayer.Implementations;
 using Calculator.MVVM.Models;
 using Calculator.SettingsLayer.Abstractions;
 using Microsoft.Extensions.Logging;
 using MVVM;
 using Patterns.Abstractions;
 using Patterns.Implementations;
+using System.ComponentModel;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace Calculator.MVVM.ViewModels.Standard
@@ -57,7 +58,7 @@ namespace Calculator.MVVM.ViewModels.Standard
     {
         public IList<Operation> Reorder(IList<Operation> items)
         {
-            return items.OrderByDescending(o => o.Id).ToList();
+            return items;
         }
     }
     public class BottomViewModel: BottomViewModelLoadable<Operation>
@@ -65,8 +66,8 @@ namespace Calculator.MVVM.ViewModels.Standard
         #region Private properties
         private readonly int _threshold;
         private readonly ISettingsManager _settings;
-        private readonly Repository _repositoryOperation;
         private readonly ILogger<BottomViewModel> _logger;
+        private ICollectionView _myCollectionView;
         #endregion
 
         #region Commands
@@ -74,12 +75,11 @@ namespace Calculator.MVVM.ViewModels.Standard
         #endregion
 
         #region Constructor
-        public BottomViewModel(Repository repository, 
+        public BottomViewModel(
             ILogger<BottomViewModel> logger,
             ISettingsManager settings,
             ILoadService<Operation> loadService):base(loadService)
         {
-            _repositoryOperation = repository;
             _logger = logger;
             _settings = settings;
             _threshold = (int)_settings.GetParameter("CountThreshold");
@@ -94,9 +94,13 @@ namespace Calculator.MVVM.ViewModels.Standard
         {
             await Task.Run(async () =>
             {
-                await LoadItems(_repositoryOperation.GetAllItems());
+                using var repo = new Repository();
+                await LoadItems(repo.GetAllItems());
                 IsLblVisible = !IsEmpty;
             });
+            _myCollectionView = CollectionViewSource.GetDefaultView(Items);
+            _myCollectionView.SortDescriptions.Clear();
+            _myCollectionView.SortDescriptions.Add(new SortDescription("Id", ListSortDirection.Descending));
         }
         #endregion
 
@@ -108,9 +112,17 @@ namespace Calculator.MVVM.ViewModels.Standard
         #endregion
 
         #region Override Methods
+        public override void AddItem(Operation item)
+        {
+            base.AddItem(item);
+            _myCollectionView = CollectionViewSource.GetDefaultView(Items);
+            _myCollectionView.SortDescriptions.Clear();
+            _myCollectionView.SortDescriptions.Add(new SortDescription("Id", ListSortDirection.Descending));
+        }
         public override void DeleteAllItems()
         {
-            _repositoryOperation.DeleteAllAsync();
+            using var repo = new Repository();
+            repo.DeleteAllAsync();
             base.DeleteAllItems();
         }
         protected override void NumberOfItemsChanged(int count)

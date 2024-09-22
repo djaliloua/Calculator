@@ -1,4 +1,5 @@
 ﻿using Calculator.DataAccessLayer.Abstractions;
+using Calculator.DataAccessLayer.Contexts;
 using Calculator.MVVM.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,15 +7,19 @@ namespace Calculator.DataAccessLayer.Implementations
 {
     public class Repository : GenericRepository<Operation>, IRepository
     {
+        public Repository()
+        {
+            _context = ServiceLocator.GetService<OperationContext>();
+        }
         public async void DeleteAllAsync()
         {
-            await _entities.ExecuteDeleteAsync();
+            await _context.Operations.ExecuteDeleteAsync();
             await _context.SaveChangesAsync();
         }
 
         public override void Delete(Operation item)
         {
-            _entities
+            _context.Operations
                 .FromSql($"delete from OperationsTable\r\nwhere JULIANDAY(date('now')) - JULIANDAY(date(OperationDate)) > 10;");
         }
     }
