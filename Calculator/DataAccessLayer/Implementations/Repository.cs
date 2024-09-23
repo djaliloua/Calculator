@@ -10,6 +10,7 @@ namespace Calculator.DataAccessLayer.Implementations
         public Repository()
         {
             _context = ServiceLocator.GetService<OperationContext>();
+            _context.Database.EnsureCreated();
         }
         public async void DeleteAllAsync()
         {

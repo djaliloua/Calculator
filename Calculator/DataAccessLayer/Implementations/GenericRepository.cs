@@ -1,7 +1,6 @@
 ﻿using Calculator.DataAccessLayer.Abstractions;
 using Calculator.DataAccessLayer.Contexts;
 using Calculator.MVVM.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace Calculator.DataAccessLayer.Implementations
 {
