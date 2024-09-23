@@ -12,7 +12,6 @@ namespace Patterns.Implementation
     {
         private ICollectionView _view;
         protected SortDescription SortDescription;
-        protected Application App;
         public Loadable()
         {
             Items.CollectionChanged += Items_CollectionChanged;
@@ -27,7 +26,7 @@ namespace Patterns.Implementation
             }
             catch (Exception ex)
             {
-
+                Debug.WriteLine(ex.Message);
             }
         }
         protected void SetSortDescription(SortDescription sortDescription)
@@ -114,7 +113,7 @@ namespace Patterns.Implementation
                 Items = new ObservableCollection<TItem>(items);
                 NumberOfItems = Items.Count;
                 OnPropertyChanged(nameof(Items));
-                App.Dispatcher.BeginInvoke(() => SetSortingProperty());
+                Application.Current.Dispatcher.BeginInvoke(() => SetSortingProperty());
             }
             catch(Exception ex)
             {

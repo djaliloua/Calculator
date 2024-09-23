@@ -81,7 +81,6 @@ namespace Calculator.MVVM.ViewModels.Standard
             _settings = settings;
             _threshold = (int)_settings.GetParameter("CountThreshold");
             _logger.LogInformation("BottomViewModel started.....");
-            App = Application.Current;
             SetSortDescription(new SortDescription("Id", ListSortDirection.Descending));
             Init();
             DeleteAllCommand = new DelegateCommand(OnDeleteAll);
