@@ -69,11 +69,11 @@ namespace Calculator.MVVM.ViewModels.Standard
                 input.OutputText = Utility.RemoveComma(input.OutputText);
                 input.OutputText = Utility.RoundOutput(input.OutputText);
                 input.OutputText = Utility.RemoveComma(input.OutputText);
-                if (ServiceLocator.BottomViewModel.IsPresent(input.InputText) && !string.IsNullOrEmpty(input.InputText))
+                if (ServiceLocator.BottomViewModel.OperationVM.IsPresent(input.InputText) && !string.IsNullOrEmpty(input.InputText))
                 {
                     using var repo = new Repository();
                     var op = repo.SaveOrUpdate(new(input.InputText, input.OutputText));
-                    ServiceLocator.BottomViewModel.AddItem(op);
+                    ServiceLocator.BottomViewModel.OperationVM.AddItem(op);
                 }
             }
             catch (FormatException fe)

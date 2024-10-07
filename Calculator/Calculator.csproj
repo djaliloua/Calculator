@@ -9,6 +9,12 @@
     <UserSecretsId>e5b76b3a-73c8-4e6c-853e-be95de07c19f</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="SharedDll\**" />
+    <EmbeddedResource Remove="SharedDll\**" />
+    <None Remove="SharedDll\**" />
+    <Page Remove="SharedDll\**" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="calculator.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -37,8 +43,5 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="SharedDll\" />
   </ItemGroup>
 </Project>

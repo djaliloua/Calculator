@@ -25,12 +25,12 @@
         </Style>
         <Style TargetType="TextBlock">
             <Style.Triggers>
-                <DataTrigger Binding="{Binding IsLblVisible}"
+                <DataTrigger Binding="{Binding OperationVM.IsLblVisible}"
                              Value="false">
                     <Setter Property="Visibility"
                             Value="Visible" />
                 </DataTrigger>
-                <DataTrigger Binding="{Binding IsLblVisible}"
+                <DataTrigger Binding="{Binding OperationVM.IsLblVisible}"
                              Value="true">
                     <Setter Property="Visibility"
                             Value="Hidden" />
@@ -52,9 +52,9 @@
                x:Name="txt"
                    Margin="0,10,0,0"
                HorizontalAlignment="Center" />
-        <ListBox ItemsSource="{Binding Items}"
+        <ListBox ItemsSource="{Binding OperationVM.Items}"
                  x:Name="listbox"
-                 SelectedValue="{Binding SelectedItem}"
+                 SelectedValue="{Binding OperationVM.SelectedItem}"
                  HorizontalContentAlignment="Right"
                  ScrollViewer.VerticalScrollBarVisibility="Hidden">
             <ListBox.ItemTemplate>
@@ -69,7 +69,7 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <materialDesign:Badged Badge="{Binding Nbr}"
+        <materialDesign:Badged Badge="{Binding OperationVM.Nbr}"
                                Grid.Row="1"
                                Focusable="False"
                                HorizontalAlignment="Center">

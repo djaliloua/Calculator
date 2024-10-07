@@ -11,6 +11,7 @@ namespace Calculator
         public static KeyBoardViewModel KeyBoardViewModel => GetService<KeyBoardViewModel>();
         public static BottomViewModel BottomViewModel => GetService<BottomViewModel>();
         public static StandardCalculatorViewModel StandardCalculatorViewModel => GetService<StandardCalculatorViewModel>();
+        public static OperationListViewModel OperationListViewModel => GetService<OperationListViewModel>();
         public static T GetService<T>() => App.ServiceProvider.GetRequiredService<T>();
 
     }

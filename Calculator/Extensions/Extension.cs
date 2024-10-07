@@ -21,6 +21,7 @@ namespace Calculator.Extensions
             services.AddSingleton<KeyBoardViewModel>();
             services.AddSingleton<InputResultViewModel>();
             services.AddSingleton<BottomViewModel>();
+            services.AddSingleton<OperationListViewModel>();
             services.AddSingleton<StandardCalculatorViewModel>();
             return services;
         }
@@ -55,7 +56,7 @@ namespace Calculator.Extensions
         }
         public static IServiceCollection BIExtension(this IServiceCollection services)
         {
-            services.AddScoped<ILoadService<Operation>, LoadOperationService>();
+
             return services;
         }
     }
