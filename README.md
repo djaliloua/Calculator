@@ -20,4 +20,4 @@ Simple calucator to show the use of WPF and meterial design
 ![alt text](calculator.gif)
 
 ### Other projects on Maui
-![Purchase Management System](https://github.com/djaliloua/DLT)
+[Purchase Management System](https://github.com/djaliloua/DLT)
