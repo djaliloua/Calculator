@@ -1,4 +1,4 @@
-![example branch parameter](https://img.shields.io/badge/build-passing-green)
+[![Wpf Application](https://github.com/djaliloua/Calculator/actions/workflows/dotnet-desktop.yml/badge.svg)](https://github.com/djaliloua/Calculator/actions/workflows/dotnet-desktop.yml)
 # Calculator(Wpf)
 Simple calucator to show the use of WPF and meterial design
 ### Technologies
