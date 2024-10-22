@@ -1,0 +1,105 @@
+﻿<Window x:Class="RegistrationApplication.MVVM.Views.TrainersView.TrainerRegistrationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:RegistrationApplication.MVVM.Views.TrainersView"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterOwner"
+        DataContext="{Binding Source={StaticResource locator}, Path=TrainerRegistrationWinViewModel}"
+        Title="Form"
+        Height="550"
+        Width="450">
+    <ScrollViewer VerticalScrollBarVisibility="Hidden" Margin="10">
+        <Grid Margin="15">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="100" />
+                    <RowDefinition Height="150" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Horizontal">
+                    <TextBox MaxWidth="400"
+                             Width="200"
+                             VerticalAlignment="Top"
+                             materialDesign:HintAssist.Hint="First Name"
+                             AcceptsReturn="True"
+                             Text="{Binding TrainerViewModel.FirstName}"
+                             IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignFilledTextBoxEnabledComboBox}"
+                             Style="{StaticResource MaterialDesignFilledTextBox}"
+                             TextWrapping="Wrap"
+                             Margin="10" />
+                    <TextBox MaxWidth="400"
+                             VerticalAlignment="Top"
+                             materialDesign:HintAssist.Hint="Last Name"
+                             AcceptsReturn="True"
+                             Width="200"
+                             Text="{Binding TrainerViewModel.LastName}"
+                             IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignFilledTextBoxEnabledComboBox}"
+                             Style="{StaticResource MaterialDesignFilledTextBox}"
+                             TextWrapping="Wrap"
+                             Margin="10" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal"
+                            Grid.Row="1">
+                    <TextBox MaxWidth="400"
+                             Width="200"
+                             VerticalAlignment="Top"
+                             materialDesign:HintAssist.Hint="Age"
+                             AcceptsReturn="True"
+                             Text="{Binding TrainerViewModel.Age}"
+                             IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignFilledTextBoxEnabledComboBox}"
+                             Style="{StaticResource MaterialDesignFilledTextBox}"
+                             TextWrapping="Wrap"
+                             Margin="10" />
+                    <TextBox MaxWidth="400"
+                             VerticalAlignment="Top"
+                             materialDesign:HintAssist.Hint="Education Level"
+                             AcceptsReturn="True"
+                             Width="200"
+                             Text="{Binding TrainerViewModel.EducationLevel}"
+                             IsEnabled="{Binding Path=IsChecked, ElementName=MaterialDesignFilledTextBoxEnabledComboBox}"
+                             Style="{StaticResource MaterialDesignFilledTextBox}"
+                             TextWrapping="Wrap"
+                             Margin="10" />
+                </StackPanel>
+                <TextBox Grid.Row="2"
+                         HorizontalScrollBarVisibility="Hidden"
+                         VerticalAlignment="Top"
+                         VerticalContentAlignment="Top"
+                         Text="{Binding TrainerViewModel.ShortDescription}"
+                         materialDesign:HintAssist.Hint="Short Decription"
+                         materialDesign:TextFieldAssist.CharacterCounterVisibility="Visible"
+                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                         TextWrapping="Wrap"
+                         VerticalScrollBarVisibility="Auto" />
+                <StackPanel Grid.Row="3"
+                            Orientation="Horizontal">
+                    <Button Content="Choose file"
+                            Margin="10"
+                            Width="150"
+                            Command="{Binding ChoosePictureCommand}"
+                            VerticalAlignment="Center" />
+                    <TextBlock x:Name="fileTxt"
+                               Margin="10"
+                               Text="{Binding TrainerViewModel.PicturePath.FileName}"
+                               VerticalAlignment="Center" />
+                </StackPanel>
+                <Button Content="Save"
+                        HorizontalAlignment="Left" 
+                        Command="{Binding SaveCommand}"
+                        Width="150"
+                        Grid.Row="4" />
+            </Grid>
+            <!--<DataGrid Grid.Row="1">
+    
+</DataGrid>-->
+        </Grid>
+    </ScrollViewer>
+</Window>

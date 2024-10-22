@@ -1,0 +1,58 @@
+﻿<UserControl x:Class="RegistrationApplication.MVVM.Views.TrainersView.TrainerRegistrationView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:local="clr-namespace:RegistrationApplication.MVVM.Views.TrainersView"
+             DataContext="{Binding Source={StaticResource locator}, Path=TrainerRegistrationViewModel}"
+             mc:Ignorable="d"
+             x:Name="trainnnnnn"
+             d:DesignHeight="450"
+             d:DesignWidth="800">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <ListView IsSynchronizedWithCurrentItem="True" ScrollViewer.VerticalScrollBarVisibility="Hidden" ItemsSource="{Binding TrainersProfilesVM.Items}"
+                  SelectedItem="{Binding TrainersProfilesVM.SelectedItem}">
+            <ListView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Open"
+                              DataContext="{Binding Source={StaticResource locator}, Path=TrainerRegistrationViewModel}"
+                              Command="{Binding OpenCommand}"/>
+                    <MenuItem Header="Update"
+                              DataContext="{Binding Source={StaticResource locator}, Path=TrainerRegistrationViewModel}"
+                              Command="{Binding UpdateCommand}" />
+                    <MenuItem Header="Delete"
+                              DataContext="{Binding Source={StaticResource locator}, Path=TrainerRegistrationViewModel}"
+                              Command="{Binding DeleteCommand}" />
+                </ContextMenu>
+            </ListView.ContextMenu>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="LastName"
+                                    DisplayMemberBinding="{Binding LastName}" />
+                    <GridViewColumn Header="FirstName"
+                                    DisplayMemberBinding="{Binding FirstName}" />
+                    <GridViewColumn Header="EducationLevel"
+                                    DisplayMemberBinding="{Binding EducationLevel}" />
+                    <GridViewColumn Header="JobTitle"
+                                    DisplayMemberBinding="{Binding JobTitle}" />
+                    <GridViewColumn Header="Age"
+                                    DisplayMemberBinding="{Binding Age}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button Grid.Row="1"
+                HorizontalAlignment="Right"
+                Margin="0,0,40,40"
+                Command="{Binding AddCommand}"
+                IsEnabled="{Binding DataContext.ControlsEnabled, RelativeSource={RelativeSource FindAncestor, AncestorType=Window}}"
+                Style="{StaticResource MaterialDesignFloatingActionButton}"
+                ToolTip="MaterialDesignFloatingActionButton">
+            <materialDesign:PackIcon Kind="Plus" />
+        </Button>
+    </Grid>
+</UserControl>

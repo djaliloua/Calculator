@@ -112,8 +112,8 @@ namespace Patterns.Implementation
             {
                 Items = new ObservableCollection<TItem>(items);
                 NumberOfItems = Items.Count;
-                OnPropertyChanged(nameof(Items));
-                Application.Current.Dispatcher.BeginInvoke(() => SetSortingProperty());
+                if(SortDescription.PropertyName != null)
+                    Application.Current.Dispatcher.BeginInvoke(() => SetSortingProperty());
             }
             catch(Exception ex)
             {
@@ -145,7 +145,8 @@ namespace Patterns.Implementation
         {
             Items.Add(item);
             Counter = Items.Count;
-            SetItems(Items);
+            var tempItems = new List<TItem>(Items);
+            SetItems(tempItems);
         }
         protected virtual int Index(TItem item)
         {
