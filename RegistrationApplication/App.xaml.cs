@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Mapster;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RegistrationApplication.Extensions;
 using System.Configuration;
@@ -20,7 +21,8 @@ namespace RegistrationApplication
                 .AddUserSecrets<App>()
                 .Build()
                 ;
-
+            // break circular reference in mapster
+            TypeAdapterConfig.GlobalSettings.Default.PreserveReference(true);
             ServiceCollection services = new ServiceCollection();
             services
                 .AddViewModel()

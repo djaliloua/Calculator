@@ -20,6 +20,7 @@ namespace RegistrationApplication
         {
             InitializeComponent();
         }
+
         private void UIElement_OnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             //until we had a StaysOpen flag to Drawer, this will help with scroll bars

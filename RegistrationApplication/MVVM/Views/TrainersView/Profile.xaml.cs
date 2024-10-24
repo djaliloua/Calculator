@@ -1,16 +1,17 @@
-﻿using System.IO;
+﻿using RegistrationApplication.Utility;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media.Imaging;
+using System.Windows.Media;
+using Drawing = System.Drawing;
 
 namespace RegistrationApplication.MVVM.Views.TrainersView
 {
     /// <summary>
-    /// Interaction logic for ProfileView.xaml
+    /// Interaction logic for Profile.xaml
     /// </summary>
-    public partial class ProfileView : UserControl
+    public partial class Profile : UserControl
     {
-        public ProfileView()
+        public Profile()
         {
             InitializeComponent();
         }
@@ -34,34 +35,14 @@ namespace RegistrationApplication.MVVM.Views.TrainersView
             {
                 byte[] b = (byte[])e.NewValue;
                 if (b.Length > 0)
-                    image.Source = ConvertToBitmap(b);
+                    image.Source = ImageUtility.ConvertToBitmap(b);
             }
-        }
-        public static BitmapImage ConvertToBitmap(byte[] imageData)
-        {
-            BitmapImage bmp = new BitmapImage();
-
-            using (MemoryStream strm = new MemoryStream())
-            using (MemoryStream ms = new MemoryStream())
+            else
             {
-                strm.Write(imageData, 0, imageData.Length);
-                strm.Position = 0;
-
-                System.Drawing.Image img = System.Drawing.Image.FromStream(strm);
-
-                img.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
-                ms.Seek(0, SeekOrigin.Begin);
-
-                bmp.BeginInit();
-                bmp.CacheOption = BitmapCacheOption.OnLoad;
-                bmp.StreamSource = ms;
-                bmp.EndInit();
-                bmp.Freeze();
-
-                return bmp;
+                image.Source = ImageUtility.ConvertToBitmap(ImageUtility.ImageToByteArray(Drawing.Image.FromFile(@"DefaultResources\h1.png")));
             }
         }
+        
 
     }
-    
 }

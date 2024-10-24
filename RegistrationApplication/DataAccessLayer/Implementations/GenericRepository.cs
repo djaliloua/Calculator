@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RegistrationApplication.DataAccessLayer.Abstractions;
-using RegistrationApplication.Models;
+using RegistrationApplication.DataAccessLayer.DataContext;
 
 namespace RegistrationApplication.DataAccessLayer.Implementations
 {
@@ -11,7 +11,7 @@ namespace RegistrationApplication.DataAccessLayer.Implementations
         protected DbSet<T> _table;
         public GenericRepository()
         {
-            _dbContext = new Solution4Africa_MainContext();
+            _dbContext = new TrainerDataContext();
             _table = _dbContext.Set<T>();
             _dbContext.Database.EnsureCreated();
         }
@@ -41,9 +41,6 @@ namespace RegistrationApplication.DataAccessLayer.Implementations
                 {
                     _dbContext.Dispose();
                 }
-
-                // TODO: free unmanaged resources (unmanaged objects) and override finalizer
-                // TODO: set large fields to null
                 disposedValue = true;
             }
         }
@@ -71,9 +68,10 @@ namespace RegistrationApplication.DataAccessLayer.Implementations
 
         public T Update(T entity)
         {
-            _table.Attach(entity);
-            //Then set the state of the Entity as Modified
-            _dbContext.Entry(entity).State = EntityState.Modified;
+            //_table.Attach(entity);
+            ////Then set the state of the Entity as Modified
+            //_dbContext.Entry(entity).State = EntityState.Modified;
+            _dbContext.Update(entity);
             _dbContext.SaveChanges();
             return entity;
         }

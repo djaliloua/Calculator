@@ -1,8 +1,8 @@
-﻿using Microsoft.Win32;
-using Patterns.Implementation;
+﻿using Patterns.Implementation;
 using RegistrationApplication.DataAccessLayer.Implementations;
 using RegistrationApplication.Extensions;
-using RegistrationApplication.MVVM.Views.TrainersView;
+using RegistrationApplication.Utility;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Drawing;
 using System.IO;
@@ -11,13 +11,94 @@ using System.Windows.Input;
 
 namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
 {
-    public interface IClone<T>
+    public class ExperienceViewModel : BaseViewModel, IClone<ExperienceViewModel>, IDataErrorInfo
     {
-        public T Clone();
+        #region Properties
+        public int ExperienceId { get; set; }
+        private string _position;
+        public string Position
+        {
+            get => _position;
+            set => UpdateObservable(ref _position, value);  
+        }
+
+        private string _description;
+        public string Description
+        {
+            get => _description;
+            set => UpdateObservable(ref _description, value);
+        }
+
+        private string _companyName = "Iveco";
+        public string CompanyName
+        {
+            get => _companyName;
+            set => UpdateObservable(ref _companyName, value);
+        }
+
+        private DateTime _from = DateTime.Now;
+        public DateTime From
+        {
+            get => _from;
+            set => UpdateObservable(ref _from, value);
+        }
+        private DateTime _to = DateTime.Now;
+        public DateTime To
+        {
+            get => _to;
+            set => UpdateObservable(ref _to, value);    
+        }
+        public int TrainerId { get; set; }
+
+        private TrainerViewModel _viewModel;
+        public TrainerViewModel Trainer
+        {
+            get => _viewModel;
+            set => UpdateObservable(ref _viewModel, value);
+        }
+        #endregion
+
+        #region Validations
+        public string Error
+        {
+            get
+            {
+                string error = "";
+                if(string.IsNullOrEmpty(Position))
+                {
+                    error = "Position property is required";
+                }
+                
+                return error;
+            }
+        }
+
+        public string this[string columnName]
+        {
+            get
+            {
+                string error = string.Empty;
+                switch(columnName)
+                {
+                    case nameof(Position):
+                        if(string.IsNullOrEmpty(Position))
+                        {
+                            error = "Position is required";
+                        }
+                        break;
+                }
+                return error;
+            }
+        }
+        #endregion
+
+        public ExperienceViewModel Clone() => (ExperienceViewModel)MemberwiseClone();
+        
     }
-    public class PictureFile : BaseViewModel
+    public class PictureFileViewModel : BaseViewModel, IClone<PictureFileViewModel>, IDataErrorInfo
     {
-        public int PictureId { get; set; }
+        #region Properties
+        public int PictureFileId { get; set; }
         private string _fileExtenstion;
         public string FileExtension
         {
@@ -44,42 +125,54 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
             get => _image;
             set => UpdateObservable(ref _image, value);
         }
-        public PictureFile(string path)
+
+        public int TrainerId { get; set; }
+        private TrainerViewModel _trainer;
+        public TrainerViewModel Trainer
+        {
+            get => _trainer;
+            set => UpdateObservable(ref _trainer, value);
+        }
+        #endregion
+
+        #region Validations
+        public string Error => throw new NotImplementedException();
+
+        public string this[string columnName] => throw new NotImplementedException();
+        #endregion
+
+        #region Constructors
+        public PictureFileViewModel()
+        {
+
+        }
+        public PictureFileViewModel(string path)
         {
             FullPath = path;
             FileName = Path.GetFileName(path);
             FileExtension = Path.GetExtension(path);
-            Picture = !string.IsNullOrEmpty(FullPath) ? ImageToByteArray(Image.FromFile(FullPath)) : Array.Empty<byte>();
+            Picture = !string.IsNullOrEmpty(FullPath) ? ImageUtility.ImageToByteArray(Image.FromFile(FullPath)) : Array.Empty<byte>();
         }
-        private byte[] ImageToByteArray(Image imageIn)
-        {
-            using (var ms = new MemoryStream())
-            {
-                imageIn.Save(ms, imageIn.RawFormat);
-                return ms.ToArray();
-            }
-        }
-        public PictureFile()
-        {
-            FullPath = string.Empty;
-            FileName = string.Empty;
-            FileExtension = string.Empty;
-            Picture = Array.Empty<byte>();
-        }
+        #endregion
 
+        
+
+        public PictureFileViewModel Clone() => (PictureFileViewModel)MemberwiseClone();
+        
     }
-    public class TrainerViewModel : BaseViewModel, IDataErrorInfo, IClone<TrainerViewModel> 
+    public class TrainerViewModel : BaseViewModel, IDataErrorInfo, IClone<TrainerViewModel>, IEquatable<TrainerViewModel> 
     {
+        #region Properties
         public int TrainerId { get; set; }
 
-        private string _lastName = "Ali";
+        private string _lastName;
         public string LastName
         {
             get => _lastName;
             set => UpdateObservable(ref _lastName, value);
         }
 
-        private string _firstName = "Abdou Djalilou";
+        private string _firstName;
         public string FirstName
         {
             get => _firstName;
@@ -91,13 +184,13 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
             get => _shortDescription;
             set => UpdateObservable(ref _shortDescription, value);
         }
-
-        private int _age;
-        public int Age
+        private int? _age;
+        public int? Age
         {
-            get => _age;
+            get => DateTime.Now.Year - Birthday?.Year;
             set => UpdateObservable(ref _age, value);
         }
+        
         private string _educationLevel;
         public string EducationLevel
         {
@@ -111,75 +204,144 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
             set => UpdateObservable(ref _gender, value);
         }
 
-        private string _jobTitle = "Software developer";
+        private string _jobTitle;
         public string JobTitle
         {
             get => _jobTitle;
             set => UpdateObservable(ref _jobTitle, value);
         }
-        private PictureFile _picturePath = new PictureFile(@"C:\Users\djali\OneDrive\Immagini\Rullino\ali1.jpg");
-        public PictureFile PicturePath
+
+        private DateTime? _birthday = DateTime.Now;
+        public DateTime? Birthday
+        {
+            get => _birthday;
+            set => UpdateObservable(ref _birthday, value);
+        }
+
+        private PictureFileViewModel _picturePath;
+        public PictureFileViewModel PictureFile
         {
             get => _picturePath;
-            set => UpdateObservable(ref _picturePath, value, () =>
+            set
             {
-                Picture = value.Picture;
-            });
+                if(_picturePath != null)
+                {
+                    _picturePath.PropertyChanged -= PictureFile_PropertyChanged;
+                }
+                _picturePath = value;
+
+                if(_picturePath.Picture == null)
+                {
+                    UpdatePicture(new(@"DefaultResources\h1.png"));
+                }
+
+                if (_picturePath != null)
+                {
+                    _picturePath.PropertyChanged += PictureFile_PropertyChanged;
+                }
+                OnPropertyChanged();
+            }
         }
-        private byte[] _pictureByte;
-        public byte[] Picture
+
+        private void PictureFile_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            get => _pictureByte;
-            set => UpdateObservable(ref _pictureByte, value);
+            if (PictureFile.IsChanged)
+            {
+                // Mark TrainerViewModel as changed if PictureFile's IsChanged is true
+                IsChanged = true;
+            }
         }
 
-        public ICommand ChoosePictureCommand { get; private set; }
-        public string Error => throw new NotImplementedException();
+        private ObservableCollection<ExperienceViewModel> _experience;
+        public ObservableCollection<ExperienceViewModel> Experiences
+        {
+            get => _experience ?? new ObservableCollection<ExperienceViewModel>();
+            set => UpdateObservable(ref _experience, value);
+        }
+        #endregion
 
-        public string this[string columnName] => throw new NotImplementedException();
+        #region Validations
+        public string Error
+        {
+            get
+            {
+                string error = string.Empty;
+                if (string.IsNullOrEmpty(LastName))
+                {
+                    return "Last Name is required";
+                }
+                if (string.IsNullOrEmpty(FirstName))
+                {
+                    return "First Name is required";
+                }
+                
+                return error;
+            }
+        }
+        public string this[string columnName]
+        {
+            get
+            {
+                string error = string.Empty ;
+                switch(columnName)
+                {
+                    case nameof(LastName):
+                        if(string.IsNullOrEmpty(LastName))
+                        {
+                           error = "Last name is required";
+                        }
+                        break;
+                    case nameof(FirstName):
+                        if (string.IsNullOrEmpty(FirstName))
+                        {
+                            error = "First name is required";
+                        }
+                        break;
+                }
+                
+                return error;
+            }
+        }
+        #endregion
 
+        #region Constructor
         public TrainerViewModel()
         {
-            //PictureByte = ImageToByteArray(Image.FromFile(PicturePath.FullPath));
-            ChoosePictureCommand = new DelegateCommand(OnChoosePicture);
+            _experience ??= new ObservableCollection<ExperienceViewModel>();
+            PictureFile ??= new PictureFileViewModel();
         }
-        public TrainerViewModel(string path)
-        {
-            //IsSaveBtn = isSaveBtn;
-            Picture = !string.IsNullOrEmpty(path) ? ImageToByteArray(Image.FromFile(PicturePath.FullPath)) : Array.Empty<byte>();
-            ChoosePictureCommand = new DelegateCommand(OnChoosePicture);
+        #endregion
 
-        }
-        private void OnChoosePicture(object parameter)
+        #region Public methods
+        public void UpdatePicture(PictureFileViewModel picturePath)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            //openFileDialog.DefaultExt = "";
-            openFileDialog.Title = "File Picker";
-            if (openFileDialog.ShowDialog() == true)
-            {
-                PicturePath = new PictureFile(openFileDialog.FileName);
-            }
+            PictureFile.Picture = picturePath.Picture;
+            PictureFile.FullPath = picturePath.FullPath;
+            PictureFile.FileExtension = picturePath.FileExtension;
+            PictureFile.FileName = picturePath.FileName;
         }
-        public byte[] ImageToByteArray(Image imageIn)
+        public TrainerViewModel Clone()
         {
-            using (var ms = new MemoryStream())
-            {
-                imageIn.Save(ms, imageIn.RawFormat);
-                return ms.ToArray();
-            }
+            TrainerViewModel model = (TrainerViewModel)MemberwiseClone();
+            //model.PropertyChanged += PictureFile_PropertyChanged;
+            return model;
         }
-        public TrainerViewModel Initialize()
+        public void AddExperience(ExperienceViewModel experience)
         {
-            FirstName = string.Empty;
-            LastName = string.Empty;
-            EducationLevel = string.Empty;
-            JobTitle = string.Empty;
-            PicturePath = new();
-            return this;
+            Experiences.Add(experience);
+        }
+        public void DeleteExperience(ExperienceViewModel experience)
+        {
+            Experiences.Remove(experience);
         }
 
-        public TrainerViewModel Clone() => (TrainerViewModel)MemberwiseClone();
-       
+        public bool Equals(TrainerViewModel other)
+        {
+            if (other == null) return false;
+            return TrainerId == other.TrainerId;
+        }
+        #endregion
+
     }
     public class TrainersProfilesViewModel:Loadable<TrainerViewModel>, IClone<TrainersProfilesViewModel>
     {
@@ -210,16 +372,16 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
         {
             return (TrainersProfilesViewModel)MemberwiseClone();
         }
-
-        protected override int Index(TrainerViewModel item)
-        {
-            TrainerViewModel searchIem = Items.Where(x => x.TrainerId == item.TrainerId).FirstOrDefault();
-            return base.Index(searchIem);
-        }
     }
     public class TrainerRegistrationViewModel:BaseViewModel, IClone<TrainerRegistrationViewModel>
     {
         #region Properties
+        private int _seletedIndex = 0;
+        public int SeletedIndex
+        {
+            get => _seletedIndex;
+            set => UpdateObservable(ref _seletedIndex, value);
+        }
         private TrainersProfilesViewModel trainersProfilesViewModel;
         public TrainersProfilesViewModel TrainersProfilesVM
         {
@@ -234,7 +396,6 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
 
         #region Commands
         public ICommand AddCommand { get; private set; }
-        public ICommand OpenCommand { get; private set; }
         public ICommand DeleteCommand { get; private set; }
         public ICommand UpdateCommand { get; private set; }
         #endregion
@@ -242,9 +403,23 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
         #region Constructor
         public TrainerRegistrationViewModel()
         {
+            Initialization();
+            CommandSetup();
+        }
+        #endregion
+
+        #region
+        #endregion
+
+        #region Initialization
+
+        private void Initialization()
+        {
             TrainersProfilesVM = ServiceLocator.TrainersProfilesViewModel;
+        }
+        private void CommandSetup()
+        {
             AddCommand = new DelegateCommand(OnAdd);
-            OpenCommand = new DelegateCommand(OnOpen);
             DeleteCommand = new DelegateCommand(OnDelete);
             UpdateCommand = new DelegateCommand(OnUpdate);
         }
@@ -255,23 +430,20 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
         {
             if (TrainersProfilesVM.IsSelected)
             {
-                var window = ServiceLocator.GetService<TrainerRegistrationWindow>();
-                ServiceLocator.TrainerRegistrationWinViewModel.TrainerViewModel = TrainersProfilesVM.SelectedItem.Clone();
-                ServiceLocator.TrainerRegistrationWinViewModel.IsSave = false;
-                window.Show();
+                ServiceLocator.TrainerFormViewModel.Trainer = TrainersProfilesVM.SelectedItem.Clone();
+                ServiceLocator.TrainerFormViewModel.IsSave = false;
+                SeletedIndex = 1;
             }
         }
         private void OnDelete(object parameter)
         {
-            
-            
             if (TrainersProfilesVM.IsSelected)
             {
                 var dialog = MessageBox.Show("Do you want to Delete", "Warning", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (dialog == MessageBoxResult.Yes)
                 {
-                    //using var repository = new TrainerRepository();
-                    //repository.Delete(selected.FromVM().TrainerId);
+                    using var repository = new TrainerRepository();
+                    repository.Delete(TrainersProfilesVM.SelectedItem.FromVM().TrainerId);
                     TrainersProfilesVM.DeleteItem(TrainersProfilesVM.SelectedItem);
                 }
             }
@@ -280,21 +452,13 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
                 MessageBox.Show("Please, select an Item");
             }
         }
-        private void OnOpen(object parameter)
+        
+        private async void OnAdd(object parameter)
         {
-            if(TrainersProfilesVM.IsSelected)
-            {
-                var window = ServiceLocator.GetService<TrainerProfileDetails>();
-                ServiceLocator.TrainerProfileDetailsViewModel.TrainerViewModel = TrainersProfilesVM.SelectedItem;
-                window.Show();
-            }
-        }
-        private void OnAdd(object parameter)
-        {
-            var window = ServiceLocator.GetService<TrainerRegistrationWindow>();
-            ServiceLocator.TrainerRegistrationWinViewModel.TrainerViewModel = new TrainerViewModel();
-            ServiceLocator.TrainerRegistrationWinViewModel.IsSave = true;
-            window.Show();
+            SeletedIndex = 1;
+            await Task.Delay(500);
+            ServiceLocator.TrainerFormViewModel.Trainer = new();
+            ServiceLocator.TrainerFormViewModel.IsSave = true;
         }
         #endregion
 

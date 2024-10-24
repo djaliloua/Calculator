@@ -1,6 +1,7 @@
 ﻿using Mapster;
 using RegistrationApplication.DataAccessLayer.Abstractions;
-using RegistrationApplication.Models;
+using RegistrationApplication.Extensions;
+using RegistrationApplication.MVVM.Models;
 using RegistrationApplication.MVVM.ViewModels.TrainersViewModels;
 
 namespace RegistrationApplication.DataAccessLayer.Implementations
@@ -9,7 +10,7 @@ namespace RegistrationApplication.DataAccessLayer.Implementations
     {
         public IList<TrainerViewModel> GetAllDtos()
         {
-            return _table.ProjectToType<TrainerViewModel>().ToList();
+            return _table.ToList().ToVM();
         }
     }
 }

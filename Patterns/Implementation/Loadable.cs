@@ -132,21 +132,17 @@ namespace Patterns.Implementation
         {
             Items.Clear();
             Counter = Items.Count;
-            SetItems(Items);
         }
         public virtual void DeleteItem(TItem item)
         {
             Items.Remove(item);
             Counter = Items.Count;
-            SetItems(Items);
         }
 
         public virtual void AddItem(TItem item)
         {
             Items.Add(item);
             Counter = Items.Count;
-            var tempItems = new List<TItem>(Items);
-            SetItems(tempItems);
         }
         protected virtual int Index(TItem item)
         {
@@ -160,7 +156,6 @@ namespace Patterns.Implementation
                 Items.RemoveAt(index);
                 Items.Insert(index, item);
             }
-            Notify();
         }
 
         public virtual ObservableCollection<TItem> GetItems()
@@ -168,11 +163,6 @@ namespace Patterns.Implementation
             return Items;
         }
         #endregion
-
-        private void Notify()
-        {
-            OnPropertyChanged(nameof(Items));
-        }
 
         #region INotifyPropertyChanged Implementation
 

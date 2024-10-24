@@ -1,10 +1,12 @@
 ﻿using Mapster;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using RegistrationApplication.Models;
+using RegistrationApplication.DataAccessLayer.DataContext;
+using RegistrationApplication.MVVM.Models;
 using RegistrationApplication.MVVM.ViewModels;
+using RegistrationApplication.MVVM.ViewModels.CountryViewModels;
+using RegistrationApplication.MVVM.ViewModels.CourseViewModel;
 using RegistrationApplication.MVVM.ViewModels.TrainersViewModels;
-using RegistrationApplication.MVVM.Views.TrainersView;
 
 namespace RegistrationApplication.Extensions
 {
@@ -12,30 +14,34 @@ namespace RegistrationApplication.Extensions
     {
         public static TrainerViewModel ToVM(this Trainer model) => model.Adapt<TrainerViewModel>();
         public static Trainer FromVM(this TrainerViewModel model) => model.Adapt<Trainer>();
+        public static CountryViewModel ToVM(this Country model) => model.Adapt<CountryViewModel>();
+        public static Country FromVM(this CountryViewModel model) => model.Adapt<Country>();
+        public static IList<CountryViewModel> ToVM(this IList<Country> model) => model.Adapt<List<CountryViewModel>>();
+        public static IList<TrainerViewModel> ToVM(this IList<Trainer> model) => model.Adapt<List<TrainerViewModel>>();
+        public static IList<CourseViewModel> ToVM(this IList<Course> model) => model.Adapt<List<CourseViewModel>>();
     }
     public static class ExtensionClass
     {
         public static ServiceCollection AddView(this ServiceCollection services)
         {
             services.AddSingleton<MainWindow>();
-            services.AddSingleton<TrainerRegistrationWindow>();
-            services.AddSingleton<TrainerProfileDetails>();
             return services;
         }
         public static ServiceCollection AddViewModel(this ServiceCollection services)
         {
             services.AddSingleton<MainViewModel>();
             services.AddSingleton<TrainerRegistrationViewModel>();
-            services.AddSingleton<TrainerRegistrationWinViewModel>();
             services.AddSingleton<TrainersProfilesViewModel>();
             services.AddTransient<TrainerViewModel>();
-            services.AddSingleton<ProfileViewModel>();
-            services.AddSingleton<TrainerProfileDetailsViewModel>();
+            services.AddSingleton<TrainerFormViewModel>();
+            services.AddSingleton<CountryViewModelUI>();
+            services.AddSingleton<CourseViewModelUI>();
+            services.AddSingleton<ListOfCourseViewModel>();
             return services;
         }
         public static ServiceCollection AddSqlServerDbContext(this ServiceCollection services, IConfiguration config)
         {
-            services.AddSqlServer<Solution4Africa_MainContext>(config.GetConnectionString("DefaultConnection"));
+            services.AddSqlServer<TrainerDataContext>(config.GetConnectionString("DefaultConnection"));
             return services;
         }
     }

@@ -5,12 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RegistrationApplication"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
         DataContext="{Binding Source={StaticResource locator}, Path=MainViewModel}"
         mc:Ignorable="d"
         Style="{StaticResource MaterialDesignWindow}"
         Title="{Binding Title}" 
+        x:Name="window"
         Height="450" 
         Width="800">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Shadows.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.ToggleButton.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <materialDesign:DialogHost DialogTheme="Inherit"
                                Identifier="RootDialog">
         <materialDesign:DrawerHost IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
@@ -26,6 +37,10 @@
                              PreviewMouseLeftButtonUp="UIElement_OnPreviewMouseLeftButtonUp"
                              SelectedItem="{Binding SelectedControl}"
                              Style="{StaticResource MaterialDesignNavigationPrimaryListBox}">
+                        <ListBox.Resources>
+                            <Style TargetType="ScrollBar"
+                                   BasedOn="{StaticResource MaterialDesignScrollBarMinimal}" />
+                        </ListBox.Resources>
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
@@ -48,7 +63,7 @@
                     <DockPanel>
                         <StackPanel Orientation="Horizontal">
                             <ToggleButton x:Name="MenuToggleButton"
-                                          IsChecked="{Binding CloseLeftDrawer}"
+                                          IsChecked="{Binding IsLeftDrawer}"
                                           Style="{StaticResource MaterialDesignHamburgerToggleButton}" />
                         </StackPanel>
                         <materialDesign:PopupBox DockPanel.Dock="Right"
