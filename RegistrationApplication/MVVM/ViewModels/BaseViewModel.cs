@@ -41,7 +41,7 @@ namespace RegistrationApplication.MVVM.ViewModels
         }
 
       
-        public void AcceptChanges()
+        public virtual void AcceptChanges()
         {
             _isChanged = false;
         }

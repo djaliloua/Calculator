@@ -25,7 +25,9 @@ namespace RegistrationApplication
             {
                 Title="Notification",
                 Message=message,
-                Background= Options.Background
+                Type = NotificationType.Success,
+                TrimType = NotificationTextTrimType.Attach, // will show attach button on message
+                RowsCount = 3, //Will show 3 rows and trim after
             };
             notificationManager.Show(content);
         }

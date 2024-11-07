@@ -6,6 +6,12 @@ namespace RegistrationApplication.Utility
 {
     public static class ImageUtility
     {
+        public static Image byteArrayToImage(byte[] byteArrayIn)
+        {
+            MemoryStream ms = new MemoryStream(byteArrayIn);
+            Image returnImage = Image.FromStream(ms);
+            return returnImage;
+        }
         public static byte[] ImageToByteArray(Image imageIn)
         {
             using (var ms = new MemoryStream())

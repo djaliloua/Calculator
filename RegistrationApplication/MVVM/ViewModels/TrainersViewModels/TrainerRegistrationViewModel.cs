@@ -56,6 +56,7 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
             get => _viewModel;
             set => UpdateObservable(ref _viewModel, value);
         }
+        
         #endregion
 
         #region Validations
@@ -125,7 +126,6 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
             get => _image;
             set => UpdateObservable(ref _image, value);
         }
-
         public int TrainerId { get; set; }
         private TrainerViewModel _trainer;
         public TrainerViewModel Trainer
@@ -229,7 +229,6 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
                     _picturePath.PropertyChanged -= PictureFile_PropertyChanged;
                 }
                 _picturePath = value;
-
                 if(_picturePath.Picture == null)
                 {
                     UpdatePicture(new(@"DefaultResources\h1.png"));
@@ -239,7 +238,6 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
                 {
                     _picturePath.PropertyChanged += PictureFile_PropertyChanged;
                 }
-                OnPropertyChanged();
             }
         }
 
@@ -252,6 +250,7 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
             }
         }
 
+        
         private ObservableCollection<ExperienceViewModel> _experience;
         public ObservableCollection<ExperienceViewModel> Experiences
         {
@@ -307,12 +306,19 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
         #region Constructor
         public TrainerViewModel()
         {
-            _experience ??= new ObservableCollection<ExperienceViewModel>();
-            PictureFile ??= new PictureFileViewModel();
+            Experiences ??= new ObservableCollection<ExperienceViewModel>();
+            PictureFile ??= new PictureFileViewModel(@"DefaultResources\h1.png");
         }
+
         #endregion
 
         #region Public methods
+        public override void AcceptChanges()
+        {
+            base.AcceptChanges();
+            PictureFile.AcceptChanges();
+        }
+        //private void UpdateChangeState() => IsChanged = true;
         public void UpdatePicture(PictureFileViewModel picturePath)
         {
             PictureFile.Picture = picturePath.Picture;
@@ -323,7 +329,6 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
         public TrainerViewModel Clone()
         {
             TrainerViewModel model = (TrainerViewModel)MemberwiseClone();
-            //model.PropertyChanged += PictureFile_PropertyChanged;
             return model;
         }
         public void AddExperience(ExperienceViewModel experience)
@@ -430,7 +435,7 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
         {
             if (TrainersProfilesVM.IsSelected)
             {
-                ServiceLocator.TrainerFormViewModel.Trainer = TrainersProfilesVM.SelectedItem.Clone();
+                ServiceLocator.TrainerFormViewModel.Trainer = TrainersProfilesVM.SelectedItem;
                 ServiceLocator.TrainerFormViewModel.IsSave = false;
                 SeletedIndex = 1;
             }

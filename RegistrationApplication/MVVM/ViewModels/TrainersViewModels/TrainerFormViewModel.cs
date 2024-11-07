@@ -2,12 +2,11 @@
 using RegistrationApplication.DataAccessLayer.Implementations;
 using RegistrationApplication.Extensions;
 using RegistrationApplication.MVVM.Models;
-using System.Drawing.Imaging;
 using System.Drawing;
 using System.Windows;
 using System.Windows.Input;
-using System.IO;
 using System.Diagnostics;
+using RegistrationApplication.Utility;
 
 namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
 {
@@ -57,15 +56,10 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
         #endregion
 
         #region Handlers
-        public Image byteArrayToImage(byte[] byteArrayIn)
-        {
-            MemoryStream ms = new MemoryStream(byteArrayIn);
-            Image returnImage = Image.FromStream(ms);
-            return returnImage;
-        }
+       
         private void OnDownload(object parameter)
         {
-            Image image = byteArrayToImage(Trainer.PictureFile.Picture);
+            Image image = ImageUtility.byteArrayToImage(Trainer.PictureFile.Picture);
             image.Save(Trainer.PictureFile.FileName);
             Notifier.Show("Image donwloaded!!!!", () =>
             {
