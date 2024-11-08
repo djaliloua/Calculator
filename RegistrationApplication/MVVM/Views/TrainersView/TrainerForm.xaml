@@ -210,7 +210,8 @@
                 <materialDesign:PackIcon Kind="ContentSaveAdd" />
             </Button>
             <Button ToolTip="Cancel"
-                    Command="{x:Static materialDesign:Transitioner.MovePreviousCommand}">
+                    ToolTipService.Placement="RelativePoint"
+                    Command="{Binding CancelCommand}">
                 <materialDesign:PackIcon Kind="Cancel" />
             </Button>
         </StackPanel>

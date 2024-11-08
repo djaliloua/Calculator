@@ -23,6 +23,7 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
         #endregion
 
         #region Commands
+        public ICommand CancelCommand { get; private set; }
         public ICommand DownloadCommand { get; private set; }
         public ICommand SaveCommand { get; private set; }
         public ICommand SaveAndAddNewCommand { get; private set; }
@@ -52,11 +53,41 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
             ChoosePictureCommand = new DelegateCommand(OnChoosePicture);
             RemoveCommand = new DelegateCommand(OnRemove);
             DownloadCommand = new DelegateCommand(OnDownload);
+            CancelCommand = new DelegateCommand(OnCancel);
         }
         #endregion
 
         #region Handlers
-       
+       private void OnCancel(object parameter)
+        {
+            if(Trainer.IsChanged)
+            {
+                var message = MessageBox.Show("Do you want to discard changes?", "Warning", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
+                if(message == MessageBoxResult.Yes)
+                {
+                    Notifier.Show("Changes discarded");
+                    Trainer.CancelEdit();
+                    Trainer.AcceptChanges();
+                    ServiceLocator.TrainerRegistrationViewModel.SeletedIndex = 0;
+                    return;
+                }
+                else if (message == MessageBoxResult.No)
+                {
+                    Notifier.Show("Save Changes");
+                }
+                else
+                {
+                    Notifier.Show("Do nothing");
+                    return;
+                }
+            }
+            else
+            {
+                Trainer.EndEdit();
+            }
+            ServiceLocator.TrainerRegistrationViewModel.SeletedIndex = 0;
+               
+        }
         private void OnDownload(object parameter)
         {
             Image image = ImageUtility.byteArrayToImage(Trainer.PictureFile.Picture);
@@ -141,23 +172,33 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
         {
             if (string.IsNullOrEmpty(Trainer.Error))
             {
-                if (!IsSave)
+                if (Trainer.IsChanged)
                 {
-                    using var repository = new TrainerRepository();
-                    var saveObj = repository.Update(Trainer.FromVM());
-                    ServiceLocator.TrainersProfilesViewModel.UpdateItem(saveObj.ToVM());
-                    Notifier.Show("Updated");
+                    if (!IsSave)
+                    {
+                        using var repository = new TrainerRepository();
+                        var saveObj = repository.Update(Trainer.FromVM());
+                        ServiceLocator.TrainersProfilesViewModel.UpdateItem(saveObj.ToVM());
+                        Notifier.Show("Updated");
+                    }
+                    else
+                    {
+                        using var repository = new TrainerRepository();
+                        var savedObj = repository.Save(Trainer.FromVM());
+                        ServiceLocator.TrainersProfilesViewModel.AddItem(savedObj.ToVM());
+                        Notifier.Show("Add new");
+                    }
+                    Trainer.AcceptChanges();
+                    
                 }
                 else
                 {
-                    using var repository = new TrainerRepository();
-                    var savedObj = repository.Save(Trainer.FromVM());
-                    ServiceLocator.TrainersProfilesViewModel.AddItem(savedObj.ToVM());
-                    Notifier.Show("Add new");
+                    Notifier.Show("No changes");
+
                 }
-                Trainer.AcceptChanges();
                 ServiceLocator.TrainerRegistrationViewModel.SeletedIndex = 0;
             }
+            
             else
             {
                 MessageBox.Show(Trainer.Error, "Error", MessageBoxButton.OK, MessageBoxImage.Error);

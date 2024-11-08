@@ -2,6 +2,7 @@
 using RegistrationApplication.DataAccessLayer.Implementations;
 using RegistrationApplication.Extensions;
 using RegistrationApplication.Utility;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Drawing;
@@ -11,7 +12,7 @@ using System.Windows.Input;
 
 namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
 {
-    public class ExperienceViewModel : BaseViewModel, IClone<ExperienceViewModel>, IDataErrorInfo
+    public class ExperienceViewModel : ExperienceBaseViewModel, IClone<ExperienceViewModel>, IDataErrorInfo
     {
         #region Properties
         public int ExperienceId { get; set; }
@@ -94,9 +95,38 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
         #endregion
 
         public ExperienceViewModel Clone() => (ExperienceViewModel)MemberwiseClone();
-        
+
+        public override void BeginEdit()
+        {
+            if (_inEdit) return;
+
+            // Save current values for rollback
+            OriginalObject = new();
+            OriginalObject.Position = Position;
+            OriginalObject.To = To;
+            OriginalObject.From = From;
+            OriginalObject.Description = Description;
+            OriginalObject.Trainer = Trainer;
+            _inEdit = true;
+        }
+        public override void CancelEdit()
+        {
+            if (!_inEdit) return;
+
+            // Restore from backup copy
+            if (OriginalObject != null)
+            {
+                Position = OriginalObject.Position;
+                To = OriginalObject.To;
+                From = OriginalObject.From;
+                Description = OriginalObject.Description;
+                Trainer = OriginalObject.Trainer;
+            }
+            _inEdit = false;
+        }
+
     }
-    public class PictureFileViewModel : BaseViewModel, IClone<PictureFileViewModel>, IDataErrorInfo
+    public class PictureFileViewModel : PictureFileBaseViewModel, IClone<PictureFileViewModel>, IDataErrorInfo
     {
         #region Properties
         public int PictureFileId { get; set; }
@@ -155,12 +185,36 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
         }
         #endregion
 
-        
+        public override void BeginEdit()
+        {
+            if (_inEdit) return;
 
+            // Save current values for rollback
+            OriginalObject =new();
+            OriginalObject.Picture = Picture;
+            OriginalObject.Trainer = Trainer;
+            OriginalObject.FileExtension = FileExtension;
+            OriginalObject.FullPath = FullPath;
+            OriginalObject.FileName = FileName;
+            _inEdit = true;
+        }
+        public override void CancelEdit()
+        {
+            if (!_inEdit) return;
+            if(OriginalObject == null) return;
+            if(OriginalObject != null)
+            {
+                FullPath = OriginalObject.FullPath;
+                FileName = OriginalObject.FileName;
+                FileExtension = OriginalObject.FileExtension;
+                Picture = OriginalObject.Picture;
+            }
+            _inEdit = false;
+        }
         public PictureFileViewModel Clone() => (PictureFileViewModel)MemberwiseClone();
         
     }
-    public class TrainerViewModel : BaseViewModel, IDataErrorInfo, IClone<TrainerViewModel>, IEquatable<TrainerViewModel> 
+    public class TrainerViewModel : TrainerBaseViewModel, IDataErrorInfo, IClone<TrainerViewModel>, IEquatable<TrainerViewModel> 
     {
         #region Properties
         public int TrainerId { get; set; }
@@ -241,21 +295,38 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
             }
         }
 
-        private void PictureFile_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (PictureFile.IsChanged)
-            {
-                // Mark TrainerViewModel as changed if PictureFile's IsChanged is true
-                IsChanged = true;
-            }
-        }
-
-        
         private ObservableCollection<ExperienceViewModel> _experience;
         public ObservableCollection<ExperienceViewModel> Experiences
         {
             get => _experience ?? new ObservableCollection<ExperienceViewModel>();
-            set => UpdateObservable(ref _experience, value);
+            set
+            {
+                if(value != null)
+                {
+                    foreach(var experience in value)
+                    {
+                        experience.PropertyChanged -= Experience_PropertyChanged;
+                    }
+                }
+                _experience = value;
+                if(value != null)
+                {
+                    foreach (var experience in value)
+                    {
+                        experience.PropertyChanged += Experience_PropertyChanged;
+                    }
+                }
+            }
+        }
+
+        private void Experience_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            ExperienceViewModel experience = (ExperienceViewModel)sender;
+            if (experience.IsChanged)
+            {
+                // Mark TrainerViewModel as changed if PictureFile's IsChanged is true
+                IsChanged = true;
+            }
         }
         #endregion
 
@@ -313,11 +384,73 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
         #endregion
 
         #region Public methods
+        
         public override void AcceptChanges()
         {
             base.AcceptChanges();
             PictureFile.AcceptChanges();
+            foreach (var experience in Experiences)
+            {
+                experience.AcceptChanges();
+            }
         }
+
+        public override void BeginEdit()
+        {
+            if (_inEdit) return;
+
+            // Save current values for rollback
+            OriginalObject = Clone();
+            //OriginalObject = new();
+            //OriginalObject.LastName = LastName;
+            //OriginalObject.FirstName = FirstName;
+            //OriginalObject.Age = Age;
+            //OriginalObject.EducationLevel = EducationLevel;
+            //OriginalObject.JobTitle = JobTitle;
+            //OriginalObject.Birthday = Birthday;
+            //OriginalObject.Gender = Gender;
+            //OriginalObject.ShortDescription = ShortDescription;
+            //OriginalObject.UpdatePicture(PictureFile);
+            //OriginalObject.PictureFile.BeginEdit();
+            _inEdit = true;
+        }
+        public override void CancelEdit()
+        {
+            if (!_inEdit) return;
+
+            // Restore from backup copy
+            if (OriginalObject != null)
+            {
+                LastName = OriginalObject.LastName;
+                FirstName = OriginalObject.FirstName;
+                Age = OriginalObject.Age;
+                EducationLevel = OriginalObject.EducationLevel;
+                JobTitle = OriginalObject.JobTitle;
+                Birthday = OriginalObject.Birthday;
+                UpdatePicture(OriginalObject.PictureFile);
+                Gender = OriginalObject.Gender;
+                ShortDescription = OriginalObject.ShortDescription;
+                Experiences = OriginalObject.Experiences;
+                for(int i = 0; i < OriginalObject.Experiences.Count; i++)
+                {
+                    if (Experiences[i].ExperienceId == OriginalObject.Experiences[i].ExperienceId)
+                    {
+                        Experiences[i] = OriginalObject.Experiences[i];
+                    }
+                }
+                OnPropertyChanged(nameof(Experiences));
+            }
+            _inEdit = false;
+        }
+        public void UpdateExperience(ExperienceViewModel originalModel, ExperienceViewModel currentModel)
+        {
+            currentModel.Position = originalModel.Position;
+            currentModel.Description = originalModel.Description;
+            currentModel.From = originalModel.From;
+            currentModel.To = originalModel.To;
+            currentModel.Trainer = originalModel.Trainer;
+        }
+
         //private void UpdateChangeState() => IsChanged = true;
         public void UpdatePicture(PictureFileViewModel picturePath)
         {
@@ -328,7 +461,16 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
         }
         public TrainerViewModel Clone()
         {
-            TrainerViewModel model = (TrainerViewModel)MemberwiseClone();
+            TrainerViewModel model = new();
+            model.FirstName = FirstName;
+            model.LastName = LastName;
+            model.Birthday = Birthday;
+            model.Gender = Gender;
+            model.ShortDescription = ShortDescription;
+            model.JobTitle = JobTitle;
+            model.PictureFile = PictureFile.Clone();
+            model.Experiences = new ObservableCollection<ExperienceViewModel>(Experiences.Select(item => item.Clone()).ToList());
+            
             return model;
         }
         public void AddExperience(ExperienceViewModel experience)
@@ -344,6 +486,14 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
         {
             if (other == null) return false;
             return TrainerId == other.TrainerId;
+        }
+        private void PictureFile_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (PictureFile.IsChanged)
+            {
+                // Mark TrainerViewModel as changed if PictureFile's IsChanged is true
+                IsChanged = true;
+            }
         }
         #endregion
 
@@ -436,6 +586,7 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
             if (TrainersProfilesVM.IsSelected)
             {
                 ServiceLocator.TrainerFormViewModel.Trainer = TrainersProfilesVM.SelectedItem;
+                ServiceLocator.TrainerFormViewModel.Trainer.BeginEdit();
                 ServiceLocator.TrainerFormViewModel.IsSave = false;
                 SeletedIndex = 1;
             }
