@@ -73,7 +73,14 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
                 }
                 else if (message == MessageBoxResult.No)
                 {
-                    Notifier.Show("Save Changes");
+                    MessageBoxResult saveType = MessageBox.Show("Do you want to save and add new?", "Warning", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                    if(saveType == MessageBoxResult.Yes)
+                    {
+                        OnSaveAndAddNew(null);
+                        return;
+                    }
+                    OnSave(null);
+                    return;
                 }
                 else
                 {
@@ -112,23 +119,31 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
             // Save first in the db
             if (string.IsNullOrEmpty(Trainer.Error))
             {
-                if (!IsSave)
+                if(Trainer.IsChanged)
                 {
-                    using var repository = new TrainerRepository();
-                    var saveObj = repository.Update(Trainer.FromVM());
-                    ServiceLocator.TrainersProfilesViewModel.UpdateItem(saveObj.ToVM());
-                    Notifier.Show("Updated");
+                    if (!IsSave)
+                    {
+                        using var repository = new TrainerRepository();
+                        var saveObj = repository.Update(Trainer.FromVM());
+                        ServiceLocator.TrainersProfilesViewModel.UpdateItem(saveObj.ToVM());
+                        Notifier.Show("Updated");
+                    }
+                    else
+                    {
+                        using var repository = new TrainerRepository();
+                        var savedObj = repository.Save(Trainer.FromVM());
+                        ServiceLocator.TrainersProfilesViewModel.AddItem(savedObj.ToVM());
+                        Notifier.Show("Saved");
+                    }
+                    Trainer.AcceptChanges();
+                    Trainer.EndEdit();
+                    ServiceLocator.TrainerFormViewModel.Trainer = new();
+                    Notifier.Show("Add new");
                 }
                 else
                 {
-                    using var repository = new TrainerRepository();
-                    var savedObj = repository.Save(Trainer.FromVM());
-                    ServiceLocator.TrainersProfilesViewModel.AddItem(savedObj.ToVM());
-                    Notifier.Show("Saved");
+                    Notifier.Show("No changes");
                 }
-                Trainer.AcceptChanges();
-                ServiceLocator.TrainerFormViewModel.Trainer = new();
-                Notifier.Show("Add new");
 
             }
             else
@@ -189,7 +204,7 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
                         Notifier.Show("Add new");
                     }
                     Trainer.AcceptChanges();
-                    
+                    Trainer.EndEdit();
                 }
                 else
                 {

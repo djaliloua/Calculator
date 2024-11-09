@@ -401,17 +401,7 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
 
             // Save current values for rollback
             OriginalObject = Clone();
-            //OriginalObject = new();
-            //OriginalObject.LastName = LastName;
-            //OriginalObject.FirstName = FirstName;
-            //OriginalObject.Age = Age;
-            //OriginalObject.EducationLevel = EducationLevel;
-            //OriginalObject.JobTitle = JobTitle;
-            //OriginalObject.Birthday = Birthday;
-            //OriginalObject.Gender = Gender;
-            //OriginalObject.ShortDescription = ShortDescription;
-            //OriginalObject.UpdatePicture(PictureFile);
-            //OriginalObject.PictureFile.BeginEdit();
+           
             _inEdit = true;
         }
         public override void CancelEdit()
