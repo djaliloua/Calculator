@@ -35,10 +35,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Behaviors\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\Calculator\Patterns\Patterns.csproj" />
   </ItemGroup>
 
@@ -58,6 +54,10 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Behaviors\" />
   </ItemGroup>
 
 </Project>

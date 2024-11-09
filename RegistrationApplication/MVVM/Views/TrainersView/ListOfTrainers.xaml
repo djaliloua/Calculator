@@ -28,6 +28,7 @@
         <ListView ScrollViewer.VerticalScrollBarVisibility="Hidden"
                   ItemsSource="{Binding TrainersProfilesVM.Items}"
                   SelectedItem="{Binding TrainersProfilesVM.SelectedItem}"
+                  MouseDoubleClick="ListView_MouseDoubleClick"
                   d:ItemsSource="{d:SampleData ItemCount=5}">
             <ListView.ContextMenu>
                 <ContextMenu>
