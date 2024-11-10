@@ -39,7 +39,7 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
             CommandSteup();
         }
         #endregion
-
+        
         #region Initialization
         private void Initialization()
         {

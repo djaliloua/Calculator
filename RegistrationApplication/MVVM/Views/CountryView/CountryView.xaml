@@ -10,6 +10,7 @@
     <Grid Margin="20">
         <DataGrid AutoGenerateColumns="False" 
                   VerticalScrollBarVisibility="Hidden"
+                  d:ItemsSource="{d:SampleData ItemCount=5}"
                   ItemsSource="{Binding ListOfCountries.Items}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Global Name"

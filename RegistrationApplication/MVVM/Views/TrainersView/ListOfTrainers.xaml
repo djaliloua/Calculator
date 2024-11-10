@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:custom="clr-namespace:RegistrationApplication.CustomProperties"
              xmlns:local="clr-namespace:RegistrationApplication.MVVM.Views.TrainersView"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d"
@@ -28,7 +29,9 @@
         <ListView ScrollViewer.VerticalScrollBarVisibility="Hidden"
                   ItemsSource="{Binding TrainersProfilesVM.Items}"
                   SelectedItem="{Binding TrainersProfilesVM.SelectedItem}"
+                  custom:EventToCommand.WIndowsEvents="{x:Static custom:DataSource.Events}"
                   MouseDoubleClick="ListView_MouseDoubleClick"
+                  custom:EventToCommand.AppName="{x:Static custom:DataSource.Yam}"
                   d:ItemsSource="{d:SampleData ItemCount=5}">
             <ListView.ContextMenu>
                 <ContextMenu>

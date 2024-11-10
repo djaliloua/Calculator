@@ -16,6 +16,7 @@
         </Grid.ColumnDefinitions>
         <Border Background="Yellow">
             <DataGrid AutoGenerateColumns="False"
+                      d:ItemsSource="{d:SampleData ItemCount=5}"
                       ItemsSource="{Binding CoursesVM.Items}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Course"
