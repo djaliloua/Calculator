@@ -166,7 +166,7 @@ namespace RegistrationApplication.MVVM.ViewModels.CourseViewModel
             CoursesVM = ServiceLocator.ListOfCourseViewModel;
             NewCommand = new DelegateCommand(OnNew);
             DeleteCommand = new DelegateCommand(OnDelete);
-            UpdateCommand = NewCommand;
+            UpdateCommand = new DelegateCommand(OnUpdate);
         }
         #endregion
 
@@ -175,10 +175,22 @@ namespace RegistrationApplication.MVVM.ViewModels.CourseViewModel
         {
 
         }
+        private void OnUpdate(object parameter)
+        {
+            if (CoursesVM.IsSelected)
+            {
+                ServiceLocator.CourseFormViewModel.Course = CoursesVM.SelectedItem;
+                ServiceLocator.CourseFormViewModel.IsSave = false;
+                SelectedIndex++;
+            }
+
+        }
         private void OnNew(object parameter)
         {
             if(CoursesVM.IsSelected)
             {
+                ServiceLocator.CourseFormViewModel.Course = new();
+                ServiceLocator.CourseFormViewModel.IsSave = true;
                 SelectedIndex++;
             }
             
