@@ -10,33 +10,53 @@
              d:DesignWidth="800">
     <Grid Margin="20">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <Border Background="Yellow">
-            <DataGrid AutoGenerateColumns="False"
-                      d:ItemsSource="{d:SampleData ItemCount=5}"
-                      ItemsSource="{Binding CoursesVM.Items}">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Course"
-                                        IsReadOnly="True"
-                                        Binding="{Binding CourseName}" />
-                    <DataGridTextColumn Header="Description"
-                                        IsReadOnly="True"
-                                        Binding="{Binding CourseDescription}" />
-                    <DataGridTextColumn Header="Expectation"
-                                        IsReadOnly="True"
-                                        Binding="{Binding CourseExpectation}" />
+        <ListView d:ItemsSource="{d:SampleData ItemCount=5}"
+                  SelectedItem="{Binding CoursesVM.SelectedItem}"
+                  MouseDoubleClick="ListView_MouseDoubleClick"
+                  ItemsSource="{Binding CoursesVM.Items}">
+            <ListView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Update"
+                              DataContext="{Binding Source={StaticResource locator}, Path=CourseViewModelUI}"
+                              Command="{Binding UpdateCommand}">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="Update" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <Separator />
+                    <MenuItem Header="Delete"
+                              DataContext="{Binding Source={StaticResource locator}, Path=CourseViewModelUI}"
+                              Command="{Binding DeleteCommand}">
+                        <MenuItem.Icon>
+                            <materialDesign:PackIcon Kind="Delete" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </ContextMenu>
+            </ListView.ContextMenu>
+            <ListView.View>
+                <GridView>
+                    <GridView.Columns>
+                        <GridViewColumn Header="Course"
+                                        DisplayMemberBinding="{Binding CourseName}" />
+                        <GridViewColumn Header="Description"
+                                        DisplayMemberBinding="{Binding CourseDescription}" />
+                        <GridViewColumn Header="Expectation"
+                                        DisplayMemberBinding="{Binding CourseExpectation}" />
+                    </GridView.Columns>
+                </GridView>
+            </ListView.View>
 
-                </DataGrid.Columns>
-            </DataGrid>
-        </Border>
+        </ListView>
         <Button Grid.Row="0"
                 Margin="15"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Bottom"
-                Command="{x:Static materialDesign:Transitioner.MoveNextCommand}"
+                DataContext="{Binding Source={StaticResource locator}, Path=CourseViewModelUI}"
+                Command="{Binding NewCommand}"
                 Style="{StaticResource MaterialDesignFloatingActionButton}"
                 ToolTip="New">
             <materialDesign:PackIcon Kind="Plus" />

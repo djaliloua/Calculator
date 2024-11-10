@@ -4,9 +4,209 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:RegistrationApplication.MVVM.Views.CourseViews"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             DataContext="{Binding Source={StaticResource locator}, Path=CourseFormViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Label Content="Form" />
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                <Grid Margin="15">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="100" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="auto" />
+                        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox MaxWidth="400"
+                                     Width="200"
+                                     VerticalAlignment="Top"
+                                     materialDesign:HintAssist.Hint="Course Name"
+                                     AcceptsReturn="True"
+                                     Style="{StaticResource MaterialDesignFilledTextBox}"
+                                     Text="{Binding Course.CourseName}"
+                                     TextWrapping="Wrap"
+                                     Margin="10" />
+                            <TextBox MaxWidth="400"
+                                     VerticalAlignment="Top"
+                                     materialDesign:HintAssist.Hint="Description"
+                                     AcceptsReturn="True"
+                                     Width="200"
+                                     Style="{StaticResource MaterialDesignFilledTextBox}"
+                                     TextWrapping="Wrap"
+                                     Margin="10" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal"
+                                    Grid.Row="1">
+                            <DatePicker MaxWidth="400"
+                                        Width="200"
+                                        Margin="10"
+                                        Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
+                                        SelectedDate="{Binding Trainer.Birthday}"
+                                        VerticalAlignment="Center"
+                                        materialDesign:HintAssist.Hint="Birthday" />
+
+                            <ComboBox materialDesign:HintAssist.Hint="Education Level"
+                                      materialDesign:ComboBoxAssist.MaxLength="2"
+                                      materialDesign:HintAssist.HintOpacity=".26"
+                                      IsEditable="True"
+                                      SelectedItem="{Binding Trainer.EducationLevel}"
+                                      VerticalAlignment="Center"
+                                      Width="{Binding ElementName=job, Path=ActualWidth}"
+                                      Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                      Margin="10" />
+
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal"
+                                    Grid.Row="2">
+                            <TextBox MaxWidth="400"
+                                     Width="200"
+                                     x:Name="job"
+                                     VerticalAlignment="Center"
+                                     materialDesign:HintAssist.Hint="Job Title"
+                                     AcceptsReturn="True"
+                                     Text="{Binding Trainer.JobTitle}"
+                                     Style="{StaticResource MaterialDesignFilledTextBox}"
+                                     TextWrapping="Wrap"
+                                     Margin="10" />
+                            <ComboBox materialDesign:HintAssist.Hint="Gender"
+                                      
+                                      VerticalAlignment="Center"
+                                      Width="{Binding ElementName=job, Path=ActualWidth}"
+                                      SelectedItem="{Binding Trainer.Gender}"
+                                      Style="{StaticResource MaterialDesignFloatingHintComboBox}"
+                                      IsEditable="True"
+                                      Margin="10" />
+
+                        </StackPanel>
+                        <TextBox Grid.Row="3"
+                                 HorizontalScrollBarVisibility="Hidden"
+                                 VerticalAlignment="Top"
+                                 VerticalContentAlignment="Top"
+                                 Text="{Binding Trainer.ShortDescription}"
+                                 materialDesign:HintAssist.Hint="Short Decription"
+                                 materialDesign:TextFieldAssist.CharacterCounterVisibility="Visible"
+                                 Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                 TextWrapping="Wrap"
+                                 VerticalScrollBarVisibility="Hidden" />
+                        <StackPanel Grid.Row="4"
+                                    VerticalAlignment="Center"
+                                    Orientation="Horizontal">
+                            <Button Content="Choose file"
+                                    Margin="10"
+                                    Width="150"
+                                    Command="{Binding ChoosePictureCommand}"
+                                    VerticalAlignment="Center" />
+                            <TextBlock x:Name="fileTxt"
+                                       Margin="10"
+                                       Text="{Binding Trainer.PictureFile.FileName}"
+                                       VerticalAlignment="Center">
+                                <TextBlock.ContextMenu>
+                                    <ContextMenu>
+                                        <Separator />
+                                        <MenuItem Header="Remove"
+                                                  Command="{Binding RemoveCommand}">
+                                            <MenuItem.Icon>
+                                                <materialDesign:PackIcon Kind="Delete" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                        <Separator />
+                                        <MenuItem Header="Download"
+                                                  Command="{Binding DownloadCommand}">
+                                            <MenuItem.Icon>
+                                                <materialDesign:PackIcon Kind="Download" />
+                                            </MenuItem.Icon>
+                                        </MenuItem>
+                                    </ContextMenu>
+                                </TextBlock.ContextMenu>
+                            </TextBlock>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </ScrollViewer>
+            <GridSplitter Grid.Column="1"
+                          Background="{StaticResource MaterialDesignDarkSeparatorBackground}"
+                          ShowsPreview="True"
+                          Width="5" />
+            <Border Grid.Column="2">
+                <DataGrid ItemsSource="{Binding Trainer.Experiences}"
+                          CanUserDeleteRows="True"
+                          AutoGenerateColumns="False">
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Position"
+                                            Binding="{Binding Position}"
+                                            Width="*" />
+                        <DataGridTextColumn Header="Company Name"
+                                            Binding="{Binding CompanyName}" />
+                        <DataGridTemplateColumn Header="From">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <DatePicker SelectedDate="{Binding From}"
+                                                Width="120"
+                                                materialDesign:HintAssist.Hint="From" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="To">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <DatePicker SelectedDate="{Binding To}"
+                                                Width="120"
+                                                materialDesign:HintAssist.Hint="To" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="Description"
+                                            Binding="{Binding Description}"
+                                            Width="2*" />
+                        <DataGridTemplateColumn Width="Auto">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button ToolTip="Delete"
+                                            Command="{Binding DataContext.DeleteRowCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                            CommandParameter="{Binding}">
+                                        <materialDesign:PackIcon Kind="Bin" />
+                                    </Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Border>
+        </Grid>
+        <StackPanel HorizontalAlignment="Right"
+                    Grid.Row="1"
+                    Margin="10"
+                    Orientation="Horizontal">
+            <Button ToolTip="Save"
+                    Command="{Binding SaveCommand}">
+                <materialDesign:PackIcon Kind="ContentSave" />
+            </Button>
+            <Button ToolTip="Save and New"
+                    Command="{Binding SaveAndAddNewCommand}">
+                <materialDesign:PackIcon Kind="ContentSaveAdd" />
+            </Button>
+            <Button ToolTip="Cancel"
+                    ToolTipService.Placement="RelativePoint"
+                    Command="{Binding CancelCommand}">
+                <materialDesign:PackIcon Kind="Cancel" />
+            </Button>
+        </StackPanel>
     </Grid>
 </UserControl>

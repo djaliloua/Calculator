@@ -1,10 +1,42 @@
 ﻿using Patterns.Implementation;
 using RegistrationApplication.DataAccessLayer;
 using RegistrationApplication.Extensions;
+using System.Windows.Input;
 
 namespace RegistrationApplication.MVVM.ViewModels.CourseViewModel
 {
-    public class CourseProformaViewModel:BaseViewModel
+    public class BaseCourseViewModel :BaseViewModel, IBaseViewModel<CourseViewModel>
+    {
+        private CourseViewModel _orignalObject;
+        public CourseViewModel OriginalObject
+        {
+            get => _orignalObject;
+            protected set
+            {
+                _orignalObject = value;
+            }
+        }
+
+        public virtual void BeginEdit()
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual void CancelEdit()
+        {
+            
+        }
+
+        public virtual void EndEdit()
+        {
+            if (!_inEdit) return;
+
+            // Commit changes by clearing the backup
+            OriginalObject = null;
+            _inEdit = false;
+        }
+    }
+    public class CourseProformaViewModel:BaseViewModel, IClone<CourseProformaViewModel>
     {
         public int CourseProformaId { get; set; }
         public int CourseId { get; set; }
@@ -15,11 +47,14 @@ namespace RegistrationApplication.MVVM.ViewModels.CourseViewModel
             get => _course;
             set => UpdateObservable(ref _course, value);
         }
+
+        public CourseProformaViewModel Clone() => (CourseProformaViewModel)MemberwiseClone();
+        
     }
-    public class CourseViewModel:BaseViewModel, IEquatable<CourseViewModel>, IClone<CourseViewModel>
+    public class CourseViewModel: BaseCourseViewModel, IClone<CourseViewModel>
     {
         public int CourseId { get; set; }
-        private string _courseName;
+        private string _courseName = "Deep learning";
         public string CourseName
         {
             get => _courseName;
@@ -44,14 +79,53 @@ namespace RegistrationApplication.MVVM.ViewModels.CourseViewModel
             set => UpdateObservable(ref _courseProformaViewModel, value);
         }
 
-        public bool Equals(CourseViewModel other)
+       public void UpdateProforma(CourseProformaViewModel courseProformaViewModel)
         {
-            if(other == null) return false;
-            return CourseId == other.CourseId;
+
+        }
+        public override void AcceptChanges()
+        {
+            base.AcceptChanges();
+            CourseProforma.AcceptChanges();
+            //foreach (var experience in Experiences)
+            //{
+            //    experience.AcceptChanges();
+            //}
+        }
+        public CourseViewModel Clone()
+        {
+            CourseViewModel model = new();
+            model.CourseId = CourseId;
+            model.CourseName = CourseName;
+            model.CourseDescription = CourseDescription;
+            model.CourseExpectation = CourseExpectation;
+            model.CourseProforma = CourseProforma.Clone();
+            return model;
+        }
+        public override void BeginEdit()
+        {
+            if (_inEdit) return;
+
+            // Save current values for rollback
+            OriginalObject = Clone();
+
+            _inEdit = true;
+        }
+        public override void CancelEdit()
+        {
+            if (!_inEdit) return;
+
+            // Restore from backup copy
+            if (OriginalObject != null)
+            {
+                CourseName = OriginalObject.CourseName;
+                CourseDescription = OriginalObject.CourseDescription;
+                CourseExpectation = OriginalObject.CourseExpectation;
+                CourseProforma = OriginalObject.CourseProforma;
+            }
+            _inEdit = false;
         }
 
-        public CourseViewModel Clone() => (CourseViewModel)MemberwiseClone();
-        
     }
     public class ListOfCourseViewModel:Loadable<CourseViewModel>
     {
@@ -64,9 +138,9 @@ namespace RegistrationApplication.MVVM.ViewModels.CourseViewModel
             LoadItems(StaticDataSource.Courses.ToVM());
         }
     }
-
     public class CourseViewModelUI:BaseViewModel
     {
+        #region Properties
         private int _selectedIndex;
         public int SelectedIndex
         {
@@ -74,11 +148,41 @@ namespace RegistrationApplication.MVVM.ViewModels.CourseViewModel
             set => UpdateObservable(ref _selectedIndex, value);
         }
 
+        //private ListOfCourseViewModel _courseVM;
         public ListOfCourseViewModel CoursesVM { get; set; }
+        
+        #endregion
+
+        #region Commands
+        public ICommand NewCommand { get; private set; }
+        public ICommand UpdateCommand { get; private set; }
+        public ICommand DeleteCommand { get; private set; }
+        #endregion
+
+        #region Constructor
         public CourseViewModelUI()
         {
             SelectedIndex = 0;
             CoursesVM = ServiceLocator.ListOfCourseViewModel;
+            NewCommand = new DelegateCommand(OnNew);
+            DeleteCommand = new DelegateCommand(OnDelete);
+            UpdateCommand = NewCommand;
         }
+        #endregion
+
+        #region Handlers
+        private void OnDelete(object parameter)
+        {
+
+        }
+        private void OnNew(object parameter)
+        {
+            if(CoursesVM.IsSelected)
+            {
+                SelectedIndex++;
+            }
+            
+        }
+        #endregion
     }
 }

@@ -37,6 +37,7 @@ namespace RegistrationApplication.Extensions
             services.AddSingleton<CountryViewModelUI>();
             services.AddSingleton<CourseViewModelUI>();
             services.AddSingleton<ListOfCourseViewModel>();
+            services.AddSingleton<CourseFormViewModel>();
             return services;
         }
         public static ServiceCollection AddSqlServerDbContext(this ServiceCollection services, IConfiguration config)

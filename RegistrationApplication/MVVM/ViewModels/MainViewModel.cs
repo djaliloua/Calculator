@@ -105,7 +105,7 @@ namespace RegistrationApplication.MVVM.ViewModels
             Controls.Add(new ControlData("Country", "CreditCardWirelessOutline", new CountryView()));
             if (Controls.Count > 0)
             {
-                SelectedControl = Controls[0];
+                SelectedControl = Controls[1];
             }
         }
     }

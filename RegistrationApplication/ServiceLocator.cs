@@ -13,6 +13,7 @@ namespace RegistrationApplication
         #endregion
 
         #region View Models
+        public static CourseFormViewModel CourseFormViewModel => GetService<CourseFormViewModel>();
         public static ListOfCourseViewModel ListOfCourseViewModel => GetService<ListOfCourseViewModel>();
         public static CourseViewModelUI CourseViewModelUI => GetService<CourseViewModelUI>();
         public static CountryViewModelUI CountryViewModelUI => GetService<CountryViewModelUI>();

@@ -2,7 +2,6 @@
 using RegistrationApplication.DataAccessLayer.Implementations;
 using RegistrationApplication.Extensions;
 using RegistrationApplication.Utility;
-using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Drawing;
@@ -463,10 +462,7 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
             
             return model;
         }
-        public void AddExperience(ExperienceViewModel experience)
-        {
-            Experiences.Add(experience);
-        }
+        
         public void DeleteExperience(ExperienceViewModel experience)
         {
             Experiences.Remove(experience);

@@ -34,7 +34,11 @@ namespace RegistrationApplication.MVVM.ViewModels
 
         public virtual void EndEdit()
         {
-            throw new NotImplementedException();
+            if (!_inEdit) return;
+
+            // Commit changes by clearing the backup
+            OriginalObject = null;
+            _inEdit = false;
         }
     }
     public class TrainerBaseViewModel : BaseViewModel, IBaseViewModel<TrainerViewModel>
@@ -48,7 +52,6 @@ namespace RegistrationApplication.MVVM.ViewModels
                 _viewModel = value;
             }
         }
-
         public virtual void BeginEdit()
         {
             
