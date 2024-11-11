@@ -103,6 +103,7 @@ namespace RegistrationApplication.MVVM.ViewModels
     {
         protected bool _inEdit;
         private bool _isChanged;
+        [NotifyParentProperty(true)]
         public bool IsChanged
         {
             get => _isChanged;

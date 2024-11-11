@@ -72,14 +72,13 @@ namespace RegistrationApplication.MVVM.ViewModels.CourseViewModel
             get => _courseExpectation;
             set => UpdateObservable(ref _courseExpectation, value);
         }
-        private CourseProformaViewModel _courseProformaViewModel;
+        private CourseProformaViewModel _courseProformaViewModel = new();
         public virtual CourseProformaViewModel CourseProforma
         {
             get => _courseProformaViewModel;
             set => UpdateObservable(ref _courseProformaViewModel, value);
         }
-
-       public void UpdateProforma(CourseProformaViewModel courseProformaViewModel)
+        public void UpdateProforma(CourseProformaViewModel courseProformaViewModel)
         {
 
         }
@@ -87,10 +86,6 @@ namespace RegistrationApplication.MVVM.ViewModels.CourseViewModel
         {
             base.AcceptChanges();
             CourseProforma.AcceptChanges();
-            //foreach (var experience in Experiences)
-            //{
-            //    experience.AcceptChanges();
-            //}
         }
         public CourseViewModel Clone()
         {
@@ -148,8 +143,12 @@ namespace RegistrationApplication.MVVM.ViewModels.CourseViewModel
             set => UpdateObservable(ref _selectedIndex, value);
         }
 
-        //private ListOfCourseViewModel _courseVM;
-        public ListOfCourseViewModel CoursesVM { get; set; }
+        private ListOfCourseViewModel _courseVM;
+        public ListOfCourseViewModel CoursesVM
+        {
+            get => _courseVM;
+            set => UpdateObservable(ref _courseVM, value);
+        }
         
         #endregion
 
@@ -180,21 +179,24 @@ namespace RegistrationApplication.MVVM.ViewModels.CourseViewModel
             if (CoursesVM.IsSelected)
             {
                 ServiceLocator.CourseFormViewModel.Course = CoursesVM.SelectedItem;
+                ServiceLocator.CourseFormViewModel.Course.BeginEdit();
                 ServiceLocator.CourseFormViewModel.IsSave = false;
-                SelectedIndex++;
+                GoForward();
             }
 
         }
         private void OnNew(object parameter)
         {
-            if(CoursesVM.IsSelected)
-            {
-                ServiceLocator.CourseFormViewModel.Course = new();
-                ServiceLocator.CourseFormViewModel.IsSave = true;
-                SelectedIndex++;
-            }
-            
+            ServiceLocator.CourseFormViewModel.Course = new();
+            ServiceLocator.CourseFormViewModel.Course.BeginEdit();
+            ServiceLocator.CourseFormViewModel.IsSave = true;
+            GoForward();
         }
+        public void GoForward()
+        {
+            SelectedIndex++;
+        }
+        public void GoBack() => SelectedIndex--;
         #endregion
     }
 }

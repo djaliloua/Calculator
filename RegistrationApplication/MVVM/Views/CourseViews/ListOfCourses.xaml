@@ -49,7 +49,6 @@
                     </GridView.Columns>
                 </GridView>
             </ListView.View>
-
         </ListView>
         <Button Grid.Row="0"
                 Margin="15"

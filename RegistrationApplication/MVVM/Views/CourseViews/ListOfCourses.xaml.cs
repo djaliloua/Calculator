@@ -18,8 +18,9 @@ namespace RegistrationApplication.MVVM.Views.CourseViews
             if (ServiceLocator.CourseViewModelUI.CoursesVM.IsSelected)
             {
                 ServiceLocator.CourseFormViewModel.Course = ServiceLocator.CourseViewModelUI.CoursesVM.SelectedItem;
+                ServiceLocator.CourseFormViewModel.Course.BeginEdit();
                 ServiceLocator.CourseFormViewModel.IsSave = false;
-                ServiceLocator.CourseViewModelUI.SelectedIndex++;
+                ServiceLocator.CourseViewModelUI.GoForward();
             }
         }
     }

@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:RegistrationApplication.MVVM.Views.CourseViews"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:validation="clr-namespace:RegistrationApplication.Validations"
              DataContext="{Binding Source={StaticResource locator}, Path=CourseFormViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -39,9 +40,18 @@
                                      materialDesign:HintAssist.Hint="Course Name"
                                      AcceptsReturn="True"
                                      Style="{StaticResource MaterialDesignFilledTextBox}"
-                                     Text="{Binding Course.CourseName}"
                                      TextWrapping="Wrap"
-                                     Margin="10" />
+                                     Margin="10">
+                                <TextBox.Text>
+                                    <Binding Path="Course.CourseName"
+                                             UpdateSourceTrigger="PropertyChanged">
+                                        <Binding.ValidationRules>
+                                            <validation:StringValidation />
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                                
+                            </TextBox>
                             <TextBox MaxWidth="400"
                                      VerticalAlignment="Top"
                                      materialDesign:HintAssist.Hint="Description"
@@ -49,7 +59,16 @@
                                      Width="200"
                                      Style="{StaticResource MaterialDesignFilledTextBox}"
                                      TextWrapping="Wrap"
-                                     Margin="10" />
+                                     Margin="10">
+                                <TextBox.Text>
+                                    <Binding Path="Course.CourseDescription"
+                                             UpdateSourceTrigger="PropertyChanged">
+                                        <Binding.ValidationRules>
+                                            <validation:StringValidation />
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal"
                                     Grid.Row="1">
@@ -57,7 +76,6 @@
                                         Width="200"
                                         Margin="10"
                                         Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
-                                        SelectedDate="{Binding Trainer.Birthday}"
                                         VerticalAlignment="Center"
                                         materialDesign:HintAssist.Hint="Birthday" />
 
@@ -65,7 +83,6 @@
                                       materialDesign:ComboBoxAssist.MaxLength="2"
                                       materialDesign:HintAssist.HintOpacity=".26"
                                       IsEditable="True"
-                                      SelectedItem="{Binding Trainer.EducationLevel}"
                                       VerticalAlignment="Center"
                                       Width="{Binding ElementName=job, Path=ActualWidth}"
                                       Style="{StaticResource MaterialDesignFloatingHintComboBox}"
@@ -80,7 +97,6 @@
                                      VerticalAlignment="Center"
                                      materialDesign:HintAssist.Hint="Job Title"
                                      AcceptsReturn="True"
-                                     Text="{Binding Trainer.JobTitle}"
                                      Style="{StaticResource MaterialDesignFilledTextBox}"
                                      TextWrapping="Wrap"
                                      Margin="10" />
@@ -88,7 +104,6 @@
                                       
                                       VerticalAlignment="Center"
                                       Width="{Binding ElementName=job, Path=ActualWidth}"
-                                      SelectedItem="{Binding Trainer.Gender}"
                                       Style="{StaticResource MaterialDesignFloatingHintComboBox}"
                                       IsEditable="True"
                                       Margin="10" />
@@ -98,7 +113,6 @@
                                  HorizontalScrollBarVisibility="Hidden"
                                  VerticalAlignment="Top"
                                  VerticalContentAlignment="Top"
-                                 Text="{Binding Trainer.ShortDescription}"
                                  materialDesign:HintAssist.Hint="Short Decription"
                                  materialDesign:TextFieldAssist.CharacterCounterVisibility="Visible"
                                  Style="{StaticResource MaterialDesignOutlinedTextBox}"
@@ -107,14 +121,10 @@
                         <StackPanel Grid.Row="4"
                                     VerticalAlignment="Center"
                                     Orientation="Horizontal">
-                            <Button Content="Choose file"
-                                    Margin="10"
-                                    Width="150"
-                                    Command="{Binding ChoosePictureCommand}"
-                                    VerticalAlignment="Center" />
+                            
                             <TextBlock x:Name="fileTxt"
                                        Margin="10"
-                                       Text="{Binding Trainer.PictureFile.FileName}"
+                                     
                                        VerticalAlignment="Center">
                                 <TextBlock.ContextMenu>
                                     <ContextMenu>
@@ -144,7 +154,7 @@
                           ShowsPreview="True"
                           Width="5" />
             <Border Grid.Column="2">
-                <DataGrid ItemsSource="{Binding Trainer.Experiences}"
+                <DataGrid 
                           CanUserDeleteRows="True"
                           AutoGenerateColumns="False">
 
