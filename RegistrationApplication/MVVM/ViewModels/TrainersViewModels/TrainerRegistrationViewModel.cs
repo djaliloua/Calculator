@@ -11,7 +11,7 @@ using System.Windows.Input;
 
 namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
 {
-    public class ExperienceViewModel : ExperienceBaseViewModel, IClone<ExperienceViewModel>, IDataErrorInfo
+    public class ExperienceViewModel : BaseViewModel, IClone<ExperienceViewModel>, IDataErrorInfo
     {
         #region Properties
         public int ExperienceId { get; set; }
@@ -94,38 +94,8 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
         #endregion
 
         public ExperienceViewModel Clone() => (ExperienceViewModel)MemberwiseClone();
-
-        public override void BeginEdit()
-        {
-            if (_inEdit) return;
-
-            // Save current values for rollback
-            OriginalObject = new();
-            OriginalObject.Position = Position;
-            OriginalObject.To = To;
-            OriginalObject.From = From;
-            OriginalObject.Description = Description;
-            OriginalObject.Trainer = Trainer;
-            _inEdit = true;
-        }
-        public override void CancelEdit()
-        {
-            if (!_inEdit) return;
-
-            // Restore from backup copy
-            if (OriginalObject != null)
-            {
-                Position = OriginalObject.Position;
-                To = OriginalObject.To;
-                From = OriginalObject.From;
-                Description = OriginalObject.Description;
-                Trainer = OriginalObject.Trainer;
-            }
-            _inEdit = false;
-        }
-
     }
-    public class PictureFileViewModel : PictureFileBaseViewModel, IClone<PictureFileViewModel>, IDataErrorInfo
+    public class PictureFileViewModel : BaseViewModel, IClone<PictureFileViewModel>, IDataErrorInfo
     {
         #region Properties
         public int PictureFileId { get; set; }
@@ -165,9 +135,48 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
         #endregion
 
         #region Validations
-        public string Error => throw new NotImplementedException();
+        public string Error
+        {
+            get
+            {
+                string error = string.Empty;
+                if (string.IsNullOrEmpty(FileName))
+                {
+                    return "Last Name is required";
+                }
+                if (string.IsNullOrEmpty(FileExtension))
+                {
+                    return "First Name is required";
+                }
 
-        public string this[string columnName] => throw new NotImplementedException();
+                return error;
+            }
+        }
+
+        public string this[string columnName]
+        {
+            get
+            {
+                string error = string.Empty;
+                switch (columnName)
+                {
+                    case nameof(FileName):
+                        if (string.IsNullOrEmpty(FileName))
+                        {
+                            error = "Last name is required";
+                        }
+                        break;
+                    case nameof(FileExtension):
+                        if (string.IsNullOrEmpty(FileExtension))
+                        {
+                            error = "First name is required";
+                        }
+                        break;
+                }
+
+                return error;
+            }
+        }
         #endregion
 
         #region Constructors
@@ -183,37 +192,10 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
             Picture = !string.IsNullOrEmpty(FullPath) ? ImageUtility.ImageToByteArray(Image.FromFile(FullPath)) : Array.Empty<byte>();
         }
         #endregion
-
-        public override void BeginEdit()
-        {
-            if (_inEdit) return;
-
-            // Save current values for rollback
-            OriginalObject =new();
-            OriginalObject.Picture = Picture;
-            OriginalObject.Trainer = Trainer;
-            OriginalObject.FileExtension = FileExtension;
-            OriginalObject.FullPath = FullPath;
-            OriginalObject.FileName = FileName;
-            _inEdit = true;
-        }
-        public override void CancelEdit()
-        {
-            if (!_inEdit) return;
-            if(OriginalObject == null) return;
-            if(OriginalObject != null)
-            {
-                FullPath = OriginalObject.FullPath;
-                FileName = OriginalObject.FileName;
-                FileExtension = OriginalObject.FileExtension;
-                Picture = OriginalObject.Picture;
-            }
-            _inEdit = false;
-        }
         public PictureFileViewModel Clone() => (PictureFileViewModel)MemberwiseClone();
         
     }
-    public class TrainerViewModel : TrainerBaseViewModel, IDataErrorInfo, IClone<TrainerViewModel>, IEquatable<TrainerViewModel> 
+    public class TrainerViewModel : ParentBaseViewModel<TrainerViewModel>, IDataErrorInfo
     {
         #region Properties
         public int TrainerId { get; set; }
@@ -383,63 +365,6 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
         #endregion
 
         #region Public methods
-        
-        public override void AcceptChanges()
-        {
-            base.AcceptChanges();
-            PictureFile.AcceptChanges();
-            foreach (var experience in Experiences)
-            {
-                experience.AcceptChanges();
-            }
-        }
-
-        public override void BeginEdit()
-        {
-            if (_inEdit) return;
-
-            // Save current values for rollback
-            OriginalObject = Clone();
-           
-            _inEdit = true;
-        }
-        public override void CancelEdit()
-        {
-            if (!_inEdit) return;
-
-            // Restore from backup copy
-            if (OriginalObject != null)
-            {
-                LastName = OriginalObject.LastName;
-                FirstName = OriginalObject.FirstName;
-                Age = OriginalObject.Age;
-                EducationLevel = OriginalObject.EducationLevel;
-                JobTitle = OriginalObject.JobTitle;
-                Birthday = OriginalObject.Birthday;
-                UpdatePicture(OriginalObject.PictureFile);
-                Gender = OriginalObject.Gender;
-                ShortDescription = OriginalObject.ShortDescription;
-                Experiences = OriginalObject.Experiences;
-                for(int i = 0; i < OriginalObject.Experiences.Count; i++)
-                {
-                    if (Experiences[i].ExperienceId == OriginalObject.Experiences[i].ExperienceId)
-                    {
-                        Experiences[i] = OriginalObject.Experiences[i];
-                    }
-                }
-                OnPropertyChanged(nameof(Experiences));
-            }
-            _inEdit = false;
-        }
-        public void UpdateExperience(ExperienceViewModel originalModel, ExperienceViewModel currentModel)
-        {
-            currentModel.Position = originalModel.Position;
-            currentModel.Description = originalModel.Description;
-            currentModel.From = originalModel.From;
-            currentModel.To = originalModel.To;
-            currentModel.Trainer = originalModel.Trainer;
-        }
-
         //private void UpdateChangeState() => IsChanged = true;
         public void UpdatePicture(PictureFileViewModel picturePath)
         {
@@ -448,30 +373,9 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
             PictureFile.FileExtension = picturePath.FileExtension;
             PictureFile.FileName = picturePath.FileName;
         }
-        public TrainerViewModel Clone()
-        {
-            TrainerViewModel model = new();
-            model.FirstName = FirstName;
-            model.LastName = LastName;
-            model.Birthday = Birthday;
-            model.Gender = Gender;
-            model.ShortDescription = ShortDescription;
-            model.JobTitle = JobTitle;
-            model.PictureFile = PictureFile.Clone();
-            model.Experiences = new ObservableCollection<ExperienceViewModel>(Experiences.Select(item => item.Clone()).ToList());
-            
-            return model;
-        }
-        
         public void DeleteExperience(ExperienceViewModel experience)
         {
             Experiences.Remove(experience);
-        }
-
-        public bool Equals(TrainerViewModel other)
-        {
-            if (other == null) return false;
-            return TrainerId == other.TrainerId;
         }
         private void PictureFile_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
@@ -482,7 +386,6 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
             }
         }
         #endregion
-
     }
     public class TrainersProfilesViewModel:Loadable<TrainerViewModel>, IClone<TrainersProfilesViewModel>
     {

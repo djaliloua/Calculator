@@ -1,6 +1,5 @@
-﻿using RegistrationApplication.MVVM.ViewModels.TrainersViewModels;
-using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 
 namespace RegistrationApplication.MVVM.ViewModels
@@ -9,95 +8,10 @@ namespace RegistrationApplication.MVVM.ViewModels
     {
         public T Clone();
     }
-    public interface IBaseViewModel<T>: IEditableObject
+    public interface IBaseViewModel<T> : IEditableObject
     {
-        T OriginalObject { get; }
-    }
-    public class PictureFileBaseViewModel : BaseViewModel, IBaseViewModel<PictureFileViewModel>
-    {
-        private PictureFileViewModel _originalObject;
-        public PictureFileViewModel OriginalObject
-        {
-            get => _originalObject;
-            protected set => _originalObject = value;
-        }
-
-        public virtual void BeginEdit()
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual void CancelEdit()
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual void EndEdit()
-        {
-            if (!_inEdit) return;
-
-            // Commit changes by clearing the backup
-            OriginalObject = null;
-            _inEdit = false;
-        }
-    }
-    public class TrainerBaseViewModel : BaseViewModel, IBaseViewModel<TrainerViewModel>
-    {
-        private TrainerViewModel _viewModel;
-        public TrainerViewModel OriginalObject
-        {
-            get => _viewModel;
-            protected set
-            {
-                _viewModel = value;
-            }
-        }
-        public virtual void BeginEdit()
-        {
-            
-        }
-
-        public virtual void CancelEdit()
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual void EndEdit()
-        {
-            if(!_inEdit) return;
-
-            // Commit changes by clearing the backup
-            OriginalObject = null;
-            _inEdit = false;
-        }
-    }
-    public class ExperienceBaseViewModel : BaseViewModel, IBaseViewModel<ExperienceViewModel>
-    {
-        private ExperienceViewModel _viewModel;
-        public ExperienceViewModel OriginalObject
-        {
-            get => _viewModel;
-            protected set => _viewModel = value;
-        }
-
-        public virtual void BeginEdit()
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual void CancelEdit()
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual void EndEdit()
-        {
-            if (!_inEdit) return;
-
-            // Commit changes by clearing the backup
-            OriginalObject = null;
-            _inEdit = false;
-        }
+        T OriginalObject { get; set; }
+        bool IsEdit { get; set; }
     }
     public class BaseViewModel : INotifyPropertyChanged, IChangeTracking
     {
@@ -137,6 +51,64 @@ namespace RegistrationApplication.MVVM.ViewModels
         public virtual void AcceptChanges()
         {
             _isChanged = false;
+        }
+    }
+    public class ParentBaseViewModel<T> : BaseViewModel, IBaseViewModel<T> where T : class
+    {
+        public T OriginalObject { get; set; }
+        public bool IsEdit { get; set; }
+        public virtual void BeginEdit()
+        {
+            if (IsEdit)
+            {
+                return;
+            }
+            OriginalObject = Utility.Utility.DeepCopy(this as T);
+            IsEdit = true;
+        }
+        public virtual void CancelEdit()
+        {
+            if (!IsEdit)
+            {
+                return;
+            }
+            var type = this.GetType();
+            var properties = type.GetProperties();
+            foreach (var property in properties)
+            {
+                if (OriginalObject != null && property.SetMethod != null)
+                {
+                    var value = property.GetValue(OriginalObject);
+                    property.SetValue(this, value);
+                    OnPropertyChanged(property.Name);
+                }
+
+            }
+            IsEdit = false;
+        }
+        public virtual void EndEdit()
+        {
+            if (!IsEdit)
+            {
+                return;
+            }
+            OriginalObject = default;
+            IsEdit = false;
+        }
+        public override void AcceptChanges()
+        {
+            base.AcceptChanges();
+            var type = this.GetType();
+            var fields = type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+            foreach (var (value, method) in from field in fields
+                                            where typeof(BaseViewModel).IsAssignableFrom(field.FieldType)
+                                            let value = field.GetValue(this)
+                                            let subTypes = value.GetType()
+                                            let method = subTypes.GetMethod("AcceptChanges")
+                                            select (value, method))
+            {
+                method?.Invoke(value, null);
+            }
         }
     }
 }

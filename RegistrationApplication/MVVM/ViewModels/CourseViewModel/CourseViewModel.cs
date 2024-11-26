@@ -5,37 +5,37 @@ using System.Windows.Input;
 
 namespace RegistrationApplication.MVVM.ViewModels.CourseViewModel
 {
-    public class BaseCourseViewModel :BaseViewModel, IBaseViewModel<CourseViewModel>
-    {
-        private CourseViewModel _orignalObject;
-        public CourseViewModel OriginalObject
-        {
-            get => _orignalObject;
-            protected set
-            {
-                _orignalObject = value;
-            }
-        }
+    //public class BaseCourseViewModel :BaseViewModel, IBaseViewModel<CourseViewModel>
+    //{
+    //    private CourseViewModel _orignalObject;
+    //    public CourseViewModel OriginalObject
+    //    {
+    //        get => _orignalObject;
+    //        protected set
+    //        {
+    //            _orignalObject = value;
+    //        }
+    //    }
 
-        public virtual void BeginEdit()
-        {
-            throw new NotImplementedException();
-        }
+    //    public virtual void BeginEdit()
+    //    {
+    //        throw new NotImplementedException();
+    //    }
 
-        public virtual void CancelEdit()
-        {
+    //    public virtual void CancelEdit()
+    //    {
             
-        }
+    //    }
 
-        public virtual void EndEdit()
-        {
-            if (!_inEdit) return;
+    //    public virtual void EndEdit()
+    //    {
+    //        if (!_inEdit) return;
 
-            // Commit changes by clearing the backup
-            OriginalObject = null;
-            _inEdit = false;
-        }
-    }
+    //        // Commit changes by clearing the backup
+    //        OriginalObject = null;
+    //        _inEdit = false;
+    //    }
+    //}
     public class CourseProformaViewModel:BaseViewModel, IClone<CourseProformaViewModel>
     {
         public int CourseProformaId { get; set; }
@@ -51,7 +51,7 @@ namespace RegistrationApplication.MVVM.ViewModels.CourseViewModel
         public CourseProformaViewModel Clone() => (CourseProformaViewModel)MemberwiseClone();
         
     }
-    public class CourseViewModel: BaseCourseViewModel, IClone<CourseViewModel>
+    public class CourseViewModel: ParentBaseViewModel<CourseViewModel>, IClone<CourseViewModel>
     {
         public int CourseId { get; set; }
         private string _courseName = "Deep learning";
@@ -82,11 +82,6 @@ namespace RegistrationApplication.MVVM.ViewModels.CourseViewModel
         {
 
         }
-        public override void AcceptChanges()
-        {
-            base.AcceptChanges();
-            CourseProforma.AcceptChanges();
-        }
         public CourseViewModel Clone()
         {
             CourseViewModel model = new();
@@ -96,29 +91,6 @@ namespace RegistrationApplication.MVVM.ViewModels.CourseViewModel
             model.CourseExpectation = CourseExpectation;
             model.CourseProforma = CourseProforma.Clone();
             return model;
-        }
-        public override void BeginEdit()
-        {
-            if (_inEdit) return;
-
-            // Save current values for rollback
-            OriginalObject = Clone();
-
-            _inEdit = true;
-        }
-        public override void CancelEdit()
-        {
-            if (!_inEdit) return;
-
-            // Restore from backup copy
-            if (OriginalObject != null)
-            {
-                CourseName = OriginalObject.CourseName;
-                CourseDescription = OriginalObject.CourseDescription;
-                CourseExpectation = OriginalObject.CourseExpectation;
-                CourseProforma = OriginalObject.CourseProforma;
-            }
-            _inEdit = false;
         }
 
     }
