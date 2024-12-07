@@ -223,9 +223,10 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
         public int? Age
         {
             get => DateTime.Now.Year - Birthday?.Year;
-            set => UpdateObservable(ref _age, value);
+            set => _age = value;
         }
-        
+
+
         private string _educationLevel;
         public string EducationLevel
         {
