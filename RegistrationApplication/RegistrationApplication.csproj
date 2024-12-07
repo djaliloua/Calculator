@@ -9,6 +9,7 @@
     <UseWPF>true</UseWPF>
     <UserSecretsId>ac7624b1-4634-467b-8a03-15d9421ea620</UserSecretsId>
     <ApplicationIcon>app.ico</ApplicationIcon>
+	<LangVersion>preview</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>

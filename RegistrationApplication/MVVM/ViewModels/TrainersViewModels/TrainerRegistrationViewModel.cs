@@ -219,14 +219,11 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
             get => _shortDescription;
             set => UpdateObservable(ref _shortDescription, value);
         }
-        private int? _age;
         public int? Age
         {
             get => DateTime.Now.Year - Birthday?.Year;
-            set => _age = value;
+            set;
         }
-
-
         private string _educationLevel;
         public string EducationLevel
         {
