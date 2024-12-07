@@ -199,88 +199,78 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
     {
         #region Properties
         public int TrainerId { get; set; }
-
-        private string _lastName;
         public string LastName
         {
-            get => _lastName;
-            set => UpdateObservable(ref _lastName, value);
+            get => field;
+            set => UpdateObservable(ref field, value);
         }
-
-        private string _firstName;
         public string FirstName
         {
-            get => _firstName;
-            set => UpdateObservable(ref _firstName, value);
+            get => field;
+            set => UpdateObservable(ref field, value);
         }
-        private string _shortDescription;
         public string ShortDescription
         {
-            get => _shortDescription;
-            set => UpdateObservable(ref _shortDescription, value);
+            get => field;
+            set => UpdateObservable(ref field, value);
         }
         public int? Age
         {
             get => DateTime.Now.Year - Birthday?.Year;
             set;
         }
-        private string _educationLevel;
+
         public string EducationLevel
         {
-            get => _educationLevel;
-            set => UpdateObservable(ref _educationLevel, value);
+            get => field;
+            set => UpdateObservable(ref field, value);
         }
-        private string _gender;
+
         public string Gender
         {
-            get => _gender;
-            set => UpdateObservable(ref _gender, value);
+            get => field;
+            set => UpdateObservable(ref field, value);
         }
-
-        private string _jobTitle;
         public string JobTitle
         {
-            get => _jobTitle;
-            set => UpdateObservable(ref _jobTitle, value);
+            get => field;
+            set => UpdateObservable(ref field, value);
         }
 
-        private DateTime? _birthday = DateTime.Now;
         public DateTime? Birthday
         {
-            get => _birthday;
-            set => UpdateObservable(ref _birthday, value, () =>
+            get => field ?? DateTime.Now;
+            set => UpdateObservable(ref field, value, () =>
             {
                 OnPropertyChanged(nameof(Age));
             });
         }
 
-        private PictureFileViewModel _picturePath;
         public PictureFileViewModel PictureFile
         {
-            get => _picturePath;
+            get => field;
             set
             {
-                if(_picturePath != null)
+                if(field != null)
                 {
-                    _picturePath.PropertyChanged -= PictureFile_PropertyChanged;
+                    field.PropertyChanged -= PictureFile_PropertyChanged;
                 }
-                _picturePath = value;
-                if(_picturePath.Picture == null)
+                field = value;
+                if(field.Picture == null)
                 {
                     UpdatePicture(new(@"DefaultResources\h1.png"));
                 }
 
-                if (_picturePath != null)
+                if (field != null)
                 {
-                    _picturePath.PropertyChanged += PictureFile_PropertyChanged;
+                    field.PropertyChanged += PictureFile_PropertyChanged;
                 }
             }
         }
 
-        private ObservableCollection<ExperienceViewModel> _experience;
         public ObservableCollection<ExperienceViewModel> Experiences
         {
-            get => _experience ?? new ObservableCollection<ExperienceViewModel>();
+            get => field ?? new ObservableCollection<ExperienceViewModel>();
             set
             {
                 if(value != null)
@@ -290,7 +280,7 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
                         experience.PropertyChanged -= Experience_PropertyChanged;
                     }
                 }
-                _experience = value;
+                field = value;
                 if(value != null)
                 {
                     foreach (var experience in value)
