@@ -250,7 +250,10 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
         public DateTime? Birthday
         {
             get => _birthday;
-            set => UpdateObservable(ref _birthday, value);
+            set => UpdateObservable(ref _birthday, value, () =>
+            {
+                OnPropertyChanged(nameof(Age));
+            });
         }
 
         private PictureFileViewModel _picturePath;
