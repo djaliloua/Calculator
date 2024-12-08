@@ -101,11 +101,10 @@ namespace RegistrationApplication.MVVM.ViewModels
         private void Init()
         {
             Controls.Add(new ControlData("Trainers", "AccountMultiplePlus", new TrainerRegistrationView()));
-            Controls.Add(new ControlData("Courses", "HumanMaleBoard", new CourseView()));
             Controls.Add(new ControlData("Country", "CreditCardWirelessOutline", new CountryView()));
             if (Controls.Count > 0)
             {
-                SelectedControl = Controls[1];
+                SelectedControl = Controls[0];
             }
         }
     }

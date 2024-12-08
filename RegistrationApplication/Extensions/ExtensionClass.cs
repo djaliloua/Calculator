@@ -5,7 +5,6 @@ using RegistrationApplication.DataAccessLayer.DataContext;
 using RegistrationApplication.MVVM.Models;
 using RegistrationApplication.MVVM.ViewModels;
 using RegistrationApplication.MVVM.ViewModels.CountryViewModels;
-using RegistrationApplication.MVVM.ViewModels.CourseViewModel;
 using RegistrationApplication.MVVM.ViewModels.TrainersViewModels;
 
 namespace RegistrationApplication.Extensions
@@ -18,7 +17,7 @@ namespace RegistrationApplication.Extensions
         public static Country FromVM(this CountryViewModel model) => model.Adapt<Country>();
         public static IList<CountryViewModel> ToVM(this IList<Country> model) => model.Adapt<List<CountryViewModel>>();
         public static IList<TrainerViewModel> ToVM(this IList<Trainer> model) => model.Adapt<List<TrainerViewModel>>();
-        public static IList<CourseViewModel> ToVM(this IList<Course> model) => model.Adapt<List<CourseViewModel>>();
+        //public static IList<CourseViewModel> ToVM(this IList<Course> model) => model.Adapt<List<CourseViewModel>>();
     }
     public static class ExtensionClass
     {
@@ -35,9 +34,7 @@ namespace RegistrationApplication.Extensions
             services.AddTransient<TrainerViewModel>();
             services.AddSingleton<TrainerFormViewModel>();
             services.AddSingleton<CountryViewModelUI>();
-            services.AddSingleton<CourseViewModelUI>();
-            services.AddSingleton<ListOfCourseViewModel>();
-            services.AddSingleton<CourseFormViewModel>();
+            
             return services;
         }
         public static ServiceCollection AddSqlServerDbContext(this ServiceCollection services, IConfiguration config)

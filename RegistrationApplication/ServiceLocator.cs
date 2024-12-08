@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using RegistrationApplication.MVVM.ViewModels;
 using RegistrationApplication.MVVM.ViewModels.CountryViewModels;
-using RegistrationApplication.MVVM.ViewModels.CourseViewModel;
 using RegistrationApplication.MVVM.ViewModels.TrainersViewModels;
 
 namespace RegistrationApplication
@@ -13,9 +12,6 @@ namespace RegistrationApplication
         #endregion
 
         #region View Models
-        public static CourseFormViewModel CourseFormViewModel => GetService<CourseFormViewModel>();
-        public static ListOfCourseViewModel ListOfCourseViewModel => GetService<ListOfCourseViewModel>();
-        public static CourseViewModelUI CourseViewModelUI => GetService<CourseViewModelUI>();
         public static CountryViewModelUI CountryViewModelUI => GetService<CountryViewModelUI>();
         public static TrainerFormViewModel TrainerFormViewModel => GetService<TrainerFormViewModel>();
         public static MainViewModel MainViewModel => GetService<MainViewModel>();

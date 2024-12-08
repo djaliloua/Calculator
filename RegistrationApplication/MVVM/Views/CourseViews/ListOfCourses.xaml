@@ -16,7 +16,6 @@
         </Grid.ColumnDefinitions>
         <ListView d:ItemsSource="{d:SampleData ItemCount=5}"
                   SelectedItem="{Binding CoursesVM.SelectedItem}"
-                  MouseDoubleClick="ListView_MouseDoubleClick"
                   ItemsSource="{Binding CoursesVM.Items}">
             <ListView.ContextMenu>
                 <ContextMenu>
