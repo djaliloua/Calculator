@@ -13,7 +13,7 @@ namespace RegistrationApplication.DataAccessLayer.Implementations
         {
             _dbContext = new TrainerDataContext();
             _table = _dbContext.Set<T>();
-            _dbContext.Database.EnsureCreated();
+            //_dbContext.Database.EnsureCreated();
         }
 
         public void Delete(object id)

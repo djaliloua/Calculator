@@ -14,7 +14,7 @@ namespace RegistrationApplication
     public partial class App : Application
     {
         public static IServiceProvider ServiceProvider { get; private set; }
-        public static IConfiguration Configuration { get; private set; }
+        public static IConfiguration Configuration { get; set; }
         public App()
         {
             Configuration = new ConfigurationBuilder()
