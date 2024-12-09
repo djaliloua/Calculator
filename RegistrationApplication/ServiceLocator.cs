@@ -13,6 +13,7 @@ namespace RegistrationApplication
         #endregion
 
         #region View Models
+        public static LoadableParticipiantViewModdel LoadableParticipiantViewModdel => GetService<LoadableParticipiantViewModdel>();
         public static EnrolmentViewModel EnrolmentViewModel => GetService<EnrolmentViewModel>();
         public static EnrolmentHomeViewModel EnrolmentHomeViewModel => GetService<EnrolmentHomeViewModel>();
         public static CountryViewModelUI CountryViewModelUI => GetService<CountryViewModelUI>();

@@ -6,11 +6,11 @@ using RegistrationApplication.MVVM.ViewModels.TrainersViewModels;
 
 namespace RegistrationApplication.DataAccessLayer.Implementations
 {
-    public class TrainerRepository : GenericRepository<Trainer>, ITrainerRepository
+    public class TrainerRepository : GenericRepositoryDto<TrainerViewModel, Trainer>
     {
-        public IList<TrainerViewModel> GetAllDtos()
-        {
-            return _table.ToList().ToVM();
-        }
+        //public IList<TrainerViewModel> GetAllDtos()
+        //{
+        //    return _table.ToList().ToVM();
+        //}
     }
 }

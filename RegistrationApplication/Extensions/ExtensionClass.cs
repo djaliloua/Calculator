@@ -12,13 +12,14 @@ namespace RegistrationApplication.Extensions
 {
     public static class Extensions
     {
+        public static ParticipiantViewModdel ToVM(this Participiant model) => model.Adapt<ParticipiantViewModdel>();
+        public static Participiant FromVM(this ParticipiantViewModdel model) => model.Adapt<Participiant>();
         public static TrainerViewModel ToVM(this Trainer model) => model.Adapt<TrainerViewModel>();
         public static Trainer FromVM(this TrainerViewModel model) => model.Adapt<Trainer>();
         public static CountryViewModel ToVM(this Country model) => model.Adapt<CountryViewModel>();
         public static Country FromVM(this CountryViewModel model) => model.Adapt<Country>();
         public static IList<CountryViewModel> ToVM(this IList<Country> model) => model.Adapt<List<CountryViewModel>>();
-        public static IList<TrainerViewModel> ToVM(this IList<Trainer> model) => model.Adapt<List<TrainerViewModel>>();
-        //public static IList<CourseViewModel> ToVM(this IList<Course> model) => model.Adapt<List<CourseViewModel>>();
+        public static IList<TDestination> ToVM<TSource, TDestination>(this IList<TSource> model) => model.Adapt<List<TDestination>>();
     }
     public static class ExtensionClass
     {
@@ -37,6 +38,7 @@ namespace RegistrationApplication.Extensions
             services.AddSingleton<CountryViewModelUI>();
             services.AddSingleton<EnrolmentViewModel>();
             services.AddSingleton<EnrolmentHomeViewModel>();
+            services.AddSingleton<LoadableParticipiantViewModdel>();
             return services;
         }
         public static ServiceCollection AddSqlServerDbContext(this ServiceCollection services, IConfiguration config)

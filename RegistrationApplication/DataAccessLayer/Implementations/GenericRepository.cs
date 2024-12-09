@@ -1,9 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RegistrationApplication.DataAccessLayer.Abstractions;
 using RegistrationApplication.DataAccessLayer.DataContext;
+using RegistrationApplication.Extensions;
 
 namespace RegistrationApplication.DataAccessLayer.Implementations
 {
+    public class GenericRepositoryDto<TVM, T> : GenericRepository<T>, IRepositoryDto<TVM, T> where T : class
+    {
+        public IList<TVM> GetAllDtos()
+        {
+            return _table.ToList().ToVM<T, TVM>();
+        }
+    }
     public class GenericRepository<T> : IGenericRepository<T>, IDisposable where T : class
     {
         private bool disposedValue;

@@ -1,5 +1,9 @@
 ﻿namespace RegistrationApplication.DataAccessLayer.Abstractions
 {
+    public interface IRepositoryDto<TVM, T> : IGenericRepository<T>
+    {
+        IList<TVM> GetAllDtos();
+    }
     public interface IGenericRepository<T>
     {
         void Delete(object id);
