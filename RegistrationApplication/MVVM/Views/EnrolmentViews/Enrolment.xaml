@@ -1,0 +1,30 @@
+﻿<UserControl x:Class="RegistrationApplication.MVVM.Views.EnrolmentViews.Enrolment"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:RegistrationApplication.MVVM.Views.EnrolmentViews"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             DataContext="{Binding Source={StaticResource locator}, Path=EnrolmentViewModel}"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <materialDesign:Transitioner AutoApplyTransitionOrigins="True"
+                                 SelectedIndex="{Binding SelectedIndex}">
+        <materialDesign:Transitioner.InputBindings>
+            <KeyBinding Key="Left"
+                        Command="{x:Static materialDesign:Transitioner.MovePreviousCommand}" />
+            <KeyBinding Key="Right"
+                        Command="{x:Static materialDesign:Transitioner.MoveNextCommand}" />
+        </materialDesign:Transitioner.InputBindings>
+
+
+        <materialDesign:TransitionerSlide OpeningEffect="{materialDesign:TransitionEffect FadeIn}">
+            <local:EnrolmentHomeView />
+        </materialDesign:TransitionerSlide>
+
+        <materialDesign:TransitionerSlide OpeningEffect="{materialDesign:TransitionEffect SlideInFromTop}">
+            <local:ParticipiantForm />
+        </materialDesign:TransitionerSlide>
+
+    </materialDesign:Transitioner>
+</UserControl>

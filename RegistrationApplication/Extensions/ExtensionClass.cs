@@ -5,6 +5,7 @@ using RegistrationApplication.DataAccessLayer.DataContext;
 using RegistrationApplication.MVVM.Models;
 using RegistrationApplication.MVVM.ViewModels;
 using RegistrationApplication.MVVM.ViewModels.CountryViewModels;
+using RegistrationApplication.MVVM.ViewModels.EnrolmentViewModels;
 using RegistrationApplication.MVVM.ViewModels.TrainersViewModels;
 
 namespace RegistrationApplication.Extensions
@@ -34,7 +35,8 @@ namespace RegistrationApplication.Extensions
             services.AddTransient<TrainerViewModel>();
             services.AddSingleton<TrainerFormViewModel>();
             services.AddSingleton<CountryViewModelUI>();
-            
+            services.AddSingleton<EnrolmentViewModel>();
+            services.AddSingleton<EnrolmentHomeViewModel>();
             return services;
         }
         public static ServiceCollection AddSqlServerDbContext(this ServiceCollection services, IConfiguration config)

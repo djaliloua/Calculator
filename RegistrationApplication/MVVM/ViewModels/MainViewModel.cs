@@ -1,6 +1,7 @@
 ﻿using MaterialDesignThemes.Wpf;
 using RegistrationApplication.MVVM.Views.CountryView;
 using RegistrationApplication.MVVM.Views.CourseViews;
+using RegistrationApplication.MVVM.Views.EnrolmentViews;
 using RegistrationApplication.MVVM.Views.TrainersView;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
@@ -100,6 +101,7 @@ namespace RegistrationApplication.MVVM.ViewModels
         }
         private void Init()
         {
+            Controls.Add(new ControlData("Enrol", "AccountPlus", new Enrolment()));
             Controls.Add(new ControlData("Trainers", "AccountMultiplePlus", new TrainerRegistrationView()));
             Controls.Add(new ControlData("Country", "CreditCardWirelessOutline", new CountryView()));
             if (Controls.Count > 0)
