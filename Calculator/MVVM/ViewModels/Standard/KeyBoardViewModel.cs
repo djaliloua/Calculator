@@ -108,6 +108,11 @@ namespace Calculator.MVVM.ViewModels.Standard
                     }
                     else if(input.InputText != "0")
                     {
+                        char lastChar = input.InputText[input.InputText.Length - 1];
+                        if (lastChar == '.' && p == ".")
+                        {
+                            return;
+                        }
                         input.InputText += p;
                     }
                 }

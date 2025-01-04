@@ -52,7 +52,6 @@ namespace Calculator.MVVM.ViewModels.Standard
     public class OperationListViewModel: BottomViewModelLoadable<Operation>
     {
         private readonly ISettingsManager _settings;
-        private ICollectionView _myCollectionView;
         private readonly int _threshold;
         public OperationListViewModel(ISettingsManager settings)
         {
