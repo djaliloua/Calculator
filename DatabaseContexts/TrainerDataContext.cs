@@ -2,9 +2,9 @@
 using Microsoft.Extensions.Configuration;
 using Models.Registration;
 
-namespace RegistrationApplication.DataAccessLayer.DataContext
+namespace DatabaseContexts
 {
-    public class TrainerDataContext:DbContext
+    public class TrainerDataContext : DbContext
     {
         public DbSet<Trainer> Trainers { get; set; }
         public DbSet<PictureFile> Pictures { get; set; }
@@ -12,11 +12,11 @@ namespace RegistrationApplication.DataAccessLayer.DataContext
         public DbSet<Country> Countries { get; set; }
         public DbSet<Course> Courses { get; set; }
         public DbSet<CourseTimeTable> CourseTimeTables { get; set; }
-        public DbSet<Session> Sessions { get; set; }    
+        public DbSet<Session> Sessions { get; set; }
         public DbSet<Participiant> Participiants { get; set; }
         public TrainerDataContext()
         {
-            
+
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

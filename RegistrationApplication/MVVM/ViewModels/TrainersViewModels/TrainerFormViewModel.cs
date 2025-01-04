@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Diagnostics;
 using RegistrationApplication.Utility;
+using RepositoryService.Implementation;
 
 namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
 {

@@ -17,27 +17,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Mapster" Version="7.4.1-pre01" />
-    <PackageReference Include="Mapster.Core" Version="1.2.2-pre01" />
-    <PackageReference Include="Mapster.DependencyInjection" Version="1.0.2-pre01" />
-    <PackageReference Include="Mapster.EFCore" Version="5.1.2-pre01" />
     <PackageReference Include="MaterialDesignThemes" Version="5.1.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0-rc.2.24474.1">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="9.0.0-rc.2.24474.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.0-rc.2.24474.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="9.0.0-rc.2.24473.5" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0-rc.2.24473.5" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.0-rc.2.24473.5" />
     <PackageReference Include="Notification.Wpf" Version="8.0.0" />
     <PackageReference Include="System.Drawing.Common" Version="9.0.0-rc.2.24474.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Calculator\Patterns\Patterns.csproj" />
+    <ProjectReference Include="..\DatabaseContexts\DatabaseContexts.csproj" />
     <ProjectReference Include="..\Models\Models.csproj" />
+    <ProjectReference Include="..\RepositoryService\RepositoryService.csproj" />
   </ItemGroup>
 
   <ItemGroup>

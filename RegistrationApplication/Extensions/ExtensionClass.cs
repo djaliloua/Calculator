@@ -1,8 +1,8 @@
-﻿using Mapster;
+﻿using DatabaseContexts;
+using Mapster;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Models.Registration;
-using RegistrationApplication.DataAccessLayer.DataContext;
 using RegistrationApplication.MVVM.ViewModels;
 using RegistrationApplication.MVVM.ViewModels.CountryViewModels;
 using RegistrationApplication.MVVM.ViewModels.EnrolmentViewModels;

@@ -1,8 +1,8 @@
 ﻿using Patterns.Implementation;
-using RegistrationApplication.DataAccessLayer.Implementations;
 using RegistrationApplication.Extensions;
 using Models.Registration;
 using System.IO;
+using RepositoryService.Implementation;
 
 namespace RegistrationApplication.MVVM.ViewModels.CountryViewModels
 {

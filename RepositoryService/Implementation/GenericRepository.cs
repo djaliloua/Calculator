@@ -1,13 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
-using RegistrationApplication.DataAccessLayer.Abstractions;
-using RegistrationApplication.DataAccessLayer.DataContext;
-using RegistrationApplication.Extensions;
+﻿using DatabaseContexts;
+using Microsoft.EntityFrameworkCore;
+using RepositoryService.Interface;
 
-namespace RegistrationApplication.DataAccessLayer.Implementations
+namespace RepositoryService.Implementation
 {
-    public class GenericRepositoryDto<TVM, T> : GenericRepository<T>, IRepositoryDto<TVM, T> where T : class
+    public class GenericRepositoryViewModel<TVM, T> : GenericRepository<T>, IRepositoryViewModel<TVM, T> where T : class
     {
-        public IList<TVM> GetAllDtos()
+        public virtual IList<TVM> GetAllToViewModel()
         {
             return _table.ToList().ToVM<T, TVM>();
         }
@@ -21,7 +20,6 @@ namespace RegistrationApplication.DataAccessLayer.Implementations
         {
             _dbContext = new TrainerDataContext();
             _table = _dbContext.Set<T>();
-            //_dbContext.Database.EnsureCreated();
         }
 
         public void Delete(object id)
@@ -39,7 +37,7 @@ namespace RegistrationApplication.DataAccessLayer.Implementations
         public T GetValue(object id)
         {
             return _table.Find(id);
-        }   
+        }
 
         protected virtual void Dispose(bool disposing)
         {
@@ -53,16 +51,13 @@ namespace RegistrationApplication.DataAccessLayer.Implementations
             }
         }
 
-        // // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
         ~GenericRepository()
         {
-            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
             Dispose(disposing: false);
         }
 
         public void Dispose()
         {
-            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
             Dispose(disposing: true);
             GC.SuppressFinalize(this);
         }
@@ -76,12 +71,40 @@ namespace RegistrationApplication.DataAccessLayer.Implementations
 
         public T Update(T entity)
         {
-            //_table.Attach(entity);
-            ////Then set the state of the Entity as Modified
-            //_dbContext.Entry(entity).State = EntityState.Modified;
             _dbContext.Update(entity);
             _dbContext.SaveChanges();
             return entity;
+        }
+
+        public async Task DeleteAsync(object id)
+        {
+            object obj = await _table.FindAsync(id);
+            _table.Remove((T)obj);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public Task<T> GetValueAsync(object id)
+        {
+            return Task.FromResult(GetValue(id));
+        }
+
+        public async Task<IList<T>> GetAllAsync()
+        {
+            return await _table.ToListAsync();
+        }
+
+        public Task<T> SaveAsync(T entity)
+        {
+            _table.Add(entity);
+            _dbContext.SaveChangesAsync();
+            return Task.FromResult(entity);
+        }
+
+        public Task<T> UpdateAsync(T entity)
+        {
+            _dbContext.Update(entity);
+            _dbContext.SaveChangesAsync();
+            return Task.FromResult(entity);
         }
     }
 }

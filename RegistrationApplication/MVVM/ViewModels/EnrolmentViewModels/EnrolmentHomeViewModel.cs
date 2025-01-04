@@ -76,7 +76,7 @@ namespace RegistrationApplication.MVVM.ViewModels.EnrolmentViewModels
         private async Task Init()
         {
             using var repo = new ParticipiantRepository();
-            await LoadItems(repo.GetAllDtos());
+            await LoadItems(repo.GetAllToViewModel());
         }
     }
     public class EnrolmentHomeViewModel:BaseViewModel

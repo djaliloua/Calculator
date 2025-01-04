@@ -1,6 +1,5 @@
 ﻿using MaterialDesignThemes.Wpf;
 using RegistrationApplication.MVVM.Views.CountryView;
-using RegistrationApplication.MVVM.Views.CourseViews;
 using RegistrationApplication.MVVM.Views.EnrolmentViews;
 using RegistrationApplication.MVVM.Views.TrainersView;
 using System.Collections.ObjectModel;

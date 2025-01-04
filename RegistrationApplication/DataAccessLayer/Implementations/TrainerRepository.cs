@@ -1,12 +1,10 @@
-﻿using Mapster;
-using RegistrationApplication.DataAccessLayer.Abstractions;
-using RegistrationApplication.Extensions;
-using Models.Registration;
+﻿using Models.Registration;
 using RegistrationApplication.MVVM.ViewModels.TrainersViewModels;
+using RepositoryService.Implementation;
 
 namespace RegistrationApplication.DataAccessLayer.Implementations
 {
-    public class TrainerRepository : GenericRepositoryDto<TrainerViewModel, Trainer>
+    public class TrainerRepository : GenericRepositoryViewModel<TrainerViewModel, Trainer>
     {
         //public IList<TrainerViewModel> GetAllDtos()
         //{

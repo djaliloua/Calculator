@@ -390,7 +390,7 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
         private void Init()
         {
             using var repository = new TrainerRepository();
-            var trainers = repository.GetAllDtos();
+            var trainers = repository.GetAllToViewModel();
             LoadItems(trainers);
         }
         

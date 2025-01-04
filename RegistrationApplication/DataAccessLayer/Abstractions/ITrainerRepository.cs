@@ -1,5 +1,6 @@
 ﻿using Models.Registration;
 using RegistrationApplication.MVVM.ViewModels.TrainersViewModels;
+using RepositoryService.Interface;
 
 namespace RegistrationApplication.DataAccessLayer.Abstractions
 {
