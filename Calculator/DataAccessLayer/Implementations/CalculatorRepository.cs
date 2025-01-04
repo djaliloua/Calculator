@@ -1,24 +1,25 @@
 ﻿using Calculator.DataAccessLayer.Abstractions;
-using Calculator.MVVM.Models;
+using CalculatorModel;
 using Microsoft.EntityFrameworkCore;
+using RepositoryLibrary.Implementation;
 
 namespace Calculator.DataAccessLayer.Implementations
 {
-    public class Repository : GenericRepository<Operation>, IRepository
+    public class CalculatorRepository : GenericRepository<Operation>, ICalculatorRepository
     {
-        public Repository():base()
+        public CalculatorRepository():base()
         {
             
         }
         public async void DeleteAllAsync()
         {
-            await _context.Operations.ExecuteDeleteAsync();
-            await _context.SaveChangesAsync();
+            await _table.ExecuteDeleteAsync();
+            await _dbContext.SaveChangesAsync();
         }
 
-        public override void Delete(Operation item)
+        public override void Delete(object id)
         {
-            _context.Operations
+           _table
                 .FromSql($"delete from OperationsTable\r\nwhere JULIANDAY(date('now')) - JULIANDAY(date(OperationDate)) > 10;");
         }
     }

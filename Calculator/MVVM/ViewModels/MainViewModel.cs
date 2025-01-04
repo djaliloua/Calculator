@@ -71,7 +71,7 @@ namespace Calculator.MVVM.ViewModels
         }
 
         #region Constructor
-        public MainViewModel(Repository repository, ILogger<MainViewModel> _log, ISettingsManager settings)
+        public MainViewModel(CalculatorRepository repository, ILogger<MainViewModel> _log, ISettingsManager settings)
         {
             Controls ??= new();
             _paletteHelper = new PaletteHelper();

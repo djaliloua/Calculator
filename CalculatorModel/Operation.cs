@@ -1,12 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Calculator.MVVM.Models
+namespace CalculatorModel
 {
-    [Table("OperationsTable")]
-    public class Operation:BaseEntity
+    [Table("Operations")]
+    public class Operation
     {
-        public string OpValue { get; set; }  // operation Value
-        public string OpResult { get; set; } // Operation Result
+        public int Id { get; set; }
+        public string OpValue { get; set; } 
+        public string OpResult { get; set; }
         public DateTime OperationDate { get; set; }
         public Operation(string value, string result)
         {

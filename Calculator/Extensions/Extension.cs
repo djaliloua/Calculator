@@ -1,15 +1,12 @@
-﻿using Calculator.DataAccessLayer.Contexts;
-using Calculator.MVVM.ViewModels;
-using Microsoft.EntityFrameworkCore;
+﻿using Calculator.MVVM.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
-using NReco.Logging.File;
 using Calculator.DataAccessLayer.Implementations;
-using Calculator.MVVM.Models;
-using Patterns.Abstractions;
 using Calculator.SettingsLayer.Abstractions;
 using Calculator.SettingsLayer.Implementations;
 using Calculator.MVVM.Views.Standard;
 using Calculator.MVVM.ViewModels.Standard;
+using DatabaseContext;
+using NReco.Logging.File;
 
 namespace Calculator.Extensions
 {
@@ -36,7 +33,7 @@ namespace Calculator.Extensions
         }
         public static IServiceCollection RepositoryExtension(this IServiceCollection services)
         {
-            services.AddTransient<Repository>();
+            services.AddTransient<CalculatorRepository>();
             return services;
         }
         public static IServiceCollection ContextExtension(this IServiceCollection services)

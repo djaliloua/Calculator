@@ -1,12 +1,10 @@
 ﻿using Calculator.DataAccessLayer.Implementations;
-using Calculator.MVVM.Models;
 using Calculator.SettingsLayer.Abstractions;
+using CalculatorModel;
 using Microsoft.Extensions.Logging;
 using MVVM;
-using Patterns.Abstractions;
 using Patterns.Implementation;
 using System.ComponentModel;
-using System.Windows.Data;
 using System.Windows.Input;
 
 namespace Calculator.MVVM.ViewModels.Standard
@@ -67,15 +65,15 @@ namespace Calculator.MVVM.ViewModels.Standard
         {
             await Task.Run(async () =>
             {
-                using var repo = new Repository();
-                await LoadItems(repo.GetAllItems());
+                using CalculatorRepository repo = new CalculatorRepository();
+                await LoadItems(repo.GetAll());
                 IsLblVisible = !IsEmpty;
             });
         }
         #region Override Methods
         public override void DeleteAllItems()
         {
-            using var repo = new Repository();
+            using var repo = new CalculatorRepository();
             repo.DeleteAllAsync();
             base.DeleteAllItems();
         }

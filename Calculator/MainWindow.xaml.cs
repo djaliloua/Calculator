@@ -1,8 +1,8 @@
 ﻿using Calculator.DataAccessLayer.Implementations;
-using Calculator.MVVM.Models;
 using Calculator.MVVM.ViewModels;
 using Calculator.MVVM.Views.Standard;
 using Calculator.SettingsLayer.Abstractions;
+using CalculatorModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -15,11 +15,11 @@ namespace Calculator
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly Repository _repositoryOperation;
+        private readonly CalculatorRepository _repositoryOperation;
         private double _currentWidth;
         private double _widthThreshold;
         private ISettingsManager _settings;
-        public MainWindow(Repository repository, ISettingsManager settings)
+        public MainWindow(CalculatorRepository repository, ISettingsManager settings)
         {
             InitializeComponent();
             _repositoryOperation = repository;
