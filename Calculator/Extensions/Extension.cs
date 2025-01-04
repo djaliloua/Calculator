@@ -1,11 +1,8 @@
 ﻿using Calculator.DataAccessLayer.Contexts;
 using Calculator.MVVM.ViewModels;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using NReco.Logging.File;
 using Calculator.DataAccessLayer.Implementations;
-using Calculator.MVVM.Models;
-using Patterns.Abstractions;
 using Calculator.SettingsLayer.Abstractions;
 using Calculator.SettingsLayer.Implementations;
 using Calculator.MVVM.Views.Standard;

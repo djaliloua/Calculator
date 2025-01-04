@@ -106,12 +106,17 @@ namespace Calculator.MVVM.ViewModels.Standard
                         if(Percentage.IsValideExpression(input.InputText))
                             input.InputText = Percentage.MakePercentage(input.InputText);
                     }
-                    else if(input.InputText != "0")
+                    else if(input.InputText != "0" )
                     {
+                        char lastChar = input.InputText[input.InputText.Length - 1];
+                        if(lastChar == '.' && p == ".")
+                        {
+                            return;
+                        }
                         input.InputText += p;
                     }
                 }
-                if (p == "." && input.InputText == "0")
+                if (p == "." && input.InputText == "0" )
                     input.InputText = "0.";
 
             }

@@ -3,10 +3,8 @@ using Calculator.MVVM.Models;
 using Calculator.SettingsLayer.Abstractions;
 using Microsoft.Extensions.Logging;
 using MVVM;
-using Patterns.Abstractions;
 using Patterns.Implementation;
 using System.ComponentModel;
-using System.Windows.Data;
 using System.Windows.Input;
 
 namespace Calculator.MVVM.ViewModels.Standard
