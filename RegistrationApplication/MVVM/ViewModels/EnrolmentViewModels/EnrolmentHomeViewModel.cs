@@ -1,7 +1,5 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using Patterns.Implementation;
+﻿using Patterns.Implementation;
 using RegistrationApplication.DataAccessLayer.Implementations;
-using RegistrationApplication.MVVM.Models;
 using System.ComponentModel;
 using System.Windows.Input;
 

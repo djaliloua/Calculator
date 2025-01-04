@@ -1,7 +1,7 @@
 ﻿using Microsoft.Win32;
 using RegistrationApplication.DataAccessLayer.Implementations;
 using RegistrationApplication.Extensions;
-using RegistrationApplication.MVVM.Models;
+using Models.Registration;
 using System.Drawing;
 using System.Windows;
 using System.Windows.Input;

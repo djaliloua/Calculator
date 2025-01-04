@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using RegistrationApplication.MVVM.Models;
+using Models.Registration;
 
 namespace RegistrationApplication.DataAccessLayer.DataContext
 {

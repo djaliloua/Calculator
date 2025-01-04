@@ -1,7 +1,7 @@
 ﻿using Mapster;
 using RegistrationApplication.DataAccessLayer.Abstractions;
 using RegistrationApplication.Extensions;
-using RegistrationApplication.MVVM.Models;
+using Models.Registration;
 using RegistrationApplication.MVVM.ViewModels.TrainersViewModels;
 
 namespace RegistrationApplication.DataAccessLayer.Implementations

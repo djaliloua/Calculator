@@ -37,6 +37,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Calculator\Patterns\Patterns.csproj" />
+    <ProjectReference Include="..\Models\Models.csproj" />
   </ItemGroup>
 
   <ItemGroup>

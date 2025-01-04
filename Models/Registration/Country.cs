@@ -1,4 +1,4 @@
-﻿namespace RegistrationApplication.MVVM.Models
+﻿namespace Models.Registration
 {
     public class Country
     {

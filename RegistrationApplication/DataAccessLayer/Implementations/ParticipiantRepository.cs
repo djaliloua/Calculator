@@ -1,4 +1,4 @@
-﻿using RegistrationApplication.MVVM.Models;
+﻿using Models.Registration;
 using RegistrationApplication.MVVM.ViewModels.EnrolmentViewModels;
 
 namespace RegistrationApplication.DataAccessLayer.Implementations

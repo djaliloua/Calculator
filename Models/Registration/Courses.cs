@@ -1,4 +1,4 @@
-﻿namespace RegistrationApplication.MVVM.Models
+﻿namespace Models.Registration
 {
     public class Course
     {
@@ -10,5 +10,4 @@
         public string AssessmentMethods { get; set; }
 
     }
-    
 }

@@ -1,7 +1,7 @@
 ﻿using Patterns.Implementation;
 using RegistrationApplication.DataAccessLayer.Implementations;
 using RegistrationApplication.Extensions;
-using RegistrationApplication.MVVM.Models;
+using Models.Registration;
 using System.IO;
 
 namespace RegistrationApplication.MVVM.ViewModels.CountryViewModels
