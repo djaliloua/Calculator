@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RegistrationApplication"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:system="clr-namespace:System;assembly=mscorlib"
+        xmlns:system="using:System;assembly=mscorlib"
         DataContext="{Binding Source={StaticResource locator}, Path=MainViewModel}"
         mc:Ignorable="d"
         Style="{StaticResource MaterialDesignWindow}"
@@ -69,7 +69,6 @@
                         <materialDesign:PopupBox DockPanel.Dock="Right"
                                                  HorizontalAlignment="Right"
                                                  Focusable="False"
-                                                 Closed="PopupBox_Closed"
                                                  PlacementMode="BottomAndAlignRightEdges"
                                                  StaysOpen="True">
                             <StackPanel Focusable="False">

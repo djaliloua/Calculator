@@ -1,6 +1,4 @@
 ﻿using Microsoft.Win32;
-using RegistrationApplication.DataAccessLayer.Implementations;
-using RegistrationApplication.Extensions;
 using Models.Registration;
 using System.Drawing;
 using System.Windows;
@@ -124,16 +122,12 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
                 {
                     if (!IsSave)
                     {
-                        using var repository = new TrainerRepository();
-                        var saveObj = repository.Update(Trainer.FromVM());
-                        ServiceLocator.TrainersProfilesViewModel.UpdateItem(saveObj.ToVM());
+                        ServiceLocator.TrainersProfilesViewModel.UpdateItem(Trainer);
                         Notifier.Show("Updated");
                     }
                     else
                     {
-                        using var repository = new TrainerRepository();
-                        var savedObj = repository.Save(Trainer.FromVM());
-                        ServiceLocator.TrainersProfilesViewModel.AddItem(savedObj.ToVM());
+                        ServiceLocator.TrainersProfilesViewModel.AddItem(Trainer);
                         Notifier.Show("Saved");
                     }
                     Trainer.AcceptChanges();
@@ -192,16 +186,12 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
                 {
                     if (!IsSave)
                     {
-                        using var repository = new TrainerRepository();
-                        var saveObj = repository.Update(Trainer.FromVM());
-                        ServiceLocator.TrainersProfilesViewModel.UpdateItem(saveObj.ToVM());
+                        ServiceLocator.TrainersProfilesViewModel.UpdateItem(Trainer);
                         Notifier.Show("Updated");
                     }
                     else
                     {
-                        using var repository = new TrainerRepository();
-                        var savedObj = repository.Save(Trainer.FromVM());
-                        ServiceLocator.TrainersProfilesViewModel.AddItem(savedObj.ToVM());
+                        ServiceLocator.TrainersProfilesViewModel.AddItem(Trainer);
                         Notifier.Show("Add new");
                     }
                     Trainer.AcceptChanges();

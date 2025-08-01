@@ -1,4 +1,5 @@
-﻿using Patterns.Implementation;
+﻿using Patterns.Abstractions;
+using Patterns.Implementation;
 using RegistrationApplication.DataAccessLayer.Implementations;
 using RegistrationApplication.Extensions;
 using RegistrationApplication.Utility;
@@ -11,7 +12,68 @@ using System.Windows.Input;
 
 namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
 {
-    public class ExperienceViewModel : BaseViewModel, IClone<ExperienceViewModel>, IDataErrorInfo
+    public partial class TrainerViewModel: IDataErrorInfo
+    {
+        #region Validations
+        public string Error
+        {
+            get
+            {
+                if(PictureFile != null && !string.IsNullOrEmpty(PictureFile.Error))
+                {
+                    return PictureFile.Error;
+                }
+                if (Experiences != null && Experiences.Count > 0)
+                {
+                    foreach (var experience in Experiences)
+                    {
+                        if (!string.IsNullOrEmpty(experience.Error))
+                        {
+                            return experience.Error;
+                        }
+                    }
+                }
+
+                string error = string.Empty;
+                if (string.IsNullOrEmpty(LastName))
+                {
+                    return "Last Name is required";
+                }
+                if (string.IsNullOrEmpty(FirstName))
+                {
+                    return "First Name is required";
+                }
+
+                return error;
+            }
+        }
+        public string this[string columnName]
+        {
+            get
+            {
+                string error = string.Empty;
+                switch (columnName)
+                {
+                    case nameof(LastName):
+                        if (string.IsNullOrEmpty(LastName))
+                        {
+                            error = "Last name is required";
+                        }
+                        break;
+                    case nameof(FirstName):
+                        if (string.IsNullOrEmpty(FirstName))
+                        {
+                            error = "First name is required";
+                        }
+                        break;
+                }
+
+                return error;
+            }
+        }
+        #endregion
+    }
+    public class ExperienceViewModel : BaseViewModel, IDataErrorInfo
     {
         #region Properties
         public int ExperienceId { get; set; }
@@ -93,9 +155,9 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
         }
         #endregion
 
-        public ExperienceViewModel Clone() => (ExperienceViewModel)MemberwiseClone();
+        
     }
-    public class PictureFileViewModel : BaseViewModel, IClone<PictureFileViewModel>, IDataErrorInfo
+    public class PictureFileViewModel : BaseViewModel, IDataErrorInfo
     {
         #region Properties
         public int PictureFileId { get; set; }
@@ -192,10 +254,10 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
             Picture = !string.IsNullOrEmpty(FullPath) ? ImageUtility.ImageToByteArray(Image.FromFile(FullPath)) : Array.Empty<byte>();
         }
         #endregion
-        public PictureFileViewModel Clone() => (PictureFileViewModel)MemberwiseClone();
+        
         
     }
-    public class TrainerViewModel : ParentBaseViewModel<TrainerViewModel>, IDataErrorInfo
+    public partial class TrainerViewModel : ParentBaseViewModel<TrainerViewModel>
     {
         #region Properties
         public int TrainerId { get; set; }
@@ -249,109 +311,36 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
         public PictureFileViewModel PictureFile
         {
             get => field;
-            set
+            set => UpdateObservable(ref field, value, () =>
             {
-                if(field != null)
-                {
-                    field.PropertyChanged -= PictureFile_PropertyChanged;
-                }
-                field = value;
-                if(field.Picture == null)
+                if (value != null)
                 {
                     UpdatePicture(new(@"DefaultResources\h1.png"));
                 }
+            });
 
-                if (field != null)
-                {
-                    field.PropertyChanged += PictureFile_PropertyChanged;
-                }
-            }
         }
 
         public ObservableCollection<ExperienceViewModel> Experiences
         {
             get => field ?? new ObservableCollection<ExperienceViewModel>();
-            set
-            {
-                if(value != null)
-                {
-                    foreach(var experience in value)
-                    {
-                        experience.PropertyChanged -= Experience_PropertyChanged;
-                    }
-                }
-                field = value;
-                if(value != null)
-                {
-                    foreach (var experience in value)
-                    {
-                        experience.PropertyChanged += Experience_PropertyChanged;
-                    }
-                }
-            }
+            set => UpdateObservable(ref field, value);
         }
 
-        private void Experience_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            ExperienceViewModel experience = (ExperienceViewModel)sender;
-            if (experience.IsChanged)
-            {
-                // Mark TrainerViewModel as changed if PictureFile's IsChanged is true
-                IsChanged = true;
-            }
-        }
+        
         #endregion
 
-        #region Validations
-        public string Error
-        {
-            get
-            {
-                string error = string.Empty;
-                if (string.IsNullOrEmpty(LastName))
-                {
-                    return "Last Name is required";
-                }
-                if (string.IsNullOrEmpty(FirstName))
-                {
-                    return "First Name is required";
-                }
-                
-                return error;
-            }
-        }
-        public string this[string columnName]
-        {
-            get
-            {
-                string error = string.Empty ;
-                switch(columnName)
-                {
-                    case nameof(LastName):
-                        if(string.IsNullOrEmpty(LastName))
-                        {
-                           error = "Last name is required";
-                        }
-                        break;
-                    case nameof(FirstName):
-                        if (string.IsNullOrEmpty(FirstName))
-                        {
-                            error = "First name is required";
-                        }
-                        break;
-                }
-                
-                return error;
-            }
-        }
-        #endregion
+       
 
         #region Constructor
         public TrainerViewModel()
         {
             Experiences ??= new ObservableCollection<ExperienceViewModel>();
             PictureFile ??= new PictureFileViewModel(@"DefaultResources\h1.png");
+            AttachEventHandlers();
         }
+
+        
 
         #endregion
 
@@ -368,47 +357,50 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
         {
             Experiences.Remove(experience);
         }
-        private void PictureFile_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (PictureFile.IsChanged)
-            {
-                // Mark TrainerViewModel as changed if PictureFile's IsChanged is true
-                IsChanged = true;
-            }
-        }
+        
         #endregion
     }
-    public class TrainersProfilesViewModel:Loadable<TrainerViewModel>, IClone<TrainersProfilesViewModel>
+
+    public class LoadableDecorator: Loadable<TrainerViewModel>, ILoadable<TrainerViewModel>
+    {
+        protected void Load()
+        {
+            using var repository = new TrainerRepository();
+            var trainers = repository.GetAllToViewModel();
+            LoadItems(trainers);
+        }
+        public override void AddItem(TrainerViewModel item)
+        {
+            using var repository = new TrainerRepository();
+            var savedObj = repository.Save(item.FromVM());
+            base.AddItem(savedObj.ToVM());
+        }
+        public override void DeleteItem(TrainerViewModel item)
+        {
+            using var repository = new TrainerRepository();
+            repository.Delete(item.TrainerId);
+            base.DeleteItem(item);
+        }
+        public override void UpdateItem(TrainerViewModel item)
+        {
+            using var repository = new TrainerRepository();
+            var saveObj = repository.Update(item.FromVM());
+            base.UpdateItem(item);
+        }
+    }
+    public class TrainersProfilesViewModel: LoadableDecorator
     {
         #region Commands
         public ICommand FlipCommand { get; private set; }
         #endregion
         public TrainersProfilesViewModel()
         {
-            Init();
-        }
-        private void Init()
-        {
-            using var repository = new TrainerRepository();
-            var trainers = repository.GetAllToViewModel();
-            LoadItems(trainers);
+            Load();
         }
         
-        private void Update(TrainerViewModel parameter)
-        {
-            TrainerViewModel selected = parameter;
-            if (parameter != null)
-            {
-                using var repository = new TrainerRepository();
-                repository.Update(selected.FromVM());
-            }
-        }
-        public TrainersProfilesViewModel Clone()
-        {
-            return (TrainersProfilesViewModel)MemberwiseClone();
-        }
+        
     }
-    public class TrainerRegistrationViewModel:BaseViewModel, IClone<TrainerRegistrationViewModel>
+    public class TrainerRegistrationViewModel:BaseViewModel
     {
         #region Properties
         private int _seletedIndex = 0;
@@ -467,6 +459,7 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
             {
                 ServiceLocator.TrainerFormViewModel.Trainer = TrainersProfilesVM.SelectedItem;
                 ServiceLocator.TrainerFormViewModel.Trainer.BeginEdit();
+                ServiceLocator.TrainerFormViewModel.Trainer.AcceptChanges();
                 ServiceLocator.TrainerFormViewModel.IsSave = false;
                 SeletedIndex = 1;
             }
@@ -478,8 +471,6 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
                 var dialog = MessageBox.Show("Do you want to Delete", "Warning", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (dialog == MessageBoxResult.Yes)
                 {
-                    using var repository = new TrainerRepository();
-                    repository.Delete(TrainersProfilesVM.SelectedItem.FromVM().TrainerId);
                     TrainersProfilesVM.DeleteItem(TrainersProfilesVM.SelectedItem);
                 }
             }
@@ -494,13 +485,11 @@ namespace RegistrationApplication.MVVM.ViewModels.TrainersViewModels
             SeletedIndex = 1;
             await Task.Delay(500);
             ServiceLocator.TrainerFormViewModel.Trainer = new();
+            ServiceLocator.TrainerFormViewModel.Trainer.BeginEdit();
             ServiceLocator.TrainerFormViewModel.IsSave = true;
         }
         #endregion
 
-        public TrainerRegistrationViewModel Clone()
-        {
-            return (TrainerRegistrationViewModel)MemberwiseClone();
-        }
+       
     }
 }

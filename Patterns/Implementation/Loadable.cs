@@ -8,7 +8,7 @@ using Patterns.Abstractions;
 
 namespace Patterns.Implementation
 {
-    public class Loadable<TItem> : ILoadable<TItem>, ILoadableService<TItem>, INotifyPropertyChanged, IActivity where TItem : class
+    public class Loadable<TItem> : ILoadable<TItem> where TItem : class
     {
         private ICollectionView _view;
         protected SortDescription SortDescription;

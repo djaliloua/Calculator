@@ -1,4 +1,5 @@
 ﻿using DatabaseContexts;
+using Mapster;
 using Microsoft.EntityFrameworkCore;
 using RepositoryService.Interface;
 
@@ -8,7 +9,20 @@ namespace RepositoryService.Implementation
     {
         public virtual IList<TVM> GetAllToViewModel()
         {
-            return _table.ToList().ToVM<T, TVM>();
+            List<TVM> _table_ = new List<TVM>();
+            if (_table == null || _table.Count() == 0)
+            {
+                return _table_;
+            }
+            foreach (var item in _table)
+            {
+                TVM vm = item.Adapt<TVM>();
+                if (vm != null)
+                {
+                    _table_.Add(vm);
+                }
+            }
+            return _table_;
         }
     }
     public class GenericRepository<T> : IGenericRepository<T>, IDisposable where T : class
@@ -20,6 +34,7 @@ namespace RepositoryService.Implementation
         {
             _dbContext = new TrainerDataContext();
             _table = _dbContext.Set<T>();
+            _dbContext.Database.EnsureCreated();
         }
 
         public void Delete(object id)

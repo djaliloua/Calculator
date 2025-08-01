@@ -1,12 +1,29 @@
-﻿using System.ComponentModel;
+﻿using System.Collections;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace RegistrationApplication.MVVM.ViewModels
 {
-    public interface IClone<T>
+    public class Utility
     {
-        public T Clone();
+        public static T DeepCopy<T>(T obj)
+        {
+            if (obj == null)
+            {
+                return default(T);
+            }
+
+            JsonSerializerOptions options = new JsonSerializerOptions
+            {
+                ReferenceHandler = ReferenceHandler.Preserve,
+                WriteIndented = false
+            };
+            return JsonSerializer.Deserialize<T>(JsonSerializer.Serialize(obj, options), options);
+        }
     }
     public interface IBaseViewModel<T> : IEditableObject
     {
@@ -15,37 +32,70 @@ namespace RegistrationApplication.MVVM.ViewModels
     }
     public class BaseViewModel : INotifyPropertyChanged, IChangeTracking
     {
-        protected bool _inEdit;
         private bool _isChanged;
-        [NotifyParentProperty(true)]
-        public bool IsChanged
+
+        private bool _isActivity;
+
+        public bool IsActivity
         {
-            get => _isChanged;
-            protected set => UpdateObservable(ref _isChanged, value);
-        }
-       
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            if (PropertyChanged != null)
+            get
             {
-                _isChanged = true;
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+                return _isActivity;
+            }
+            set
+            {
+                UpdateObservable(ref _isActivity, value, "IsActivity");
             }
         }
 
-        //public event EventHandler OnLoad;
-
-        public void UpdateObservable<T>(ref T oldValue, T newValue, [CallerMemberName] string propertyName = "")
+        [NotifyParentProperty(true)]
+        public bool IsChanged
         {
-            oldValue = newValue;
-            OnPropertyChanged(propertyName);
+            get
+            {
+                return _isChanged;
+            }
+            protected set
+            {
+                UpdateObservable(ref _isChanged, value, "IsChanged");
+            }
         }
-        public void UpdateObservable<T>(ref T oldValue, T newValue, Action callback, [CallerMemberName] string propertyName = "")
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
-            oldValue = newValue;
-            OnPropertyChanged(propertyName);
-            callback();
+            _isChanged = true;
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        protected void UpdateObservable<T>(ref T field, T value, [CallerMemberName] string propertyName = "")
+        {
+            if (!EqualityComparer<T>.Default.Equals(field, value))
+            {
+                field = value;
+                OnPropertyChanged(propertyName);
+            }
+        }
+
+        protected void UpdateObservable<T>(ref T field, T value, Action callback, [CallerMemberName] string propertyName = "")
+        {
+            if (!EqualityComparer<T>.Default.Equals(field, value))
+            {
+                field = value;
+                OnPropertyChanged(propertyName);
+                callback?.Invoke();
+            }
+        }
+
+        public virtual void ShowProgressBar()
+        {
+            IsActivity = true;
+        }
+
+        public virtual void HideProgressBar()
+        {
+            IsActivity = false;
         }
 
         public virtual void AcceptChanges()
@@ -53,62 +103,175 @@ namespace RegistrationApplication.MVVM.ViewModels
             _isChanged = false;
         }
     }
-    public class ParentBaseViewModel<T> : BaseViewModel, IBaseViewModel<T> where T : class
+    public class ParentBaseViewModel<T> : BaseViewModel, IBaseViewModel<T>, IEditableObject where T : ParentBaseViewModel<T>
     {
         public T OriginalObject { get; set; }
+
         public bool IsEdit { get; set; }
+
+        //public ParentBaseViewModel()
+        //{
+        //    AttachEventHandlers();
+        //}
+
         public virtual void BeginEdit()
         {
-            if (IsEdit)
+            if (!IsEdit)
             {
-                return;
+                OriginalObject = Utility.DeepCopy(this as T);
+                IsEdit = true;
             }
-            OriginalObject = Utility.Utility.DeepCopy(this as T);
-            IsEdit = true;
         }
+
         public virtual void CancelEdit()
         {
             if (!IsEdit)
             {
                 return;
             }
-            var type = this.GetType();
-            var properties = type.GetProperties();
-            foreach (var property in properties)
-            {
-                if (OriginalObject != null && property.SetMethod != null)
-                {
-                    var value = property.GetValue(OriginalObject);
-                    property.SetValue(this, value);
-                    OnPropertyChanged(property.Name);
-                }
 
+            PropertyInfo[] properties = GetType().GetProperties();
+            foreach (PropertyInfo propertyInfo in properties)
+            {
+                if (OriginalObject != null && propertyInfo.SetMethod != null)
+                {
+                    object value = propertyInfo.GetValue(OriginalObject);
+                    propertyInfo.SetValue(this, value);
+                    OnPropertyChanged(propertyInfo.Name);
+                }
             }
+
             IsEdit = false;
         }
+
         public virtual void EndEdit()
         {
-            if (!IsEdit)
+            if (IsEdit)
             {
-                return;
+                OriginalObject = null;
+                IsEdit = false;
             }
-            OriginalObject = default;
-            IsEdit = false;
         }
+
         public override void AcceptChanges()
         {
             base.AcceptChanges();
-            var type = this.GetType();
-            var fields = type.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-            foreach (var (value, method) in from field in fields
-                                            where typeof(BaseViewModel).IsAssignableFrom(field.FieldType)
-                                            let value = field.GetValue(this)
-                                            let subTypes = value.GetType()
-                                            let method = subTypes.GetMethod("AcceptChanges")
-                                            select (value, method))
+            FieldInfo[] fields = GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            foreach (FieldInfo fieldInfo in fields)
             {
-                method?.Invoke(value, null);
+                if (fieldInfo.GetValue(this) is BaseViewModel baseViewModel)
+                {
+                    baseViewModel.AcceptChanges();
+                }
+
+                if (!(fieldInfo.GetValue(this) is IEnumerable enumerable) || fieldInfo.GetValue(this) is string)
+                {
+                    continue;
+                }
+
+                foreach (object item in enumerable)
+                {
+                    if (item is BaseViewModel baseViewModel2)
+                    {
+                        baseViewModel2.AcceptChanges();
+                    }
+                }
             }
+        }
+
+        protected void AttachEventHandlers()
+        {
+            AttachHandlersRecursive(this, new HashSet<object>());
+        }
+
+        private void AttachHandlersRecursive(object obj, HashSet<object> visited)
+        {
+            if (obj == null || obj is string || visited.Contains(obj))
+                return;
+
+            visited.Add(obj);
+
+            if (obj is INotifyPropertyChanged npc)
+                npc.PropertyChanged += Property_Changed;
+
+            var type = obj.GetType();
+            var properties = type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            object value;
+            foreach (var prop in properties)
+            {
+                if (!prop.CanRead) continue;
+                
+                try
+                {
+                    value = prop.GetValue(obj);
+                }
+                catch
+                {
+                    continue; // safely skip inaccessible or problematic property
+                }
+                if (value == null || value is string)
+                    continue;
+
+                // Attach to ObservableCollection
+                if (value is INotifyCollectionChanged collection)
+                {
+                    collection.CollectionChanged += (s, e) =>
+                    {
+                        if (e.NewItems != null)
+                        {
+                            foreach (var newItem in e.NewItems)
+                            {
+                                AttachHandlersRecursive(newItem, visited);
+                            }
+                        }
+                        if (e.OldItems != null)
+                        {
+                            foreach (var oldItem in e.OldItems)
+                            {
+                                DetachPropertyChanged(oldItem);
+                            }
+                        }
+
+                        base.IsChanged = true;
+                    };
+                }
+
+                // Attach to items in collection
+                if (value is IEnumerable enumerable)
+                {
+                    foreach (var item in enumerable)
+                    {
+                        AttachHandlersRecursive(item, visited);
+                    }
+                    continue;
+                }
+
+                // Recurse into properties of nested BaseViewModel
+                if (value is BaseViewModel)
+                {
+                    AttachHandlersRecursive(value, visited);
+                }
+            }
+        }
+
+        private void DetachPropertyChanged(object obj)
+        {
+            if (obj is INotifyPropertyChanged npc)
+                npc.PropertyChanged -= Property_Changed;
+
+            if (obj is IEnumerable enumerable && !(obj is string))
+            {
+                foreach (var item in enumerable)
+                {
+                    DetachPropertyChanged(item);
+                }
+            }
+        }
+
+
+        private void Property_Changed(object sender, PropertyChangedEventArgs e)
+        {
+            IsChanged = true;
         }
     }
 }

@@ -4,10 +4,16 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:behaviors="http://schemas.microsoft.com/xaml/behaviors"
              DataContext="{Binding Source={StaticResource locator}, Path=BottomViewModel}"
              mc:Ignorable="d"
              d:DesignHeight="450"
              d:DesignWidth="800">
+    <behaviors:Interaction.Triggers>
+        <behaviors:EventTrigger EventName="Loaded">
+            <behaviors:InvokeCommandAction Command="{Binding LoadedCommand}" />
+        </behaviors:EventTrigger>
+    </behaviors:Interaction.Triggers>
     <UserControl.Resources>
         <Style TargetType="ListBox" BasedOn="{StaticResource MaterialDesignListBox}">
             <Style.Triggers>

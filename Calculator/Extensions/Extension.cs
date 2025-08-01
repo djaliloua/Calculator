@@ -33,7 +33,7 @@ namespace Calculator.Extensions
         }
         public static IServiceCollection RepositoryExtension(this IServiceCollection services)
         {
-            services.AddTransient<Repository>();
+            services.AddTransient<OperationRepository>();
             return services;
         }
         public static IServiceCollection ContextExtension(this IServiceCollection services)

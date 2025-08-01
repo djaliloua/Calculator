@@ -8,15 +8,17 @@
              mc:Ignorable="d"
              d:DesignHeight="450"
              d:DesignWidth="800">
+    
     <Grid Margin="20">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <ListView d:ItemsSource="{d:SampleData ItemCount=5}"
+        <ListView d:ItemsSource="{d:SampleData ItemCount=15}"
                   SelectedItem="{Binding CoursesVM.SelectedItem}"
                   ItemsSource="{Binding CoursesVM.Items}">
+            
             <ListView.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Update"
@@ -37,13 +39,14 @@
                 </ContextMenu>
             </ListView.ContextMenu>
             <ListView.View>
-                <GridView>
+                <GridView >
                     <GridView.Columns>
                         <GridViewColumn Header="Course"
                                         DisplayMemberBinding="{Binding CourseName}" />
                         <GridViewColumn Header="Description"
                                         DisplayMemberBinding="{Binding CourseDescription}" />
                         <GridViewColumn Header="Expectation"
+                                        
                                         DisplayMemberBinding="{Binding CourseExpectation}" />
                     </GridView.Columns>
                 </GridView>

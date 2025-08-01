@@ -1,8 +1,9 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace Patterns.Abstractions
 {
-    public interface ILoadable<TItem>
+    public interface ILoadable<TItem>: INotifyPropertyChanged, IActivity where TItem : class
     {
         ObservableCollection<TItem> Items { get; protected set; }
         TItem SelectedItem { get; set; }
@@ -16,5 +17,8 @@ namespace Patterns.Abstractions
         void SelectedItemCallBack(TItem item);
         void ItemsCallBack(IList<TItem> item);
         bool ItemExist(TItem item);
+        void DeleteItem(TItem item);
+        void AddItem(TItem item);
+        void UpdateItem(TItem item);
     }
 }

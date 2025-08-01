@@ -71,7 +71,7 @@ namespace Calculator.MVVM.ViewModels.Standard
                 input.OutputText = Utility.RemoveComma(input.OutputText);
                 if (ServiceLocator.BottomViewModel.OperationVM.IsPresent(input.InputText) && !string.IsNullOrEmpty(input.InputText))
                 {
-                    using var repo = new Repository();
+                    using var repo = new OperationRepository();
                     var op = repo.SaveOrUpdate(new(input.InputText, input.OutputText));
                     ServiceLocator.BottomViewModel.OperationVM.AddItem(op);
                 }

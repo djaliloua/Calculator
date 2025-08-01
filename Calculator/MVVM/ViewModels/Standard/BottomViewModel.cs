@@ -59,21 +59,18 @@ namespace Calculator.MVVM.ViewModels.Standard
             _settings = settings;
             _threshold = (int)_settings.GetParameter("CountThreshold");
             SetSortDescription(new SortDescription("Id", ListSortDirection.Descending));
-            Init();
         }
-        private async void Init()
+        public async Task LoadAsync()
         {
-            await Task.Run(async () =>
-            {
-                using var repo = new Repository();
-                await LoadItems(repo.GetAllItems());
-                IsLblVisible = !IsEmpty;
-            });
+            using var repo = new OperationRepository();
+            await LoadItems(repo.GetAllItems());
+            IsLblVisible = !IsEmpty;
         }
+
         #region Override Methods
         public override void DeleteAllItems()
         {
-            using var repo = new Repository();
+            using var repo = new OperationRepository();
             repo.DeleteAllAsync();
             base.DeleteAllItems();
         }
@@ -109,6 +106,7 @@ namespace Calculator.MVVM.ViewModels.Standard
 
         #region Commands
         public ICommand DeleteAllCommand { get; private set; }
+        public ICommand LoadedCommand { get; private set; }
         #endregion
 
         #region Constructor
@@ -119,11 +117,17 @@ namespace Calculator.MVVM.ViewModels.Standard
             OperationVM = ServiceLocator.OperationListViewModel;
             _logger.LogInformation("BottomViewModel started.....");
             DeleteAllCommand = new DelegateCommand(OnDeleteAll);
+            LoadedCommand = new DelegateCommand(OnLoaded);
+        }
+
+        private async void OnLoaded(object parameter)
+        {
+            await OperationVM.LoadAsync();
         }
         #endregion
 
         #region Private methods
-        
+
         #endregion
 
         #region Handlers

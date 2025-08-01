@@ -2,7 +2,7 @@
 
 namespace Calculator.DataAccessLayer.Abstractions
 {
-    public interface IRepository:IGenericRepository<Operation>
+    public interface IOperationRepository:IGenericRepository<Operation>
     {
         void DeleteAllAsync();
     }

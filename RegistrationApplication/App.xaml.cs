@@ -2,8 +2,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RegistrationApplication.Extensions;
-using System.Configuration;
-using System.Data;
 using System.Windows;
 
 namespace RegistrationApplication

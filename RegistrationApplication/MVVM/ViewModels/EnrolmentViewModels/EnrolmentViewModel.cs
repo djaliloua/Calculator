@@ -1,4 +1,6 @@
-﻿namespace RegistrationApplication.MVVM.ViewModels.EnrolmentViewModels
+﻿
+
+namespace RegistrationApplication.MVVM.ViewModels.EnrolmentViewModels
 {
     public class EnrolmentViewModel:BaseViewModel
     {

@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Calculator.DataAccessLayer.Implementations
 {
-    public class Repository : GenericRepository<Operation>, IRepository
+    public class OperationRepository : GenericRepository<Operation>, IOperationRepository
     {
-        public Repository():base()
+        public OperationRepository():base()
         {
             
         }

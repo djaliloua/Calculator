@@ -6,7 +6,7 @@ using RepositoryService.Implementation;
 
 namespace RegistrationApplication.MVVM.ViewModels.CountryViewModels
 {
-    public class CountryViewModel : BaseViewModel, IClone<CountryViewModel>
+    public class CountryViewModel : BaseViewModel
     {
         public int CountryId { get; set; }
         private string _globaleName;
@@ -37,6 +37,7 @@ namespace RegistrationApplication.MVVM.ViewModels.CountryViewModels
         }
         public CountryViewModel Clone() => (CountryViewModel)MemberwiseClone();
     }
+
     public class CountriesViewModel:Loadable<CountryViewModel> 
     {
         public CountriesViewModel()
@@ -62,6 +63,7 @@ namespace RegistrationApplication.MVVM.ViewModels.CountryViewModels
         public CountryViewModelUI()
         {
             ListOfCountries = new CountriesViewModel();
+            
         }
         private void LoadInitialeDataToDb()
         {

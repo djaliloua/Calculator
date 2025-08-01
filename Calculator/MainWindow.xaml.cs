@@ -15,11 +15,11 @@ namespace Calculator
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly Repository _repositoryOperation;
+        private readonly OperationRepository _repositoryOperation;
         private double _currentWidth;
         private double _widthThreshold;
         private ISettingsManager _settings;
-        public MainWindow(Repository repository, ISettingsManager settings)
+        public MainWindow(OperationRepository repository, ISettingsManager settings)
         {
             InitializeComponent();
             _repositoryOperation = repository;
