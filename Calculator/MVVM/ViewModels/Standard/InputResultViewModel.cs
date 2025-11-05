@@ -1,4 +1,5 @@
 ﻿using MVVM;
+using System.IO.Packaging;
 
 namespace Calculator.MVVM.ViewModels.Standard
 {
@@ -19,6 +20,11 @@ namespace Calculator.MVVM.ViewModels.Standard
         public InputResultViewModel()
         {
             Initialize();
+        }
+        public void SetOpValue(string pValue, string ouputValue)
+        {
+             InputText = pValue;
+            OutputText = ouputValue;
         }
         public InputResultViewModel(string val)
         {

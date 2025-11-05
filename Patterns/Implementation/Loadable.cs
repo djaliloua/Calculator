@@ -4,19 +4,21 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Data;
-using Patterns.Abstractions;
 
 namespace Patterns.Implementation
 {
-    public class Loadable<TItem> : ILoadable<TItem>, ILoadableService<TItem>, INotifyPropertyChanged, IActivity where TItem : class
+    public class Loadable<TItem> :  INotifyPropertyChanged where TItem : class
     {
         private ICollectionView _view;
         protected SortDescription SortDescription;
+        protected Action<TItem> OnSelectedIem;
+        protected Action<int> OnNumberOfItemsChanged;
+        protected Action<int> OnCounterChanged;
         public Loadable()
         {
             Items.CollectionChanged += Items_CollectionChanged;
         }
-        protected void SetSortingProperty()
+        private void SetSortingProperty()
         {
             try
             {
@@ -37,13 +39,15 @@ namespace Patterns.Implementation
         protected virtual void Items_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             Counter = Items.Count;
+            NumberOfItems = Items.Count;
+            
         }
 
         private TItem _selectedItem;
         public TItem SelectedItem
         {
             get => _selectedItem;
-            set => UpdateObservable(ref _selectedItem, value, () => SelectedItemCallBack(value));
+            set => UpdateObservable(ref _selectedItem, value, () => OnSelectedIem?.Invoke(value));
         }
         private bool isRefreshed;
         public bool IsRefreshed
@@ -57,7 +61,7 @@ namespace Patterns.Implementation
         public int Counter
         {
             get => _counter;
-            set => UpdateObservable(ref _counter, value);
+            set => UpdateObservable(ref _counter, value, () => OnCounterChanged?.Invoke(value));
         }
         public bool IsEmpty => Counter == 0;
 
@@ -65,54 +69,37 @@ namespace Patterns.Implementation
         public int NumberOfItems
         {
             get => _numberOfItems;
-            set => UpdateObservable(ref _numberOfItems, value, () => NumberOfItemsChanged(value));
+            set => UpdateObservable(ref _numberOfItems, value, () => OnNumberOfItemsChanged?.Invoke(value));
         }
-        private bool _isActivity;
-        public bool IsActivity
-        {
-            get => _isActivity;
-            set => UpdateObservable(ref _isActivity, value);
-        }
-        private ObservableCollection<TItem> _items;
+        
+        private ObservableCollection<TItem> _items = new ObservableCollection<TItem>();
         public ObservableCollection<TItem> Items
         {
-            get => _items ?? new ObservableCollection<TItem>();
-            set => UpdateObservable(ref _items, value, () => ItemsCallBack(value));
+            get => _items;
+            set => UpdateObservable(ref _items, value);
         }
-
-        #region Protected Methods
-        protected virtual void NumberOfItemsChanged(int count)
-        {
-
-        }
-        #endregion
 
         #region Public Methods
-        public virtual void SelectedItemCallBack(TItem item)
-        {
 
-        }
-
-        public Task LoadItems(IEnumerable<TItem> items)
+        protected Task LoadItems(IEnumerable<TItem> items)
         {
+            Items.Clear();
             SetItems(items);
             return Task.CompletedTask;
         }
-        public virtual void ItemsCallBack(IList<TItem> item)
-        {
-            Counter = item.Count;
-        }
-        public virtual bool ItemExist(TItem item)
+
+        protected virtual bool ItemExist(TItem item)
         {
             return Items.Contains(item);
         }
-        public virtual void SetItems(IEnumerable<TItem> items)
+        protected virtual void SetItems(IEnumerable<TItem> items)
         {
             try
             {
-                Items = new ObservableCollection<TItem>(items);
-                NumberOfItems = Items.Count;
-                OnPropertyChanged(nameof(Items));
+                foreach(var item in items)
+                {
+                    AddItem(item);
+                }
                 Application.Current.Dispatcher.BeginInvoke(() => SetSortingProperty());
             }
             catch(Exception ex)
@@ -120,7 +107,7 @@ namespace Patterns.Implementation
                 Debug.WriteLine(ex);
             }
         }
-        public virtual void SaveOrUpdateItem(TItem item)
+        protected virtual void SaveOrUpdateItem(TItem item)
         {
             if (!ItemExist(item))
                 AddItem(item);
@@ -128,24 +115,18 @@ namespace Patterns.Implementation
                 UpdateItem(item);
 
         }
-        public virtual void DeleteAllItems()
+        protected virtual void DeleteAllItems()
         {
             Items.Clear();
-            Counter = Items.Count;
-            SetItems(Items);
         }
-        public virtual void DeleteItem(TItem item)
+        protected virtual void DeleteItem(TItem item)
         {
             Items.Remove(item);
-            Counter = Items.Count;
-            SetItems(Items);
         }
 
-        public virtual void AddItem(TItem item)
+        protected virtual void AddItem(TItem item)
         {
             Items.Add(item);
-            Counter = Items.Count;
-            SetItems(Items);
         }
         protected virtual int Index(TItem item)
         {
@@ -159,19 +140,13 @@ namespace Patterns.Implementation
                 Items.RemoveAt(index);
                 Items.Insert(index, item);
             }
-            Notify();
         }
 
-        public virtual ObservableCollection<TItem> GetItems()
+        protected virtual ObservableCollection<TItem> GetItems()
         {
             return Items;
         }
         #endregion
-
-        private void Notify()
-        {
-            OnPropertyChanged(nameof(Items));
-        }
 
         #region INotifyPropertyChanged Implementation
 
@@ -192,17 +167,7 @@ namespace Patterns.Implementation
         {
             oldValue = newValue;
             OnPropertyChanged(propertyName);
-            callback();
-        }
-
-        public void ShowActivity()
-        {
-            IsActivity = true;
-        }
-
-        public void HideActivity()
-        {
-            IsActivity = false;
+            callback?.Invoke();
         }
         #endregion
     }
