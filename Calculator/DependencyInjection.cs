@@ -8,12 +8,8 @@ using Calculator.SettingsLayer.Abstractions;
 using Calculator.SettingsLayer.Implementations;
 using DatabaseContext;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.VisualBasic.FileIO;
 using NReco.Logging.File;
-using System.IO;
-using System.Runtime.CompilerServices;
 
 namespace Calculator;
 
