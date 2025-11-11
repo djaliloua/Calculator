@@ -7,7 +7,6 @@ namespace RepositoryLibrary.Implementation
 {
     public class GenericRepositoryViewModel<TVM, T> : GenericRepository<T>, IRepositoryViewModel<TVM, T> where T : class
     {
-        private readonly IDbContextFactory<OperationContext> _dbContextFactory;
         public GenericRepositoryViewModel(IDbContextFactory<OperationContext> dbContextFactory):base(dbContextFactory)
         {
             _dbContextFactory = dbContextFactory;
