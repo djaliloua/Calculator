@@ -17,7 +17,7 @@ namespace Calculator.MVVM.Views.Standard
 
         private void StandardCalculator_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
-            ServiceLocator.StandardCalculatorViewModel.IsBottomDrawerOpen = false;
+            ServiceLocator.StandardCalculatorViewModel.CloseBottomDawer();
         }
 
         private void StandardCalculatorViewModel_BottomDrawerOpened()

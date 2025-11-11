@@ -113,8 +113,6 @@ public class OperationListViewModel : BottomViewModelLoadable<Operation>
 public class BottomViewModel : BaseViewModel
 {
     #region Private properties
-    
-    private readonly ISettingsManager _settings;
     private readonly ILogger<BottomViewModel> _logger;
     private OperationListViewModel _operationVM;
 
@@ -133,11 +131,10 @@ public class BottomViewModel : BaseViewModel
     #endregion
 
     #region Constructor
-    public BottomViewModel(ILogger<BottomViewModel> logger, ISettingsManager settings)
+    public BottomViewModel(OperationListViewModel vm, ILogger<BottomViewModel> logger)
     {
         _logger = logger;
-        _settings = settings;
-        OperationVM = ServiceLocator.OperationListViewModel;
+        OperationVM = vm;
         _logger.LogInformation("BottomViewModel started.....");
         DeleteAllCommand = new DelegateCommand(OnDeleteAll);
         LoadedCommand = new DelegateCommand(OnLoaded);

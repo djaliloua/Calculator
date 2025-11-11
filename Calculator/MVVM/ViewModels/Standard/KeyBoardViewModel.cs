@@ -47,7 +47,7 @@ public class KeyBoardViewModel : BaseViewModel
         ServiceLocator.InputResultViewModel.InputText = "0";
         ServiceLocator.InputResultViewModel.OutputText = "0";
     }
-    private async void OnResult(object parameter)
+    private void OnResult(object parameter)
     {
         InputResultViewModel input = ServiceLocator.InputResultViewModel;
         try

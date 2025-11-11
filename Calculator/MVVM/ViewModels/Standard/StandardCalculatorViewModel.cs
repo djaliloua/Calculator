@@ -8,8 +8,13 @@ namespace Calculator.MVVM.ViewModels.Standard;
 public class StandardCalculatorViewModel : BaseViewModel
 {
     public static event Action BottomDrawerOpened;
-    private ISettingsManager _settings;
     protected virtual void OnBottomDrawerOpened() => BottomDrawerOpened?.Invoke();
+
+    public void CloseBottomDawer()
+    {
+        IsBottomDrawerOpen = false;
+    }
+
     private bool _canMinimize;
     public bool IsFullScreen
     {
@@ -44,8 +49,7 @@ public class StandardCalculatorViewModel : BaseViewModel
             }
         });
     }
-    public StandardCalculatorViewModel(ISettingsManager settings)
+    public StandardCalculatorViewModel()
     {
-        _settings = settings;
     }
 }

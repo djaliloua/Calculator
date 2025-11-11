@@ -1,5 +1,4 @@
-﻿using Calculator.MVVM.ViewModels;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
 namespace Calculator.MVVM.Views.Standard
 {
