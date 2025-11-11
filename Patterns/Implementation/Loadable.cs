@@ -40,7 +40,6 @@ namespace Patterns.Implementation
         {
             Counter = Items.Count;
             NumberOfItems = Items.Count;
-            
         }
 
         private TItem _selectedItem;

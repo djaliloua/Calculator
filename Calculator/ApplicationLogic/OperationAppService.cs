@@ -7,7 +7,7 @@ public interface IOperationAppService
 {
     void DeleteAll();
     Task<IList<Operation>> GetAllOperations();
-    Task<Operation> SaveOperation(string inputText, string ouputText);
+    Operation SaveOperation(string inputText, string ouputText);
 }
 
 public class OperationAppService : IOperationAppService
@@ -17,9 +17,9 @@ public class OperationAppService : IOperationAppService
     {
         _repo = repo;
     }
-    public async Task<Operation> SaveOperation(string inputText, string ouputText)
+    public Operation SaveOperation(string inputText, string ouputText)
     {
-        return await _repo.SaveAsync(new(inputText, ouputText));
+        return _repo.Save(new(inputText, ouputText));
     }
     public async Task<IList<Operation>> GetAllOperations()
     {

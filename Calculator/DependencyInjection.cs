@@ -10,7 +10,10 @@ using DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.VisualBasic.FileIO;
 using NReco.Logging.File;
+using System.IO;
+using System.Runtime.CompilerServices;
 
 namespace Calculator;
 
@@ -63,10 +66,8 @@ public static class DependencyInjection
         {
             if (!options.IsConfigured)
             {
-                IConfiguration Configuration = new ConfigurationBuilder()
-                .AddUserSecrets<OperationContext>()
-                .Build();
-                options.UseSqlite(Configuration.GetConnectionString("Calculator_db2"));
+                var conn = (string)Properties.Settings.Default["ConnectionString"];
+                options.UseSqlite(conn);
             }
         });
         services.AddScoped<IOperationAppService, OperationAppService>();

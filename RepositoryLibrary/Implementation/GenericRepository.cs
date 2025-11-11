@@ -1,5 +1,4 @@
-﻿using CalculatorModel;
-using DatabaseContext;
+﻿using DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using RepositoryLibrary.Interface;
 

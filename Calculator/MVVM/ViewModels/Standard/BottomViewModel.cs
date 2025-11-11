@@ -1,5 +1,4 @@
 ﻿using Calculator.ApplicationLogic;
-using Calculator.DataAccessLayer.Implementations;
 using Calculator.SettingsLayer.Abstractions;
 using CalculatorModel;
 using Microsoft.Extensions.Logging;
@@ -76,9 +75,9 @@ public class OperationListViewModel : BottomViewModelLoadable<Operation>
     {
         DeleteAllItems();
     }
-    public async Task Add(string inputText, string ouputText)
+    public void Add(string inputText, string ouputText)
     {
-        var op = await _service.SaveOperation(inputText, ouputText);
+        var op = _service.SaveOperation(inputText, ouputText);
         AddItem(op);
     }
     public async Task LoadAsync()
@@ -160,9 +159,9 @@ public class BottomViewModel : BaseViewModel
     }
     #endregion
 
-    public async Task AddOperation(string inputText, string ouputText)
+    public void AddOperation(string inputText, string ouputText)
     {
-        await OperationVM.Add(inputText, ouputText);
+        OperationVM.Add(inputText, ouputText);
         OnPropertyChanged(nameof(OperationVM));
     }
 }
