@@ -1,5 +1,4 @@
 ﻿using Calculator.DataAccessLayer.Implementations;
-using Calculator.MVVM.Views;
 using Calculator.MVVM.Views.Standard;
 using Calculator.SettingsLayer.Abstractions;
 using MaterialDesignThemes.Wpf;

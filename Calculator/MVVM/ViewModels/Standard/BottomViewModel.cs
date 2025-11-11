@@ -1,4 +1,5 @@
-﻿using Calculator.DataAccessLayer.Implementations;
+﻿using Calculator.ApplicationLogic;
+using Calculator.DataAccessLayer.Implementations;
 using Calculator.SettingsLayer.Abstractions;
 using CalculatorModel;
 using Microsoft.Extensions.Logging;
@@ -53,11 +54,13 @@ public class OperationListViewModel : BottomViewModelLoadable<Operation>
 {
     private readonly ISettingsManager _settings;
     private readonly int _threshold;
+    private readonly IOperationAppService _service;
 
 
-    public OperationListViewModel(ISettingsManager settings)
+    public OperationListViewModel(IOperationAppService service, ISettingsManager settings)
     {
         _settings = settings;
+        _service = service;
         OnSelectedIem = SelectedItemCallBack;
         OnNumberOfItemsChanged = NumberOfItemsChanged;
         _threshold = (int)_settings.GetParameter("CountThreshold");
@@ -73,10 +76,9 @@ public class OperationListViewModel : BottomViewModelLoadable<Operation>
     {
         DeleteAllItems();
     }
-    public void Add(string inputText, string ouputText)
+    public async Task Add(string inputText, string ouputText)
     {
-        using var repo = new CalculatorRepository();
-        var op = repo.Save(new(inputText, ouputText));
+        var op = await _service.SaveOperation(inputText, ouputText);
         AddItem(op);
     }
     public async Task LoadAsync()
@@ -85,15 +87,14 @@ public class OperationListViewModel : BottomViewModelLoadable<Operation>
         {
             return;
         }
-        using CalculatorRepository repo = new CalculatorRepository();
-        await LoadItems(repo.GetAll());
+        var data = await _service.GetAllOperations();
+        await LoadItems(data);
         IsLblVisible = !IsEmpty;
     }
     #region Override Methods
     protected override void DeleteAllItems()
     {
-        using var repo = new CalculatorRepository();
-        repo.DeleteAllAsync();
+        _service.DeleteAll();
         base.DeleteAllItems();
     }
     protected void NumberOfItemsChanged(int count)

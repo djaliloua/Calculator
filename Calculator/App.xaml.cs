@@ -22,6 +22,7 @@ namespace Calculator
                 .BIExtension()
                 .RepositoryExtension()
                 .UIExtension()
+                .AddServices()
                 ;
             
             ServiceProvider = services.BuildServiceProvider();

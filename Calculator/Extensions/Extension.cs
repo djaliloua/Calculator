@@ -38,11 +38,8 @@ namespace Calculator.Extensions
         }
         public static IServiceCollection ContextExtension(this IServiceCollection services)
         {
-            services.AddTransient<OperationContext>();
-            //services.AddDbContext<OperationContext>(options =>
-            //{
-            //    options.UseSqlite($"Data Source = calculator.db");
-            //});
+            
+            
             return services;
         }
         public static IServiceCollection CommonsExtension(this IServiceCollection services)

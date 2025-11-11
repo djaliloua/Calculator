@@ -3,50 +3,49 @@ using Calculator.SettingsLayer.Abstractions;
 using MVVM;
 using System.Windows.Controls;
 
-namespace Calculator.MVVM.ViewModels.Standard
+namespace Calculator.MVVM.ViewModels.Standard;
+
+public class StandardCalculatorViewModel : BaseViewModel
 {
-    public class StandardCalculatorViewModel:BaseViewModel
+    public static event Action BottomDrawerOpened;
+    private ISettingsManager _settings;
+    protected virtual void OnBottomDrawerOpened() => BottomDrawerOpened?.Invoke();
+    private bool _canMinimize;
+    public bool IsFullScreen
     {
-        public static event Action BottomDrawerOpened;
-        private ISettingsManager _settings;
-        protected virtual void OnBottomDrawerOpened() => BottomDrawerOpened?.Invoke();
-        private bool _canMinimize;
-        public bool IsFullScreen
+        get => _canMinimize;
+        set => UpdateObservable(ref _canMinimize, value, () =>
         {
-            get => _canMinimize;
-            set => UpdateObservable(ref _canMinimize, value, () =>
+            if (_canMinimize)
             {
-                if (_canMinimize)
-                {
-                    UserControl = ServiceLocator.GetService<FullScreenLayout>();
-                }
-                else
-                {
-                    UserControl = ServiceLocator.GetService<SmallScreenLayout>();
-                }
-            });
-        }
-        private UserControl _userControl;
-        public UserControl UserControl
-        {
-            get => _userControl;
-            set => UpdateObservable(ref _userControl, value);
-        }
-        private bool _isBottomDrawerOpen;
-        public bool IsBottomDrawerOpen
-        {
-            get => _isBottomDrawerOpen;
-            set => UpdateObservable(ref _isBottomDrawerOpen, value, () =>
+                UserControl = ServiceLocator.GetService<FullScreenLayout>();
+            }
+            else
             {
-                if (value == false)
-                {
-                    OnBottomDrawerOpened();
-                }
-            });
-        }
-        public StandardCalculatorViewModel(ISettingsManager settings)
+                UserControl = ServiceLocator.GetService<SmallScreenLayout>();
+            }
+        });
+    }
+    private UserControl _userControl;
+    public UserControl UserControl
+    {
+        get => _userControl;
+        set => UpdateObservable(ref _userControl, value);
+    }
+    private bool _isBottomDrawerOpen;
+    public bool IsBottomDrawerOpen
+    {
+        get => _isBottomDrawerOpen;
+        set => UpdateObservable(ref _isBottomDrawerOpen, value, () =>
         {
-            _settings = settings;
-        }
+            if (value == false)
+            {
+                OnBottomDrawerOpened();
+            }
+        });
+    }
+    public StandardCalculatorViewModel(ISettingsManager settings)
+    {
+        _settings = settings;
     }
 }
