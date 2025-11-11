@@ -10,22 +10,7 @@ using System.Windows.Media;
 
 namespace Calculator.MVVM.ViewModels
 {
-    public class ControlData
-    {
-        public string Title { get; set; }
-        public string Kind { get; set; }
-        public UserControl UserControl { get; set; }
-        public ControlData()
-        {
-            
-        }
-        public ControlData(string title,string kind, UserControl userControl)
-        {
-            UserControl = userControl;
-            Title = title;
-            Kind = kind;
-        }
-    }
+    public record ControlData(string Title, string Kind, UserControl UserControl);
     public class MainViewModel:BaseViewModel
     {
         #region Private properties

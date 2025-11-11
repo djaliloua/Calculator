@@ -1,6 +1,4 @@
-﻿using Calculator.Extensions;
-using Microsoft.Extensions.DependencyInjection;
-using MVVM;
+﻿using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 
 namespace Calculator

@@ -47,7 +47,7 @@ public class KeyBoardViewModel : BaseViewModel
         ServiceLocator.InputResultViewModel.InputText = "0";
         ServiceLocator.InputResultViewModel.OutputText = "0";
     }
-    private void OnResult(object parameter)
+    private async void OnResult(object parameter)
     {
         InputResultViewModel input = ServiceLocator.InputResultViewModel;
         try
@@ -69,7 +69,7 @@ public class KeyBoardViewModel : BaseViewModel
             input.OutputText = Utility.RemoveComma(input.OutputText);
             if (ServiceLocator.BottomViewModel.OperationVM.IsPresent(input.InputText) && !string.IsNullOrEmpty(input.InputText))
             {
-                ServiceLocator.BottomViewModel.AddOperation(input.InputText, input.OutputText);
+                await ServiceLocator.BottomViewModel.AddOperation(input.InputText, input.OutputText);
             }
         }
         catch (FormatException fe)

@@ -1,24 +1,25 @@
-﻿using DatabaseContext;
+﻿using CalculatorModel;
+using DatabaseContext;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
 using RepositoryLibrary.Interface;
 
 namespace RepositoryLibrary.Implementation
 {
     public class GenericRepositoryViewModel<TVM, T> : GenericRepository<T>, IRepositoryViewModel<TVM, T> where T : class
     {
+        private readonly IDbContextFactory<OperationContext> _dbContextFactory;
         public GenericRepositoryViewModel(IDbContextFactory<OperationContext> dbContextFactory):base(dbContextFactory)
         {
-            
+            _dbContextFactory = dbContextFactory;
         }
         public virtual IList<TVM> GetAllToViewModel()
         {
-            return _table.ToList().ToVM<T, TVM>();
+            using var dbContext = _dbContextFactory.CreateDbContext();
+            return dbContext.Set<T>().ToList().ToVM<T, TVM>();
         }
     }
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        private bool disposedValue;
         protected IDbContextFactory<OperationContext> _dbContextFactory;
         protected DbSet<T> _table;
         public GenericRepository(IDbContextFactory<OperationContext> dbContextFactory)

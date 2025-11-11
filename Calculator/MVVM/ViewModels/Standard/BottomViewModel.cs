@@ -160,9 +160,9 @@ public class BottomViewModel : BaseViewModel
     }
     #endregion
 
-    public void AddOperation(string inputText, string ouputText)
+    public async Task AddOperation(string inputText, string ouputText)
     {
-        OperationVM.Add(inputText, ouputText);
+        await OperationVM.Add(inputText, ouputText);
         OnPropertyChanged(nameof(OperationVM));
     }
 }
