@@ -2,6 +2,7 @@
 using Calculator.SettingsLayer.Abstractions;
 using MVVM;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace Calculator.MVVM.ViewModels.Standard;
 
@@ -49,7 +50,15 @@ public class StandardCalculatorViewModel : BaseViewModel
             }
         });
     }
+    public ICommand TestCommand { get; private set; }
     public StandardCalculatorViewModel()
     {
+        _isBottomDrawerOpen = true;
+        TestCommand = new DelegateCommand(OnExecuteTest);
+    }
+
+    private void OnExecuteTest(object obj)
+    {
+        
     }
 }

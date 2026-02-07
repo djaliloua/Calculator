@@ -71,6 +71,8 @@ namespace Calculator.MVVM.ViewModels
         private void Init()
         {
             Controls.Add(new ControlData("Standard", "Calculator", new StandardCalculator()));
+            // add About screen
+            Controls.Add(new ControlData("About", "InformationCircle", new Calculator.MVVM.Views.OtherControls.About()));
             if(Controls.Count > 0)
             {
                 SelectedControl = Controls[0];

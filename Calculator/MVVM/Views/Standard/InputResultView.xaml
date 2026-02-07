@@ -3,39 +3,54 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              DataContext="{Binding Source={StaticResource locator}, Path=InputResultViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <Grid.RowDefinitions>
-            <!--<RowDefinition />-->
-            <RowDefinition />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-        <TextBox Height="50"
-                 x:Name="text"
-                 Grid.Row="0"
-                 Focusable="False"
-                 IsTabStop="False"
-                 Text="{Binding InputText}"
-                 FontSize="20"
-                 BorderThickness="0"
-                 IsReadOnly="True"
-                 HorizontalContentAlignment="Right"
-                 VerticalContentAlignment="Bottom"
-                 Padding="0,0,25,5" />
-        <TextBox Height="40"
-                 x:Name="resultBox"
-                 Grid.Row="1"
-                 Text="{Binding OutputText}"
-                 FontSize="20"
-                 Focusable="False"
-                 IsTabStop="False"
-                 FontWeight="ExtraBlack"
-                 IsReadOnly="True"
-                 BorderThickness="0"
-                 HorizontalContentAlignment="Right"
-                 VerticalContentAlignment="Bottom"
-                 Padding="0,0,25,5" />
-    </Grid>
+
+    <!-- Elegant card for input and result -->
+    <Border CornerRadius="14" Padding="14" Background="#FFFFFFFF" Opacity="0.95" materialDesign:ElevationAssist.Elevation="Dp6">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!-- Input expression (smaller, subtle) -->
+            <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled" Focusable="False" IsTabStop="False">
+                <TextBlock x:Name="text"
+                           Text="{Binding InputText, Mode=OneWay}"
+                           FontSize="20"
+                           Foreground="#6B7280"
+                           Background="Transparent"
+                           TextWrapping="NoWrap"
+                           TextTrimming="CharacterEllipsis"
+                           HorizontalAlignment="Right"
+                           Padding="0,6,8,2" />
+            </ScrollViewer>
+
+            <!-- Result (large and prominent) -->
+            <TextBlock x:Name="resultBox"
+                       Grid.Row="1"
+                       Text="{Binding OutputText, Mode=OneWay}"
+                       FontSize="36"
+                       FontWeight="Bold"
+                       Background="Transparent"
+                       TextWrapping="NoWrap"
+                       HorizontalAlignment="Stretch"
+                       TextAlignment="Right"
+                       Padding="0,6,8,6">
+                <TextBlock.Foreground>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="#FF1E3C72" Offset="0" />
+                        <GradientStop Color="#FF2A5298" Offset="1" />
+                    </LinearGradientBrush>
+                </TextBlock.Foreground>
+            </TextBlock>
+
+            <!-- Decorative subtle divider on right (like a glow) -->
+            <Rectangle Width="6" RadiusX="3" RadiusY="3" Fill="#14FFFFFF" HorizontalAlignment="Right" VerticalAlignment="Stretch" Margin="0" />
+
+        </Grid>
+    </Border>
 </UserControl>

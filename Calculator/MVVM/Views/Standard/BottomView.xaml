@@ -14,81 +14,126 @@
             <behaviors:InvokeCommandAction Command="{Binding LoadedCommand}" />
         </behaviors:EventTrigger>
     </behaviors:Interaction.Triggers>
+
     <UserControl.Resources>
-        <Style TargetType="ListBox" BasedOn="{StaticResource MaterialDesignListBox}">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding ElementName=txt, Path=Visibility}"
-                             Value="Hidden">
-                    <Setter Property="Visibility"
-                            Value="Visible" />
-                </DataTrigger>
-                <DataTrigger Binding="{Binding ElementName=txt, Path=Visibility}"
-                             Value="Visible">
-                    <Setter Property="Visibility"
-                            Value="Hidden" />
-                </DataTrigger>
-            </Style.Triggers>
+        <!-- ListBoxItem style so selection and hover follow theme -->
+        <Style TargetType="ListBoxItem">
+            <Setter Property="Padding" Value="8" />
+            <Setter Property="Margin" Value="4 2" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="Background" Value="{DynamicResource MaterialDesignCardBackground}" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border x:Name="Bd"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="8"
+                                Padding="6">
+                            <ContentPresenter />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource PrimaryHueLightBrush}" />
+                                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource MaterialDesignPaper}" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource PrimaryHueMidBrush}" />
+                                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource PrimaryHueLightBrush}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
-        <Style TargetType="TextBlock">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding OperationVM.IsLblVisible}"
-                             Value="false">
-                    <Setter Property="Visibility"
-                            Value="Visible" />
-                </DataTrigger>
-                <DataTrigger Binding="{Binding OperationVM.IsLblVisible}"
-                             Value="true">
-                    <Setter Property="Visibility"
-                            Value="Hidden" />
-                </DataTrigger>
-                <DataTrigger Binding="{Binding ElementName=listbox, Path=ItemsSource.Count}"
-                             Value="0">
-                    <Setter Property="Visibility"
-                            Value="Visible" />
-                </DataTrigger>
-            </Style.Triggers>
+
+        <!-- Simple empty-state text style -->
+        <Style x:Key="EmptyStateText" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource SecondaryAccentBrush}" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="12" />
         </Style>
+
     </UserControl.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition />
             <RowDefinition Height="Auto" />
+            <RowDefinition />
         </Grid.RowDefinitions>
-        <TextBlock Text="History"
-               x:Name="txt"
-                   Margin="0,10,0,0"
-               HorizontalAlignment="Center" />
-        <ListBox ItemsSource="{Binding OperationVM.Items}"
-                 x:Name="listbox"
-                 SelectedValue="{Binding OperationVM.SelectedItem}"
-                 HorizontalContentAlignment="Right"
-                 ScrollViewer.VerticalScrollBarVisibility="Hidden">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel>
-                        <TextBlock Text="{Binding OpValue}"
-                                   Grid.Column="0" />
-                        <TextBlock Text="{Binding OpResult}"
-                                   Grid.Column="1" />
-                    </StackPanel>
-                    
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        <materialDesign:Badged Badge="{Binding OperationVM.Nbr}"
-                               Grid.Row="1"
-                               Focusable="False"
-                               HorizontalAlignment="Center">
-            <Button Style="{StaticResource MaterialDesignIconButton}"
-                    HorizontalAlignment="Right"
-                    Command="{Binding DeleteAllCommand}"
-                    Focusable="False"
-                    IsTabStop="False"
-                    ToolTip="delete All"
-                    RenderTransformOrigin="0.5,0.5">
-                <materialDesign:PackIcon Kind="TrashCan" />
-            </Button>
-        </materialDesign:Badged>
-        
+
+        <!-- Header -->
+        <Border Grid.Row="0" Background="Transparent" Padding="8" Margin="0,6,0,6">
+            <DockPanel>
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Left" VerticalAlignment="Center">
+                    <TextBlock x:Name="txt" Text="History" FontSize="16" FontWeight="SemiBold" Foreground="{DynamicResource PrimaryHueMidBrush}" VerticalAlignment="Center" />
+                    <materialDesign:Badged Badge="{Binding OperationVM.Nbr}" Margin="10,0,0,0" VerticalAlignment="Center">
+                        <materialDesign:PackIcon Kind="History" Foreground="{DynamicResource PrimaryHueMidBrush}" Width="20" Height="20" />
+                    </materialDesign:Badged>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" HorizontalAlignment="Right">
+                    <Button Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding DeleteAllCommand}" ToolTip="Clear all history" Focusable="False">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="TrashCan" />
+                            <TextBlock Text=" Clear" Margin="6,0,0,0" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <!-- Card with history list -->
+        <Border Grid.Row="1" CornerRadius="12" Padding="12" Background="{DynamicResource MaterialDesignCardBackground}" materialDesign:ElevationAssist.Elevation="Dp6">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <ListBox ItemsSource="{Binding OperationVM.Items}"
+                         x:Name="listbox"
+                         SelectedItem="{Binding OperationVM.SelectedItem, Mode=TwoWay}"
+                         ScrollViewer.VerticalScrollBarVisibility="Auto"
+                         Background="Transparent"
+                         BorderThickness="0">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Orientation="Vertical">
+                                    <TextBlock Text="{Binding OpValue}" TextWrapping="Wrap" Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" FontSize="13" />
+                                    <TextBlock Text="{Binding OpResult}" Foreground="{DynamicResource PrimaryHueMidBrush}" FontWeight="Bold" FontSize="18" />
+                                </StackPanel>
+
+                                <!-- Optional: a small chevron or action on the right -->
+                                <materialDesign:PackIcon Grid.Column="1" Kind="ChevronRight" VerticalAlignment="Center" Foreground="{DynamicResource PrimaryHueMidBrush}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+
+                    <ListBox.Template>
+                        <ControlTemplate TargetType="ListBox">
+                            <Border Background="Transparent">
+                                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                    <ItemsPresenter />
+                                </ScrollViewer>
+                            </Border>
+                        </ControlTemplate>
+                    </ListBox.Template>
+
+                </ListBox>
+
+                <!-- Empty state -->
+                <TextBlock Grid.Row="0" Text="No history yet" Style="{StaticResource EmptyStateText}" Visibility="{Binding OperationVM.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            </Grid>
+        </Border>
+
     </Grid>
 </UserControl>

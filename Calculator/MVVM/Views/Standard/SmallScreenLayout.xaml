@@ -17,18 +17,14 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
 
-            <StackPanel Orientation="Horizontal"
-                        HorizontalAlignment="Right">
-                
-                <Button Style="{StaticResource MaterialDesignIconButton}"
-                        HorizontalAlignment="Right"
-                        Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
-                        CommandParameter="{x:Static Dock.Bottom}"
-                        Margin="10,0,10,0"
-                        ToolTip="History">
-                    <materialDesign:PackIcon Kind="History" />
-                </Button>
-            </StackPanel>
+            <Button Style="{StaticResource MaterialDesignIconButton}"
+                    HorizontalAlignment="Right"
+                    Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
+                    CommandParameter="Bottom"
+                    Margin="10,0,10,0"
+                    ToolTip="History">
+                <materialDesign:PackIcon Kind="History" />
+            </Button>
             <local:InputResultView Grid.Row="1" />
             <local:KeyboardView Grid.Row="2"
                                 Focusable="True"
