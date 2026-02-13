@@ -30,5 +30,42 @@
 &lt;/SerializableConnectionString&gt;</DesignTimeValue>
       <Value Profile="(Default)">Data Source = calculator.db</Value>
     </Setting>
+    <Setting Name="KeycloakBaseUrl" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://localhost:8080</Value>
+    </Setting>
+    <Setting Name="KeycloakRealm" Type="System.String" Scope="User">
+      <Value Profile="(Default)">my_realm</Value>
+    </Setting>
+    <Setting Name="KeycloakClientId" Type="System.String" Scope="User">
+      <Value Profile="(Default)">m2m-application</Value>
+    </Setting>
+    <Setting Name="KeycloakClientSecret" Type="System.String" Scope="User">
+      <Value Profile="(Default)">pg1bj08fY8V3rEOgM44EfRBPsLuOrH6n</Value>
+    </Setting>
+    <Setting Name="KeycloakRedirectUri" Type="System.String" Scope="User">
+      <Value Profile="(Default)">http://127.0.0.1:7890/callback</Value>
+    </Setting>
+    <Setting Name="KeycloakScope" Type="System.String" Scope="User">
+      <Value Profile="(Default)">openid profile email</Value>
+    </Setting>
+    <Setting Name="MsalClientId" Type="System.String" Scope="User">
+      <Value Profile="(Default)">bfd5407a-ad97-440d-9955-5dff06fd0ed3</Value>
+    </Setting>
+    <Setting Name="MsalTenantId" Type="System.String" Scope="User">
+      <Value Profile="(Default)">common</Value>
+    </Setting>
+    <Setting Name="MsalRedirectUri" Type="System.String" Scope="User">
+      <Value Profile="(Default)">
+http://localhost:6221</Value>
+    </Setting>
+    <Setting Name="MsalScopes" Type="System.String" Scope="User">
+      <Value Profile="(Default)">User.Read</Value>
+    </Setting>
+    <Setting Name="MsalUseBroker" Type="System.String" Scope="User">
+      <Value Profile="(Default)">true</Value>
+    </Setting>
+    <Setting Name="AuthProvider" Type="System.String" Scope="User">
+      <Value Profile="(Default)">msal</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

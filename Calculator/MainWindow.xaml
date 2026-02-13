@@ -78,6 +78,41 @@
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Grid.Column="1" VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,0,8,0">
+                                <materialDesign:PackIcon Kind="Account" Width="20" Height="20" Foreground="#FFB0C4DE" Margin="0,0,6,0" />
+                                <TextBlock Text="{Binding UserName}" Foreground="White" VerticalAlignment="Center" />
+                            </StackPanel>
+
+                            <Button Content="Login" Command="{Binding LoginCommand}">
+                                <Button.Style>
+                                    <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatButton}">
+                                        <Setter Property="Foreground" Value="White" />
+                                        <Setter Property="Margin" Value="8,0,0,0" />
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsAuthenticated}" Value="False">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+
+                            <Button Content="Logout" Command="{Binding LogoutCommand}">
+                                <Button.Style>
+                                    <Style TargetType="Button" BasedOn="{StaticResource MaterialDesignFlatButton}">
+                                        <Setter Property="Foreground" Value="White" />
+                                        <Setter Property="Margin" Value="8,0,0,0" />
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsAuthenticated}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+
                             <materialDesign:PopupBox HorizontalAlignment="Right"
                                                      Focusable="False"
                                                      Closed="PopupBox_Closed"

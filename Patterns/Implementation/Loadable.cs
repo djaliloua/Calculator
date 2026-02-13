@@ -40,6 +40,7 @@ namespace Patterns.Implementation
         {
             Counter = Items.Count;
             NumberOfItems = Items.Count;
+            OnPropertyChanged(nameof(IsEmpty));
         }
 
         private TItem _selectedItem;
@@ -84,6 +85,7 @@ namespace Patterns.Implementation
         {
             Items.Clear();
             SetItems(items);
+
             return Task.CompletedTask;
         }
 

@@ -152,7 +152,8 @@ public class BottomViewModel : BaseViewModel
     #region Handlers
     private void OnDeleteAll(object parameter)
     {
-        OperationVM.DeleteAllItemsAsyn();
+        if (ServiceLocator.MainViewModel.IsAuthenticated)
+            OperationVM.DeleteAllItemsAsyn();
     }
     #endregion
 

@@ -116,5 +116,149 @@ namespace Calculator.Properties {
                 return ((string)(this["ConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:8080")]
+        public string KeycloakBaseUrl {
+            get {
+                return ((string)(this["KeycloakBaseUrl"]));
+            }
+            set {
+                this["KeycloakBaseUrl"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("my_realm")]
+        public string KeycloakRealm {
+            get {
+                return ((string)(this["KeycloakRealm"]));
+            }
+            set {
+                this["KeycloakRealm"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("m2m-application")]
+        public string KeycloakClientId {
+            get {
+                return ((string)(this["KeycloakClientId"]));
+            }
+            set {
+                this["KeycloakClientId"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("pg1bj08fY8V3rEOgM44EfRBPsLuOrH6n")]
+        public string KeycloakClientSecret {
+            get {
+                return ((string)(this["KeycloakClientSecret"]));
+            }
+            set {
+                this["KeycloakClientSecret"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://127.0.0.1:7890/callback")]
+        public string KeycloakRedirectUri {
+            get {
+                return ((string)(this["KeycloakRedirectUri"]));
+            }
+            set {
+                this["KeycloakRedirectUri"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("openid profile email")]
+        public string KeycloakScope {
+            get {
+                return ((string)(this["KeycloakScope"]));
+            }
+            set {
+                this["KeycloakScope"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("bfd5407a-ad97-440d-9955-5dff06fd0ed3")]
+        public string MsalClientId {
+            get {
+                return ((string)(this["MsalClientId"]));
+            }
+            set {
+                this["MsalClientId"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("common")]
+        public string MsalTenantId {
+            get {
+                return ((string)(this["MsalTenantId"]));
+            }
+            set {
+                this["MsalTenantId"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("\r\nhttp://localhost:6221")]
+        public string MsalRedirectUri {
+            get {
+                return ((string)(this["MsalRedirectUri"]));
+            }
+            set {
+                this["MsalRedirectUri"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("User.Read")]
+        public string MsalScopes {
+            get {
+                return ((string)(this["MsalScopes"]));
+            }
+            set {
+                this["MsalScopes"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("true")]
+        public string MsalUseBroker {
+            get {
+                return ((string)(this["MsalUseBroker"]));
+            }
+            set {
+                this["MsalUseBroker"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("msal")]
+        public string AuthProvider {
+            get {
+                return ((string)(this["AuthProvider"]));
+            }
+            set {
+                this["AuthProvider"] = value;
+            }
+        }
     }
 }

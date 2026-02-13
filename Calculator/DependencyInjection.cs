@@ -1,4 +1,5 @@
-﻿using Calculator.ApplicationLogic;
+﻿using Calculator.Auth;
+using Calculator.ApplicationLogic;
 using Calculator.DataAccessLayer.Abstractions;
 using Calculator.DataAccessLayer.Implementations;
 using Calculator.MVVM.ViewModels;
@@ -10,6 +11,7 @@ using DatabaseContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using NReco.Logging.File;
+using Calculator.Properties;
 
 namespace Calculator;
 
@@ -49,6 +51,10 @@ public static class DependencyInjection
     {
         services.AddLogging(b => b.AddFile($"calculator.log", append: true));
         services.AddScoped<ISettingsManager, SettingsManager>();
+        if(Settings.Default.AuthProvider.ToLower().ToLower() == "keycloak")
+            services.AddKeyedSingleton<IAuthService, KeycloakAuthService>("provider");
+        else
+            services.AddKeyedSingleton<IAuthService, AuthenticationClient>("provider");
         return services;
     }
     public static IServiceCollection BIExtension(this IServiceCollection services)
@@ -68,6 +74,7 @@ public static class DependencyInjection
         });
         services.AddScoped<IOperationAppService, OperationAppService>();
         services.AddScoped<ICalculatorRepository, CalculatorRepository>();
+        
         return services;
     }
 }

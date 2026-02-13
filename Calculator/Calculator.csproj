@@ -18,7 +18,11 @@
     <Content Include="calculator.ico" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Duende.IdentityModel.OidcClient" Version="7.0.0" />
     <PackageReference Include="MaterialDesignThemes" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Identity.Client" Version="4.82.1" />
+    <PackageReference Include="Microsoft.Identity.Client.Broker" Version="4.82.1" />
+    <PackageReference Include="Microsoft.Identity.Client.Extensions.Msal" Version="4.82.1" />
     <PackageReference Include="NReco.Logging.File" Version="1.2.2" />
   </ItemGroup>
   <ItemGroup>

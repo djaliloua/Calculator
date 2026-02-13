@@ -69,7 +69,8 @@ public class KeyBoardViewModel : BaseViewModel
             input.OutputText = Utility.RemoveComma(input.OutputText);
             if (ServiceLocator.BottomViewModel.OperationVM.IsPresent(input.InputText) && !string.IsNullOrEmpty(input.InputText))
             {
-                ServiceLocator.BottomViewModel.AddOperation(input.InputText, input.OutputText);
+                if(ServiceLocator.MainViewModel.IsAuthenticated)
+                    ServiceLocator.BottomViewModel.AddOperation(input.InputText, input.OutputText);
             }
         }
         catch (FormatException fe)
