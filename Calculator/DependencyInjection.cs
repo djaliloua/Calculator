@@ -25,6 +25,7 @@ public static class DependencyInjection
         services.AddSingleton<BottomViewModel>();
         services.AddSingleton<OperationListViewModel>();
         services.AddSingleton<StandardCalculatorViewModel>();
+        services.AddSingleton<SettingsViewModel>();
         return services;
     }
     public static IServiceCollection UIExtension(this IServiceCollection services)

@@ -1,7 +1,7 @@
 ﻿using Calculator.Auth;
 using Calculator.DataAccessLayer.Implementations;
+using Calculator.MVVM.Views;
 using Calculator.MVVM.Views.Standard;
-using Calculator.Properties;
 using Calculator.SettingsLayer.Abstractions;
 using MaterialDesignThemes.Wpf;
 using Microsoft.Extensions.DependencyInjection;
@@ -110,6 +110,7 @@ namespace Calculator.MVVM.ViewModels
         private void Init()
         {
             Controls.Add(new ControlData("Standard", "Calculator", new StandardCalculator()));
+            Controls.Add(new ControlData("Settings", "Cog", new SettingsView())); // Add this line
             Controls.Add(new ControlData("About", "InformationCircle", new About()));
             if (Controls.Count > 0)
             {

@@ -1,0 +1,171 @@
+<UserControl x:Class="Calculator.MVVM.Views.SettingsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d"
+             DataContext="{Binding Source={StaticResource locator}, Path=SettingsViewModel}"
+             d:DesignHeight="600"
+             d:DesignWidth="800"
+             Background="{DynamicResource MaterialDesignPaper}">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="20">
+            <!-- Header -->
+            <TextBlock Text="Settings"
+                       Style="{StaticResource MaterialDesignHeadline4TextBlock}"
+                       Margin="0,0,0,20" />
+
+            <!-- Theme Settings Card -->
+            <materialDesign:Card Margin="0,0,0,16"
+                                 Padding="16">
+                <StackPanel>
+                    <TextBlock Text="Appearance"
+                               Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                               Margin="0,0,0,12" />
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="Dark Theme"
+                                       Style="{StaticResource MaterialDesignBody1TextBlock}" />
+                            <TextBlock Text="Toggle between light and dark mode"
+                                       Style="{StaticResource MaterialDesignCaptionTextBlock}"
+                                       Foreground="{DynamicResource MaterialDesignBodyLight}" />
+                        </StackPanel>
+
+                        <ToggleButton Grid.Column="1"
+                                      Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                                      IsChecked="{Binding IsDark}"
+                                      VerticalAlignment="Center" />
+                    </Grid>
+                </StackPanel>
+            </materialDesign:Card>
+
+            <!-- Authentication Provider Card -->
+            <materialDesign:Card Margin="0,0,0,16"
+                                 Padding="16">
+                <StackPanel>
+                    <TextBlock Text="Authentication Provider"
+                               Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                               Margin="0,0,0,12" />
+
+                    <ComboBox materialDesign:HintAssist.Hint="Select Provider"
+                              ItemsSource="{Binding AuthProviders}"
+                              Style="{StaticResource MaterialDesignOutlinedComboBox}"
+                              SelectedItem="{Binding AuthProvider}"
+                              Margin="0,0,0,8" />
+
+                </StackPanel>
+            </materialDesign:Card>
+
+            <!-- MSAL Settings Card -->
+            <materialDesign:Card Margin="0,0,0,16"
+                                 Padding="16">
+                <StackPanel>
+                    <TextBlock Text="Microsoft Authentication Library (MSAL)"
+                               Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                               Margin="0,0,0,12" />
+
+                    <TextBox materialDesign:HintAssist.Hint="Client ID"
+                             Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                             Text="{Binding MsalClientId, UpdateSourceTrigger=PropertyChanged}"
+                             Margin="0,0,0,12" />
+
+                    <TextBox materialDesign:HintAssist.Hint="Tenant ID"
+                             Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                             Text="{Binding MsalTenantId, UpdateSourceTrigger=PropertyChanged}"
+                             Margin="0,0,0,12" />
+
+                    <TextBox materialDesign:HintAssist.Hint="Redirect URI"
+                             Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                             Text="{Binding MsalRedirectUri, UpdateSourceTrigger=PropertyChanged}"
+                             Margin="0,0,0,12" />
+
+                    <TextBox materialDesign:HintAssist.Hint="Scopes (space-separated)"
+                             Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                             Text="{Binding MsalScopes, UpdateSourceTrigger=PropertyChanged}"
+                             Margin="0,0,0,12" />
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="Use Windows Broker"
+                                       Style="{StaticResource MaterialDesignBody1TextBlock}" />
+                            <TextBlock Text="Enable WAM (Web Account Manager) for Windows"
+                                       Style="{StaticResource MaterialDesignCaptionTextBlock}"
+                                       Foreground="{DynamicResource MaterialDesignBodyLight}" />
+                        </StackPanel>
+
+                        <ToggleButton Grid.Column="1"
+                                      Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                                      IsChecked="{Binding MsalUseBroker}"
+                                      VerticalAlignment="Center" />
+                    </Grid>
+                </StackPanel>
+            </materialDesign:Card>
+
+            <!-- Keycloak Settings Card -->
+            <materialDesign:Card Margin="0,0,0,16"
+                                 Padding="16">
+                <StackPanel>
+                    <TextBlock Text="Keycloak Authentication"
+                               Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                               Margin="0,0,0,12" />
+
+                    <TextBox materialDesign:HintAssist.Hint="Base URL"
+                             Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                             Text="{Binding KeycloakBaseUrl, UpdateSourceTrigger=PropertyChanged}"
+                             Margin="0,0,0,12" />
+
+                    <TextBox materialDesign:HintAssist.Hint="Realm"
+                             Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                             Text="{Binding KeycloakRealm, UpdateSourceTrigger=PropertyChanged}"
+                             Margin="0,0,0,12" />
+
+                    <TextBox materialDesign:HintAssist.Hint="Client ID"
+                             Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                             Text="{Binding KeycloakClientId, UpdateSourceTrigger=PropertyChanged}"
+                             Margin="0,0,0,12" />
+
+                    <PasswordBox materialDesign:HintAssist.Hint="Client Secret (Optional)"
+                                 Style="{StaticResource MaterialDesignOutlinedPasswordBox}"
+                                 materialDesign:TextFieldAssist.HasClearButton="True"
+                                 Margin="0,0,0,12" />
+
+                    <TextBox materialDesign:HintAssist.Hint="Redirect URI"
+                             Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                             Text="{Binding KeycloakRedirectUri, UpdateSourceTrigger=PropertyChanged}"
+                             Margin="0,0,0,12" />
+
+                    <TextBox materialDesign:HintAssist.Hint="Scope (space-separated)"
+                             Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                             Text="{Binding KeycloakScope, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </materialDesign:Card>
+
+            <!-- Action Buttons -->
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        Margin="0,16,0,0">
+                <Button Content="RESET"
+                        Style="{StaticResource MaterialDesignOutlinedButton}"
+                        Command="{Binding ResetSettingsCommand}"
+                        Margin="0,0,8,0"
+                        Width="100" />
+                <Button Content="SAVE"
+                        Style="{StaticResource MaterialDesignRaisedButton}"
+                        Command="{Binding SaveSettingsCommand}"
+                        Width="100" />
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

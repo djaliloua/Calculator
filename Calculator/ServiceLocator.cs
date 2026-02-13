@@ -6,6 +6,7 @@ namespace Calculator
 {
     public class ServiceLocator
     {
+        public static SettingsViewModel SettingsViewModel => GetService<SettingsViewModel>();
         public static InputResultViewModel InputResultViewModel => GetService<InputResultViewModel>();
         public static MainViewModel MainViewModel => GetService<MainViewModel>();
         public static KeyBoardViewModel KeyBoardViewModel => GetService<KeyBoardViewModel>();
