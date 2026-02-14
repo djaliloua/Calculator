@@ -8,23 +8,28 @@ namespace Calculator.Auth;
 public class AuthenticationClient : IAuthService
 {
     private readonly ISettingsManager _settings;
-    private readonly ILogger<AuthenticationClient>? _logger;
+    private readonly ILogger<AuthenticationClient> _logger;
     private readonly IPublicClientApplication _publicClientApp;
     private readonly string[] _scopes;
     private AuthResult _current;
 
     public AuthResult Current => _current;
 
-    public AuthenticationClient(ISettingsManager settings, ILogger<AuthenticationClient>? logger = null)
+    public AuthenticationClient(ISettingsManager settings, ILogger<AuthenticationClient> logger = null)
     {
         _settings = settings;
         _logger = logger;
 
-        var clientId = GetSetting("MsalClientId", "client_id");
+        var clientId = GetSetting("MsalClientId", "");
         var tenantId = GetSetting("MsalTenantId", "common");
         var redirectUri = GetSetting("MsalRedirectUri", "http://localhost");
         var scopesSetting = GetSetting("MsalScopes", "User.Read");
-        var useBroker = bool.Parse(GetSetting("MsalUseBroker", "false"));
+        var useBroker = GetBoolSetting("MsalUseBroker", false);
+
+        if (string.IsNullOrWhiteSpace(clientId))
+        {
+            _logger?.LogWarning("MSAL Client ID is not configured. Authentication will fail.");
+        }
 
         _scopes = scopesSetting.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
@@ -41,10 +46,14 @@ public class AuthenticationClient : IAuthService
                 Title = "Calculator Login",
                 ListOperatingSystemAccounts = true
             });
+            _logger?.LogInformation("Windows Broker authentication enabled");
         }
 
         _publicClientApp = builder.Build();
         _current = AuthResult.Empty;
+
+        _logger?.LogInformation("AuthenticationClient initialized with ClientId: {ClientId}, Tenant: {Tenant}, UseBroker: {UseBroker}", 
+            MaskClientId(clientId), tenantId, useBroker);
     }
 
     public async Task<AuthResult> LoginAsync()
@@ -55,7 +64,7 @@ public class AuthenticationClient : IAuthService
             var accounts = await _publicClientApp.GetAccountsAsync();
             var firstAccount = accounts.FirstOrDefault();
 
-            AuthenticationResult? authResult = null;
+            AuthenticationResult authResult = null;
 
             if (firstAccount != null)
             {
@@ -160,8 +169,48 @@ public class AuthenticationClient : IAuthService
 
     private string GetSetting(string key, string fallback)
     {
-        var value = _settings.GetParameter(key)?.ToString();
-        return string.IsNullOrWhiteSpace(value) ? fallback : value;
+        try
+        {
+            var value = _settings.GetParameter(key)?.ToString();
+            return string.IsNullOrWhiteSpace(value) ? fallback : value;
+        }
+        catch (Exception ex)
+        {
+            _logger?.LogWarning(ex, "Failed to retrieve setting {Key}, using fallback value", key);
+            return fallback;
+        }
+    }
+
+    private bool GetBoolSetting(string key, bool fallback)
+    {
+        try
+        {
+            var value = _settings.GetParameter(key);
+            if (value == null)
+                return fallback;
+
+            if (value is bool boolValue)
+                return boolValue;
+
+            if (bool.TryParse(value.ToString(), out var parsedValue))
+                return parsedValue;
+
+            _logger?.LogWarning("Failed to parse boolean setting {Key}, using fallback value {Fallback}", key, fallback);
+            return fallback;
+        }
+        catch (Exception ex)
+        {
+            _logger?.LogWarning(ex, "Failed to retrieve boolean setting {Key}, using fallback value {Fallback}", key, fallback);
+            return fallback;
+        }
+    }
+
+    private static string MaskClientId(string clientId)
+    {
+        if (string.IsNullOrWhiteSpace(clientId) || clientId.Length < 8)
+            return "****";
+
+        return $"{clientId[..4]}...{clientId[^4..]}";
     }
 
     private static IntPtr GetParentWindow()

@@ -239,10 +239,10 @@ namespace Calculator.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("true")]
-        public string MsalUseBroker {
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool MsalUseBroker {
             get {
-                return ((string)(this["MsalUseBroker"]));
+                return ((bool)(this["MsalUseBroker"]));
             }
             set {
                 this["MsalUseBroker"] = value;

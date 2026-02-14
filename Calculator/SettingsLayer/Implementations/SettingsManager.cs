@@ -13,6 +13,7 @@ namespace Calculator.SettingsLayer.Implementations
         {
             Properties.Settings.Default[name] = value;
             Properties.Settings.Default.Save();
+            Properties.Settings.Default.Reload();
         }
     }
 }

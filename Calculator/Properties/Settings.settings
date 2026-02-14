@@ -61,8 +61,8 @@ http://localhost:6221</Value>
     <Setting Name="MsalScopes" Type="System.String" Scope="User">
       <Value Profile="(Default)">User.Read</Value>
     </Setting>
-    <Setting Name="MsalUseBroker" Type="System.String" Scope="User">
-      <Value Profile="(Default)">true</Value>
+    <Setting Name="MsalUseBroker" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="AuthProvider" Type="System.String" Scope="User">
       <Value Profile="(Default)">msal</Value>
