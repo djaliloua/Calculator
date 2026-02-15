@@ -96,8 +96,8 @@
                 <ListBox ItemsSource="{Binding OperationVM.Items}"
                          x:Name="listbox"
                          SelectedItem="{Binding OperationVM.SelectedItem, Mode=TwoWay}"
-                         ScrollViewer.VerticalScrollBarVisibility="Auto"
                          Background="Transparent"
+                         
                          BorderThickness="0">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
@@ -121,7 +121,7 @@
                     <ListBox.Template>
                         <ControlTemplate TargetType="ListBox">
                             <Border Background="Transparent">
-                                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                <ScrollViewer VerticalScrollBarVisibility="Hidden">
                                     <ItemsPresenter />
                                 </ScrollViewer>
                             </Border>
