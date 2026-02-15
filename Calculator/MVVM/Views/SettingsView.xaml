@@ -46,6 +46,26 @@
                 </StackPanel>
             </materialDesign:Card>
 
+            <!-- Calculator Settings Card -->
+            <materialDesign:Card Margin="0,0,0,16"
+                                 Padding="16">
+                <StackPanel>
+                    <TextBlock Text="Calculator Settings"
+                               Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                               Margin="0,0,0,12" />
+
+                    <TextBox materialDesign:HintAssist.Hint="Count Threshold"
+                             Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                             Text="{Binding CountThreshold, UpdateSourceTrigger=PropertyChanged}"
+                             materialDesign:TextFieldAssist.SuffixText="items"
+                             Margin="0,0,0,4" />
+                    <TextBlock Text="Maximum number of items allowed in the count"
+                               Style="{StaticResource MaterialDesignCaptionTextBlock}"
+                               Foreground="{DynamicResource MaterialDesignBodyLight}"
+                               Margin="0,0,0,0" />
+                </StackPanel>
+            </materialDesign:Card>
+
             <!-- Authentication Provider Card -->
             <materialDesign:Card Margin="0,0,0,16"
                                  Padding="16">

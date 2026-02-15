@@ -28,6 +28,19 @@ namespace Calculator.MVVM.ViewModels
         }
         #endregion
 
+        #region Calculator Settings
+        private int _countThreshold;
+        public int CountThreshold
+        {
+            get => _countThreshold;
+            set => UpdateObservable(ref _countThreshold, value, () =>
+            {
+                _settings.SetParameter(nameof(CountThreshold), value);
+                _logger?.LogInformation("CountThreshold changed to {Value}", value);
+            });
+        }
+        #endregion
+
         #region Authentication Provider Settings
         private string _authProvider;
         public string AuthProvider
@@ -140,6 +153,9 @@ namespace Calculator.MVVM.ViewModels
                 // Load Theme
                 IsDark = GetSetting(nameof(IsDark), false);
 
+                // Load Calculator Settings
+                CountThreshold = GetSetting(nameof(CountThreshold), 10);
+
                 // Load Auth Provider
                 AuthProvider = GetSetting(nameof(AuthProvider), "msal");
 
@@ -170,6 +186,9 @@ namespace Calculator.MVVM.ViewModels
         {
             try
             {
+                // Save Calculator Settings
+                _settings.SetParameter(nameof(CountThreshold), CountThreshold);
+
                 // Save Auth Provider
                 _settings.SetParameter(nameof(AuthProvider), AuthProvider);
 
@@ -212,6 +231,8 @@ namespace Calculator.MVVM.ViewModels
 
                 if (typeof(T) == typeof(bool))
                     return (T)(object)Convert.ToBoolean(value);
+                if (typeof(T) == typeof(int))
+                    return (T)(object)Convert.ToInt32(value);
                 if (typeof(T) == typeof(string))
                     return (T)(object)(value?.ToString() ?? defaultValue?.ToString() ?? "");
 

@@ -2,7 +2,6 @@
 using Calculator.MVVM.ViewModels;
 using Calculator.MVVM.Views.Standard;
 using Calculator.SettingsLayer.Abstractions;
-using CalculatorModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -17,6 +16,7 @@ namespace Calculator
     {
         private double _currentWidth;
         private double _widthThreshold;
+        private int _countThreshold;
         private ISettingsManager _settings;
         private readonly IOperationAppService _service;
         public MainWindow(IOperationAppService service,ISettingsManager settings)
@@ -29,6 +29,7 @@ namespace Calculator
             Height = (double)_settings.GetParameter(nameof(Height));
             WindowState = (WindowState)(int)_settings.GetParameter(nameof(WindowState));
             _widthThreshold = (double)_settings.GetParameter("WidthThreshold");
+            _countThreshold = (int)_settings.GetParameter("CountThreshold");
             SizeChanged += MainWindow_SizeChanged;
             Closing += MainWindow_Closing;
             StateChanged += MainWindow_StateChanged;
@@ -73,10 +74,10 @@ namespace Calculator
             _settings.SetParameter(nameof(Height), e.NewSize.Height);
             _settings.SetParameter("IsFullScreen", ServiceLocator.StandardCalculatorViewModel.IsFullScreen);
         }
-        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private async void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if(ServiceLocator.MainViewModel.IsAuthenticated)
-                _service.DeleteAfter10Days();
+               await _service.DeleteAfter10DaysAsync();
         }
 
         private void PopupBox_Closed(object sender, RoutedEventArgs e)

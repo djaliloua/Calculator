@@ -1,13 +1,14 @@
 ﻿using CalculatorModel;
 using DatabaseContext;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace Calculator.ApplicationLogic;
 
 public interface IOperationAppService
 {
     void DeleteAll();
-    void DeleteAfter10Days();
+    Task DeleteAfter10DaysAsync();
     Task<IList<Operation>> GetAllOperations();
     Operation SaveOperation(string inputText, string ouputText);
 }
@@ -25,6 +26,7 @@ public class OperationAppService : IOperationAppService
         using var dbContext = _dbFactory.CreateDbContext();
         var operations = dbContext.Set<Operation>();
         operations.Add(op);
+        dbContext.SaveChanges();
         return op;
     }
     public async Task<IList<Operation>> GetAllOperations()
@@ -38,12 +40,14 @@ public class OperationAppService : IOperationAppService
         dbContext.Operations.ExecuteDelete();
     }
 
-    public void DeleteAfter10Days()
+    public async Task DeleteAfter10DaysAsync()
     {
+        // 1. Calculate the cutoff date (10 days ago) in C#
         var cutoffDate = DateTime.UtcNow.AddDays(-10);
-        using var dbContext = _dbFactory.CreateDbContext();
-        dbContext.Operations
-            .Where(op => op.OperationDate < cutoffDate)
-            .ExecuteDelete();
+        using var context = _dbFactory.CreateDbContext();
+        // 2. Perform the bulk delete
+        await context.Operations
+            .Where(o => o.OperationDate < cutoffDate)
+            .ExecuteDeleteAsync();
     }
 }
