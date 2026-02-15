@@ -1,5 +1,4 @@
 ﻿using Calculator.Auth;
-using Calculator.DataAccessLayer.Implementations;
 using Calculator.MVVM.Views;
 using Calculator.MVVM.Views.Standard;
 using Calculator.SettingsLayer.Abstractions;
@@ -83,7 +82,6 @@ namespace Calculator.MVVM.ViewModels
 
         #region Constructor
         public MainViewModel(
-            CalculatorRepository repository,
             ILogger<MainViewModel> _log,
             ISettingsManager settings,
             [FromKeyedServices("provider")]IAuthService authService)

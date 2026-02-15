@@ -27,10 +27,10 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CalculatorModel\CalculatorModel.csproj" />
+    <ProjectReference Include="..\DatabaseContext\DatabaseContext.csproj" />
     <ProjectReference Include="..\HelperClass\HelperClass.csproj" />
     <ProjectReference Include="..\MVVM\MVVM.csproj" />
     <ProjectReference Include="..\Patterns\Patterns.csproj" />
-    <ProjectReference Include="..\RepositoryLibrary\RepositoryLibrary.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Settings.Designer.cs">

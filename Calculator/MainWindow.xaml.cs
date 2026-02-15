@@ -1,4 +1,4 @@
-﻿using Calculator.DataAccessLayer.Implementations;
+﻿using Calculator.ApplicationLogic;
 using Calculator.MVVM.ViewModels;
 using Calculator.MVVM.Views.Standard;
 using Calculator.SettingsLayer.Abstractions;
@@ -15,14 +15,14 @@ namespace Calculator
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly CalculatorRepository _repositoryOperation;
         private double _currentWidth;
         private double _widthThreshold;
         private ISettingsManager _settings;
-        public MainWindow(CalculatorRepository repository, ISettingsManager settings)
+        private readonly IOperationAppService _service;
+        public MainWindow(IOperationAppService service,ISettingsManager settings)
         {
             InitializeComponent();
-            _repositoryOperation = repository;
+            _service = service;
             _settings = settings;
             _currentWidth = MinWidth;
             Width = (double)_settings.GetParameter(nameof(Width));
@@ -75,7 +75,8 @@ namespace Calculator
         }
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            _repositoryOperation.Delete(new Operation());
+            if(ServiceLocator.MainViewModel.IsAuthenticated)
+                _service.DeleteAfter10Days();
         }
 
         private void PopupBox_Closed(object sender, RoutedEventArgs e)

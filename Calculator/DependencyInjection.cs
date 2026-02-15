@@ -1,7 +1,5 @@
 ﻿using Calculator.Auth;
 using Calculator.ApplicationLogic;
-using Calculator.DataAccessLayer.Abstractions;
-using Calculator.DataAccessLayer.Implementations;
 using Calculator.MVVM.ViewModels;
 using Calculator.MVVM.ViewModels.Standard;
 using Calculator.MVVM.Views.Standard;
@@ -39,7 +37,7 @@ public static class DependencyInjection
     }
     public static IServiceCollection RepositoryExtension(this IServiceCollection services)
     {
-        services.AddTransient<CalculatorRepository>();
+        //services.AddTransient<CalculatorRepository>();
         return services;
     }
     public static IServiceCollection ContextExtension(this IServiceCollection services)
@@ -69,12 +67,13 @@ public static class DependencyInjection
         {
             if (!options.IsConfigured)
             {
-                var conn = (string)Properties.Settings.Default["ConnectionString"];
+                var scope = services.BuildServiceProvider().CreateScope();
+                var setting = scope.ServiceProvider.GetRequiredService<ISettingsManager>();
+                var conn = (string)setting.GetParameter("ConnectionString");
                 options.UseSqlite(conn);
             }
         });
         services.AddScoped<IOperationAppService, OperationAppService>();
-        services.AddScoped<ICalculatorRepository, CalculatorRepository>();
         
         return services;
     }

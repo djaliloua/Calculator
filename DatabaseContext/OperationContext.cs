@@ -1,6 +1,5 @@
 ﻿using CalculatorModel;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 namespace DatabaseContext
 {
